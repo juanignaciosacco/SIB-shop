@@ -8,7 +8,7 @@ const Navbar = () => {
         <div>
             <nav className="navbar">
                 <ul className='navbarItems'>
-                    <li><img src={ImgLogo1} /></li>
+                    <li><img src={ImgLogo1} alt='Logo SIB'/></li>
                     <li>Inicio</li>
                     <li>Tienda</li>
                     <li>Contacto</li>

@@ -3,6 +3,35 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { v4 } from 'uuid';
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyD4kBiGgKHMvSJTC6amlAG7sEsZ6CH_Bro",
+  authDomain: "sib-e-commerce.firebaseapp.com",
+  projectId: "sib-e-commerce",
+  storageBucket: "sib-e-commerce.appspot.com",
+  messagingSenderId: "395740073902",
+  appId: "1:395740073902:web:b097405b74fc12ba34423f"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+export const storage = getStorage(app)
+
+export async function uploadFile(file) {
+  const storageRef = ref(storage, v4())
+  await uploadBytes(storageRef, file)
+  const url = await getDownloadURL(storageRef)
+  return url
+}
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
