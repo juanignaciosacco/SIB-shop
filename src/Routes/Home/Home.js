@@ -1,7 +1,7 @@
 import './Home.css'
 import image from '../../assets/image.jpg'
-import ItemList from '../../Components/ItemList/ItemList'
-import UploadItem from '../../Components/UploadItem/UploadItem'
+import NuevosIngresos from '../../Components/NuevosIngresos/NuevosIngresos'
+
 
 const Home = () => {
 
@@ -10,8 +10,7 @@ const Home = () => {
             <div >
                 <img src={image} alt='Imagen portada'/>
             </div>
-            <ItemList />
-            <UploadItem />
+            <NuevosIngresos />
         </div>
         
     )

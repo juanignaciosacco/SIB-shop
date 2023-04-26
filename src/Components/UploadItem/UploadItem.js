@@ -8,6 +8,7 @@ const UploadItem = () => {
     const [nombreProd, setNombreProd] = useState()
     const [precioProd, setPrecioProd] = useState()
     const [descProd, setDescProd] = useState()
+    const [NIProd, setNIProd] = useState()
     const [file, setFile] = useState()
     const db = getFirestore()
     const items2 = collection(db, 'productos')
@@ -23,6 +24,10 @@ const UploadItem = () => {
     const descChangeHandler = (ev) => {
         setDescProd(ev.target.value)
     }
+
+    const NIChangeHandler = (ev) => {
+        setNIProd(ev.target.value)
+    }
     
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -32,6 +37,7 @@ const UploadItem = () => {
                 Nombre: nombreProd,
                 Precio: precioProd,
                 Descripcion: descProd,
+                NuevoIngreso: NIProd,
                 imgUrl: result
             })
             setPrecioProd('')
@@ -52,6 +58,9 @@ const UploadItem = () => {
                 <input className='formUploadInputs' name="precio" id="precio" onChange={precioChangeHandler}/>
                 <label htmlFor="Descripcion">Descripcion</label>
                 <input className='formUploadInputs' name="descripcion" id="descripcion" onChange={descChangeHandler}/>
+                <label htmlFor="NuevoIngreso">Nuevo Ingreso?</label>
+                <input type='radio' value={true} className='formUploadInputs' name="nuevoIngreso" id="nuevoIngreso" onChange={NIChangeHandler}/> Si
+                <input type='radio' value={false} className='formUploadInputs' name="nuevoIngreso" id="nuevoIngreso" onChange={NIChangeHandler}/> No
                 <label htmlFor='file'>Imagen</label>
                 <input className='formUploadInputs' id='file' type='file' onChange={(e) => setFile(e.target.files[0])} />
                 <button id='btnSubirProd'>Subir</button>

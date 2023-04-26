@@ -1,27 +1,23 @@
 import './App.css';
 import Navbar from './Components/Navbar/Navbar';
 import Home from './Routes/Home/Home';
-import { useState } from 'react';
+import ItemListContainer from './Routes/ItemListContainer/ItemListContainer';
+import { ProdsProvider } from './Contextos/ProdsContext/ProdsContext';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 
 function App() {
 
-  const [scroll, setScroll] = useState(0)
-  
-  const scrollHandler = (event) => {
-      setScroll(event)
-      console.log(scroll)
-      console.log('hola')
-  }
-
   return (
-    <div>
-        <Navbar />
-      <div onWheel={scrollHandler}>
-        <p>hola</p>
-      </div>
-        <Home />
-    </div>
+    <BrowserRouter>
+    <nav>
+      <Navbar />
+    </nav>
+      <Routes>
+        <Route exact path='/' element={<Home />} />
+        <Route exact path='/tienda' element={<ItemListContainer />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
