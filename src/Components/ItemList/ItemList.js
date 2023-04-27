@@ -8,7 +8,7 @@ import UploadItem from '../../Components/UploadItem/UploadItem'
 const ItemList = ({isLogged, nuevosIngresos}) => {
 
     const [productos, setProductos] = useState([])
-    const [nuevosProd, setNuevosProds] = useState([])
+    const [prodNuevos, setProdNuevos] = useState([])
 
     useEffect(() => {
         const db = getFirestore()
@@ -25,12 +25,18 @@ const ItemList = ({isLogged, nuevosIngresos}) => {
         .catch((error) => console.log(error))
     })
 
+    useEffect(() => {
+        const arrayNuevos = productos.filter((prod) => (
+            prod.NuevoIngreso === 'si'))
+            setProdNuevos(arrayNuevos)
+    }, [productos])
+
     return (
         <div>
             {nuevosIngresos ? (
                 <div className='nuevosIngresosItemList'>
-                    {productos.map((prod) => (
-                        prod.NuevoIngreso === 'true' && <ItemCard title={prod.Nombre} image={prod.imgUrl} description={prod.Descripcion} price={prod.Precio} isLogged={isLogged} key={prod.id} id={prod.id} />
+                    {prodNuevos.map((prod) => (
+                         <ItemCard title={prod.Nombre} image={prod.imgUrl} description={prod.Descripcion} price={prod.Precio} isLogged={isLogged} key={prod.id} id={prod.id} />
                         ))}
                 </div>
             ):(
@@ -38,9 +44,10 @@ const ItemList = ({isLogged, nuevosIngresos}) => {
                     {productos.map((prod) => (
                         <ItemCard title={prod.Nombre} image={prod.imgUrl} description={prod.Descripcion} price={prod.Precio} isLogged={isLogged} key={prod.id} id={prod.id} />
                     ))}
-                    {isLogged && <UploadItem />}
                 </div>
                 )}
+                
+                {isLogged && <UploadItem />}
         </div>
     )
 }

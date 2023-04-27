@@ -1,0 +1,9 @@
+.home {
+    text-align: center;
+}
+
+.nuevosIngresos { 
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}

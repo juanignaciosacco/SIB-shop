@@ -4,3 +4,10 @@
     flex-wrap: wrap;
     justify-content: space-around;
 }
+
+.nuevosIngresosItemList {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './ItemCard.css';
 import { deleteDoc, doc, getFirestore, updateDoc, collection } from 'firebase/firestore';
+import { Link } from 'react-router-dom';
 
 
 const ItemCard = ({ image, title, description, price, isLogged, id }) => {
@@ -50,11 +51,6 @@ const ItemCard = ({ image, title, description, price, isLogged, id }) => {
     setEditing(false)
   }
 
-  const handleBuy = () => {
-
-  }
-
-
   return (
 
     <div className="item-card-container" id={id}>
@@ -83,7 +79,9 @@ const ItemCard = ({ image, title, description, price, isLogged, id }) => {
         </div>
       ):(
         <div className="user-options">
-          <button className="user-button buy" onClick={handleBuy}>Ver detalle</button>
+          <Link to={`/tienda/producto/${id}`}>
+            <button className="user-button buy">Ver detalle</button>
+          </Link>
         </div>
       )}
     </div>

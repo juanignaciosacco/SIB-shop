@@ -9,6 +9,7 @@ const UploadItem = () => {
     const [precioProd, setPrecioProd] = useState()
     const [descProd, setDescProd] = useState()
     const [NIProd, setNIProd] = useState()
+    const [files, setFiles] = useState([])
     const [file, setFile] = useState()
     const db = getFirestore()
     const items2 = collection(db, 'productos')
@@ -28,26 +29,35 @@ const UploadItem = () => {
     const NIChangeHandler = (ev) => {
         setNIProd(ev.target.value)
     }
+
     
     const handleSubmit = async (e) => {
         e.preventDefault()
+        console.log('hola')
+        var results = []
         try {
-            const result = await uploadFile(file)
+            for (const i of file) {
+                results.push(await uploadFile(i))
+            }
+        } catch (error) {
+            console.log(error)
+            alert('Fallo interno, avisale a juanchi')
+        }
             setDoc(doc(items2), {
                 Nombre: nombreProd,
                 Precio: precioProd,
                 Descripcion: descProd,
                 NuevoIngreso: NIProd,
-                imgUrl: result
+                imgUrl: results
             })
+            setFiles(results)
             setPrecioProd('')
             setNombreProd('')
             setDescProd('')
-        } catch (error) {
-            console.log(error)
-            alert('Fallo interno, avisale a juanchi')
-        }
+            console.log(files)
     }
+
+
 
     return (
         <div className="formUpload">
@@ -59,10 +69,10 @@ const UploadItem = () => {
                 <label htmlFor="Descripcion">Descripcion</label>
                 <input className='formUploadInputs' name="descripcion" id="descripcion" onChange={descChangeHandler}/>
                 <label htmlFor="NuevoIngreso">Nuevo Ingreso?</label>
-                <input type='radio' value={true} className='formUploadInputs' name="nuevoIngreso" id="nuevoIngreso" onChange={NIChangeHandler}/> Si
-                <input type='radio' value={false} className='formUploadInputs' name="nuevoIngreso" id="nuevoIngreso" onChange={NIChangeHandler}/> No
+                <input type='radio' value='si' className='formUploadInputs' name="nuevoIngreso" id="nuevoIngreso" onChange={NIChangeHandler}/> Si
+                <input type='radio' value='no' className='formUploadInputs' name="nuevoIngreso" id="nuevoIngreso" onChange={NIChangeHandler}/> No
                 <label htmlFor='file'>Imagen</label>
-                <input className='formUploadInputs' id='file' type='file' onChange={(e) => setFile(e.target.files[0])} />
+                <input className='formUploadInputs' multiple id='file' type='file' onChange={(e) => setFile(e.target.files)} />
                 <button id='btnSubirProd'>Subir</button>
             </form>
         </div>
