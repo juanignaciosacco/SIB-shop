@@ -19,3 +19,11 @@
 #btnSubirProd {
     width: 150px;
 }
+
+.radio input{
+    margin: 10px;
+}
+
+.formUpload label {
+    margin: 5px;
+}

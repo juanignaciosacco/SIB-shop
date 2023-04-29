@@ -39,42 +39,54 @@ const ItemDetails = ({idProd}) => {
       }
 
     return (
-        <div className="carousel">
-            {images2.length !== 0 ? (
-                <Carousel
-                    data={images2}
-                    time={2000}
-                    width="850px"
-                    height="600px"
-                    captionStyle={captionStyle}
-                    radius="10px"
-                    slideNumber={false}
-                    slideNumberStyle={slideNumberStyle}
-                    captionPosition="bottom"
-                    automatic={false}
-                    dots={true}
-                    pauseIconColor="black"
-                    pauseIconSize="40px"
-                    slideBackgroundColor="#FAF7E6"
-                    slideImageFit="contain"
-                    thumbnails={true}
-                    thumbnailWidth="100px"
-                    style={{
-                        textAlign: "center",
-                        maxWidth: "850px",
-                        maxHeight: "500px",
-                        margin: "200px auto",
-                    }}
-                />
-            ):(
-                <div>
-                    {console.log('hola')}
-                    <p>Cargando...</p>
+
+        <div>
+        {images2.length !== 0 ? (
+            <div className='itemDetails'>
+                <div className="itemDetailCarousel">
+                    <Carousel
+                        data={images2}
+                        time={2000}
+                        width="750px"
+                        height="600px"
+                        captionStyle={captionStyle}
+                        radius="10px"
+                        slideNumber={false}
+                        slideNumberStyle={slideNumberStyle}
+                        captionPosition="bottom"
+                        automatic={false}
+                        dots={true}
+                        pauseIconColor="black"
+                        pauseIconSize="40px"
+                        slideBackgroundColor="#fff"
+                        slideImageFit="contain"
+                        thumbnails={true}
+                        thumbnailWidth="100px"
+                        style={{
+                            textAlign: "center",
+                            maxWidth: "850px",
+                            maxHeight: "500px",
+                            margin: "0 auto",
+                        }}
+                    />
                 </div>
-                )
-            }
+                <div className='itemDetailInfo'>
+                    <h2>{producto.Nombre}</h2>
+                    <h4>${producto.Precio}</h4>
+                    <hr />
+                    <p>{producto.Descripcion}</p>
+                    <ul>
+
+                    </ul>
+                </div>
+            </div>
+        ):(
+            <div>
+                <p>Cargando...</p>
+            </div>
+            )
+        }  
         </div>
-            
     )
 }
 

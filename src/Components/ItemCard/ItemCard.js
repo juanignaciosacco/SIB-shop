@@ -4,7 +4,7 @@ import { deleteDoc, doc, getFirestore, updateDoc, collection } from 'firebase/fi
 import { Link } from 'react-router-dom';
 
 
-const ItemCard = ({ image, title, description, price, isLogged, id }) => {
+const ItemCard = ({ image, title, price, isLogged, id }) => {
   
   const [isEditing, setEditing] = useState()
   const [nombreProdEdit, setNombreProd] = useState()
@@ -56,7 +56,6 @@ const ItemCard = ({ image, title, description, price, isLogged, id }) => {
     <div className="item-card-container" id={id}>
       <img className="item-image" src={image} alt={title} />
       <h3 className="item-title">{title}</h3>
-      <p className="item-description">{description}</p>
       <p className="item-price">${price}</p>
       {isLogged ? (
         <div className="admin-options">
@@ -71,8 +70,8 @@ const ItemCard = ({ image, title, description, price, isLogged, id }) => {
               <label htmlFor='descripcion'>Descripcion</label>
               <input name='descripcion' id='descripcion' onChange={descripcionChangeHandler} />
               <label htmlFor="NuevoIngreso">Nuevo Ingreso?</label>
-                <input type='radio' value={true} className='formUploadInputs' name="nuevoIngreso" id="nuevoIngreso" onChange={NIChangeHandler}/> Si
-                <input type='radio' value={false} className='formUploadInputs' name="nuevoIngreso" id="nuevoIngreso" onChange={NIChangeHandler}/> No
+                <input type='radio' value={'si'} className='formUploadInputs' name="nuevoIngreso" id="nuevoIngreso" onChange={NIChangeHandler}/> Si
+                <input type='radio' value={'no'} className='formUploadInputs' name="nuevoIngreso" id="nuevoIngreso" onChange={NIChangeHandler}/> No
               <button>Actualizar</button>
             </form>
           )}

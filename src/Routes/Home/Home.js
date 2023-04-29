@@ -9,6 +9,7 @@ const Home = () => {
             <div>
                 <img src={image} alt='Imagen portada'/>
             </div>
+
             <h1>Conoce nuestros nuevos productos</h1>
             <div className='nuevosIngresos'>
                 <NuevosIngresos />

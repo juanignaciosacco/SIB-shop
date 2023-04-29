@@ -3,21 +3,26 @@ import Navbar from './Components/Navbar/Navbar';
 import Home from './Routes/Home/Home';
 import ItemListContainer from './Routes/ItemListContainer/ItemListContainer';
 import ItemDetailContainer from './Routes/ItemDetailcontainer/ItemDetailContainer';
+import { AdminIsLoggedProvider } from './Contextos/AdminContext';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import AccesoAdmin from './Components/AccesoAdmin/AccesoAdmin';
 
 
 function App() {
 
   return (
     <BrowserRouter>
-    <nav>
-      <Navbar />
-    </nav>
-      <Routes>
-        <Route exact path='/' element={<Home />} />
-        <Route exact path="/tienda" element={<ItemListContainer />} />
-        <Route exact path="/tienda/producto/:id" element={<ItemDetailContainer />} />
-      </Routes>
+      <nav>
+        <Navbar />
+      </nav>
+      <AdminIsLoggedProvider>
+        <Routes>
+          <Route exact path='/' element={<Home />} />
+          <Route exact path="/tienda" element={<ItemListContainer />} />
+          <Route exact path='/login' element={<AccesoAdmin />} />
+          <Route exact path="/tienda/producto/:id" element={<ItemDetailContainer />} />
+        </Routes>
+      </AdminIsLoggedProvider>
     </BrowserRouter>
   );
 }

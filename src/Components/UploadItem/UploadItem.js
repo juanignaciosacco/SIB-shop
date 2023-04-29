@@ -29,8 +29,7 @@ const UploadItem = () => {
     const NIChangeHandler = (ev) => {
         setNIProd(ev.target.value)
     }
-
-    
+   
     const handleSubmit = async (e) => {
         e.preventDefault()
         console.log('hola')
@@ -57,8 +56,6 @@ const UploadItem = () => {
             console.log(files)
     }
 
-
-
     return (
         <div className="formUpload">
             <form onSubmit={handleSubmit} id='formProds'>
@@ -69,8 +66,10 @@ const UploadItem = () => {
                 <label htmlFor="Descripcion">Descripcion</label>
                 <input className='formUploadInputs' name="descripcion" id="descripcion" onChange={descChangeHandler}/>
                 <label htmlFor="NuevoIngreso">Nuevo Ingreso?</label>
-                <input type='radio' value='si' className='formUploadInputs' name="nuevoIngreso" id="nuevoIngreso" onChange={NIChangeHandler}/> Si
-                <input type='radio' value='no' className='formUploadInputs' name="nuevoIngreso" id="nuevoIngreso" onChange={NIChangeHandler}/> No
+                <div className="radio">
+                    <input type='radio' value='si' className='formUploadInputs' name="nuevoIngreso" id="nuevoIngreso" onChange={NIChangeHandler}/> Si
+                    <input type='radio' value='no' className='formUploadInputs' name="nuevoIngreso" id="nuevoIngreso" onChange={NIChangeHandler}/> No
+                </div>
                 <label htmlFor='file'>Imagen</label>
                 <input className='formUploadInputs' multiple id='file' type='file' onChange={(e) => setFile(e.target.files)} />
                 <button id='btnSubirProd'>Subir</button>
