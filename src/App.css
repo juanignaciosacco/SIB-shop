@@ -6,3 +6,39 @@ nav {
   margin-bottom: 100px;
   z-index: 1001;
 }
+
+.form {
+  display: flex;
+  width: 350px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.form label {
+  margin-bottom: 10px;
+  color: #6B6A63;
+}
+
+.formInputs {
+  width: 100%;
+  border: 2px solid #6B6A63;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.btnForm {
+  margin: 10px;
+  background-color: #6B6A63;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}

@@ -1,6 +1,12 @@
+.login {
+  margin-top: 120px;
+  text-align: center;
+}
+
 .logInContainer {
     display: flex;
     justify-content: center;
+    margin-top: 100px;
 }
 
 .formLogIn {

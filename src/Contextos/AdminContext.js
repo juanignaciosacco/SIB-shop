@@ -7,7 +7,7 @@ const AdminIsLoggedProvider = ({ children }) => {
     const [logged, setLogged] = useState()
 
     const adminIsLogged = () => {
-        setLogged(true)
+        logged ? setLogged(false) : setLogged(true)
     }
 
     return(

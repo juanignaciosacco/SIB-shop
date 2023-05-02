@@ -62,21 +62,24 @@ const AccesoAdmin = () => {
     
 
     return (
-        <div className='logInContainer'>
-            {isLogged ? (
-                <div>
-                    <button onClick={logOutHandler}>Cerrar sesion</button>
-                </div>
-            ):(
-                <form className='formLogIn' onSubmit={logInHandler}>
-                    <label htmlFor="email">Email</label>
-                    <input id="email" name="email" onChange={mailChangeHandler}/>
-                    <label htmlFor="password">Contraseña</label>
-                    <input type='password' id="password" name="password" onChange={passChangeHandler}/>
-                    <button>Log in</button>
-                    <p onClick={updatePassHandler}>Restablecer Contraseña</p>
-                </form>
-            )}
+        <div className='login'>
+            <h1>Login</h1>
+            <div className='logInContainer'>
+                {isLogged ? (
+                    <div>
+                        <button onClick={logOutHandler}>Cerrar sesion</button>
+                    </div>
+                ):(
+                    <form className='formLogIn' onSubmit={logInHandler}>
+                        <label htmlFor="email">Email</label>
+                        <input id="email" name="email" onChange={mailChangeHandler}/>
+                        <label htmlFor="password">Contraseña</label>
+                        <input type='password' id="password" name="password" onChange={passChangeHandler}/>
+                        <button>Log in</button>
+                        <p onClick={updatePassHandler}>Restablecer Contraseña</p>
+                    </form>
+                )}
+            </div>
         </div>
     )
 }

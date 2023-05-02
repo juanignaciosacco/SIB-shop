@@ -22,6 +22,7 @@ const ItemDetails = ({idProd}) => {
     useEffect(() => {
         let list = [{}]
         for (let key in producto) {
+            // eslint-disable-next-line
             key === 'imgUrl' && producto[key].map((key) => {list.push({image: key})})
         }
         list.shift()
@@ -72,9 +73,16 @@ const ItemDetails = ({idProd}) => {
                 </div>
                 <div className='itemDetailInfo'>
                     <h2>{producto.Nombre}</h2>
-                    <h4>${producto.Precio}</h4>
+                    <h3>${producto.Precio}</h3>
                     <hr />
-                    <p>{producto.Descripcion}</p>
+                    <h4>Hecho en Uruguay</h4>
+                    <p>Materiales: {producto.Materiales}</p>
+                    <hr />
+                    <h4>Medidas</h4>
+                    <p>Talle único</p>
+                    <p>- Largo: {producto.Largo} cm</p>
+                    <p>- Ancho Busto: {producto.AnchoBusto} cm</p>
+                    <p>- Ruedo: {producto.Ruedo} cm</p>
                     <ul>
 
                     </ul>

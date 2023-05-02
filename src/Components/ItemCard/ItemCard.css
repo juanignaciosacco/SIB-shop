@@ -39,4 +39,26 @@
     font-weight: bold;
     text-align: center;
   }
+
+  .admin-options {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
   
+  .formEdit {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .formEdit label {
+    margin-top: 10px;
+  }
+
+  .formEdit input {
+    margin-top: 10px;
+  }
+  
+  .formEdit select {
+    margin-top: 10px;
+  }

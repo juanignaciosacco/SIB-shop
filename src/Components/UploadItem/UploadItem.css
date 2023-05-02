@@ -2,28 +2,15 @@
     margin: auto;
     padding: 10px;
     width: 350px;
-    border: 2px solid red;
 }
 
-#formProds {
-    width: 350px;
+.radio {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    margin-bottom: 15px;
 }
 
-.formUploadInputs {
-    margin-bottom: 10px;
-}
-
-#btnSubirProd {
-    width: 150px;
-}
-
-.radio input{
-    margin: 10px;
-}
-
-.formUpload label {
-    margin: 5px;
+.radio input {
+    margin-left: 10px;
+    margin-right: 10px;
 }
