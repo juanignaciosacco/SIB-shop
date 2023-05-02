@@ -75,7 +75,7 @@ const AccesoAdmin = () => {
                         <input id="email" name="email" onChange={mailChangeHandler}/>
                         <label htmlFor="password">Contraseña</label>
                         <input type='password' id="password" name="password" onChange={passChangeHandler}/>
-                        <button>Log in</button>
+                        <button className='btn'>Log in</button>
                         <p onClick={updatePassHandler}>Restablecer Contraseña</p>
                     </form>
                 )}

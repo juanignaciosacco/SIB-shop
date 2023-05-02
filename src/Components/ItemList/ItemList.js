@@ -35,9 +35,9 @@ const ItemList = ({isLogged, nuevosIngresos}) => {
         <div>
             {nuevosIngresos ? (
                 <div className='nuevosIngresosItemList'>
-                            {prodNuevos.map((prod) => (
-                                    <ItemCard title={prod.Nombre} image={prod.imgUrl} description={prod.Descripcion} price={prod.Precio} isLogged={isLogged} key={prod.id} id={prod.id} />
-                                ))}
+                    {prodNuevos.map((prod) => (
+                            <ItemCard title={prod.Nombre} image={prod.imgUrl} description={prod.Descripcion} price={prod.Precio} isLogged={isLogged} key={prod.id} id={prod.id} />
+                        ))}
                 </div>
             ):(
                 <div className='itemList'>

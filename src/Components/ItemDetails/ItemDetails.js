@@ -1,12 +1,15 @@
 import './ItemDetails.css'
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getFirestore, getDoc,  doc} from "firebase/firestore";
 import { Carousel } from 'react-carousel-minimal';
+import { CartContext } from '../../Contextos/CartContext';
+import { Link } from 'react-router-dom';
 
 const ItemDetails = ({idProd}) => {
     
     const [producto, setProducto] = useState({})
     const [images2, setImages] = useState([])
+    const { addItemToCart } = useContext(CartContext)
 
     useEffect(() => {
         const db = getFirestore()
@@ -37,6 +40,11 @@ const ItemDetails = ({idProd}) => {
       const slideNumberStyle = {
         fontSize: '20px',
         fontWeight: 'bold',
+      }
+
+      const addItemToCartList = () => {
+        const productoACarrito = {...producto, Cantidad: 1}
+        addItemToCart(productoACarrito)
       }
 
     return (
@@ -83,9 +91,8 @@ const ItemDetails = ({idProd}) => {
                     <p>- Largo: {producto.Largo} cm</p>
                     <p>- Ancho Busto: {producto.AnchoBusto} cm</p>
                     <p>- Ruedo: {producto.Ruedo} cm</p>
-                    <ul>
-
-                    </ul>
+                    <hr />
+                    <Link to={'/carrito'}><button className='btn' onClick={addItemToCartList}>Agregar al carrito</button></Link>
                 </div>
             </div>
         ):(

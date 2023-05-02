@@ -1,6 +1,6 @@
 import './Navbar.css'
 import ImgLogo1 from '../../assets/logo1.png'
-import Cartwidget from '../CartWidget/Cartwidget'
+import CartWidget from '../CartWidget/CartWidget'
 import { Link } from 'react-router-dom'
 import UserWidget from '../UserWidget/UserWidget'
 import { useContext, useState } from 'react'
@@ -28,7 +28,7 @@ const Navbar = () => {
                     <li><Link to={'/tienda'}>Tienda</Link></li>
                     <li><Link to={'/contacto'}>Contacto</Link></li>
                     <div className='widgets'>
-                        <li><Cartwidget /></li>
+                        <li><Link to={'carrito'}><CartWidget /></Link></li>
                         <li onClick={userWidgetClickHandler}><UserWidget />
                         {showPerfil ? (
                             logged ? (

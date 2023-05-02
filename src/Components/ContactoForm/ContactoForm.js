@@ -14,8 +14,8 @@ const ContactoForm = () => {
                 <label htmlFor="mensaje">Mensaje</label>
                 <textarea name="mensaje" id="mensaje" rows='10' cols='50' className='formInputs' />
                 <div>
-                    <button className='btnForm'>Enviar</button>
-                    <button className='btnForm'>Resetear</button>
+                    <button className='btn'>Enviar</button>
+                    <button className='btn'>Resetear</button>
                 </div>
             </form>
         </div>

@@ -48,6 +48,16 @@ a:link {
     margin-right: 15px;
 }
 
+.widgets li a:visited {
+    color: #695D5D;
+}
+.widgets li a:active {
+    color: #695D5D;
+}
+.widgets li a:link {
+    color: #695D5D;
+}
+
 .profileMenu {
     display: block;
     list-style: none;

@@ -5,13 +5,14 @@ import { uploadFile } from '../../index'
 
 const UploadItem = () => {
 
-    const [nombreProd, setNombreProd] = useState()
-    const [precioProd, setPrecioProd] = useState()
-    const [categoriaProd, setCategoriaProd] = useState()
-    const [materialesProd, setMaterialesProd] = useState()
-    const [largo, setLargo] = useState()
-    const [ancho, setAncho] = useState()
-    const [ruedo, setRuedo] = useState()
+    const [nombreProd, setNombreProd] = useState('')
+    const [precioProd, setPrecioProd] = useState('')
+    const [categoriaProd, setCategoriaProd] = useState('')
+    const [materialesProd, setMaterialesProd] = useState('')
+    const [stockProd, setStockProd] = useState('')
+    const [largo, setLargo] = useState('')
+    const [ancho, setAncho] = useState('')
+    const [ruedo, setRuedo] = useState('')
     const [NIProd, setNIProd] = useState()
     const [file, setFile] = useState()
     const db = getFirestore()
@@ -27,6 +28,9 @@ const UploadItem = () => {
 
     const categoriaChangeHandler = (ev) => {
         setCategoriaProd(ev.target.value)
+    }
+    const stockChangeHandler = (ev) => {
+        setStockProd(ev.target.value)
     }
 
     const materialesChangeHandler = (ev) => {
@@ -64,6 +68,7 @@ const UploadItem = () => {
                 Precio: precioProd,
                 Categoria: categoriaProd,
                 Materiales: materialesProd,
+                Stock: stockProd,
                 Largo: largo,
                 AnchoBusto: ancho,
                 Ruedo: ruedo,
@@ -72,6 +77,7 @@ const UploadItem = () => {
             })
             setPrecioProd('')
             setNombreProd('')
+            setStockProd('')
             setMaterialesProd('')
             setAncho('')
             setLargo('')
@@ -85,11 +91,13 @@ const UploadItem = () => {
                 <input className='formInputs' name="titulo" id="titulo" onChange={nombreChangeHandler} value={nombreProd}/>
                 <label htmlFor="Precio">Precio</label>
                 <input className='formInputs' name="precio" id="precio" onChange={precioChangeHandler} value={precioProd}/>
+                <label htmlFor="Stock">Stock</label>
+                <input className='formInputs' name="stock" id="stock" onChange={stockChangeHandler} value={stockProd}/>
                 <label htmlFor='Categoria'>Categoria</label>
                 <select className='formInputs' name='categoria' id='categoria' onChange={categoriaChangeHandler}>
                     <option value='SweatersYBuzos' id='SweatersYBuzos'>Sweaters y buzos</option>
                     <option value='Camisas' id='Camisas'>Camisas</option>
-                    <option value='RemerasYTops' id='RemerasYTops'>Remeras y tops</option>
+                    <option value='RemerasYTops' id='RemerasYTops'>Remeras y tops</option>''
                 </select>
                 <label htmlFor="Materiales">Materiales</label>
                 <input className='formInputs' name="materiales" id="materiales" onChange={materialesChangeHandler} value={materialesProd}/>
