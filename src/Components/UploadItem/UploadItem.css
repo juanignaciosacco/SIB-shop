@@ -14,3 +14,26 @@
     margin-left: 10px;
     margin-right: 10px;
 }
+
+.talle {
+    margin-bottom: 15px;
+}
+
+.talle input {
+    margin-left: 15px;
+    margin-right: 5px;
+}
+
+.btnForm {
+    margin-top: 15px;
+}
+.colorShow {
+    width: 20px;
+    height: 15px;
+    margin: 10px;
+}
+
+.coloresShow {
+    display: flex;
+    flex-direction: row;
+}

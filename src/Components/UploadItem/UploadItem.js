@@ -8,6 +8,10 @@ const UploadItem = () => {
     const [nombreProd, setNombreProd] = useState('')
     const [precioProd, setPrecioProd] = useState('')
     const [categoriaProd, setCategoriaProd] = useState('')
+    const [talleProd, setTalleProd] = useState([])
+    const [colorsProd, setColorsProd] = useState([])
+    const [color, setColor] = useState()
+    // const [numColorsProd, setNumColorsProd] = useState()
     const [materialesProd, setMaterialesProd] = useState('')
     const [stockProd, setStockProd] = useState('')
     const [largo, setLargo] = useState('')
@@ -52,7 +56,26 @@ const UploadItem = () => {
     const NIChangeHandler = (ev) => {
         setNIProd(ev.target.value)
     }
-   
+
+    const talleChangeHandler = (ev) => {
+        setTalleProd([...talleProd, ev.target.value])
+    }
+
+    const colorChangeHandler = (ev) => {
+        setColor(ev.target.value)
+    }
+
+    const addColorHandler = (ev) => {
+        ev.preventDefault()
+        setColorsProd([...colorsProd, color])
+        console.log(colorsProd)
+    }
+
+    // const numColoresChangeHandler = (ev) => {
+    //     setNumColorProd(ev.target.value)
+    // }
+
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         var results = []
@@ -73,6 +96,8 @@ const UploadItem = () => {
                 AnchoBusto: ancho,
                 Ruedo: ruedo,
                 NuevoIngreso: NIProd,
+                Colores: colorsProd,
+                Talles: talleProd,
                 picture_url: results
             })
             setPrecioProd('')
@@ -84,9 +109,15 @@ const UploadItem = () => {
             setRuedo('')
     }
 
+    // const BackgroundColor = () => {
+    //     const backgroundColor = {
+    //         `background-color: `
+    //     }
+    // }
+
     return (
         <div className="formUpload">
-            <form onSubmit={handleSubmit} className='form'>
+            <form className='form'>
                 <label htmlFor="Titulo">Titulo</label>
                 <input className='formInputs' name="titulo" id="titulo" onChange={nombreChangeHandler} value={nombreProd}/>
                 <label htmlFor="Precio">Precio</label>
@@ -99,6 +130,24 @@ const UploadItem = () => {
                     <option value='Camisas' id='Camisas'>Camisas</option>
                     <option value='RemerasYTops' id='RemerasYTops'>Remeras y tops</option>''
                 </select>
+                <label htmlFor='Talle'>Talle</label>
+                <div className='talle'>
+                    <input type='checkbox' value='XS' name='talle' onChange={talleChangeHandler} />XS
+                    <input type='checkbox' value='S' name='talle' onChange={talleChangeHandler} />S
+                    <input type='checkbox' value='M' name='talle' onChange={talleChangeHandler} />M
+                    <input type='checkbox' value='L' name='talle' onChange={talleChangeHandler} />L
+                    <input type='checkbox' value='XL' name='talle' onChange={talleChangeHandler} />XL
+                </div>
+                <label htmlFor='Colores'>Colores</label>
+                <div>
+                    <input type='color' onChange={colorChangeHandler} multiple/>
+                    <button onClick={addColorHandler}>+</button>
+                </div>
+                <div className='coloresShow'>
+                    {colorsProd.map((color) => (
+                        <div className='colorShow' style={{backgroundColor: color}}></div>
+                    ))}
+                </div>
                 <label htmlFor="Materiales">Materiales</label>
                 <input className='formInputs' name="materiales" id="materiales" onChange={materialesChangeHandler} value={materialesProd}/>
                 <label htmlFor='Medidas'>Medidas</label>
@@ -112,7 +161,7 @@ const UploadItem = () => {
                 </div>
                 <label htmlFor='file'>Imagen</label>
                 <input className='formUploadInputs' multiple id='file' type='file' onChange={(e) => setFile(e.target.files)} />
-                <button className='btnForm'>Subir</button>
+                <button className='btnForm' onClick={handleSubmit}>Subir</button>
             </form>
         </div>
     )

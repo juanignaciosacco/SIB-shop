@@ -87,11 +87,25 @@ const ItemDetails = ({idProd}) => {
                     <p>Materiales: {producto.Materiales}</p>
                     <hr />
                     <h4>Medidas</h4>
-                    <p>Talle único</p>
+                    {producto.Talles.length > 1 ? (
+                        <div>
+                            <p>Talles: </p>
+                            <select>
+                                {producto.Talles.map((talle) =>( 
+                                    <option name={talle} value={talle} id={talle}>{talle}</option>
+                                ))}
+                            </select>
+                        </div>
+                        ):(
+                        <div>
+                            <p>Talle unico: {producto.Talles}</p>
+                        </div>    
+                    )}
                     <p>- Largo: {producto.Largo} cm</p>
                     <p>- Ancho Busto: {producto.AnchoBusto} cm</p>
                     <p>- Ruedo: {producto.Ruedo} cm</p>
                     <hr />
+                    <h4>Colores</h4>
                     <Link to={'/carrito'}><button className='btn' onClick={addItemToCartList}>Agregar al carrito</button></Link>
                 </div>
             </div>
