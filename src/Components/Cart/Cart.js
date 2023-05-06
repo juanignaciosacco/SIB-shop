@@ -15,7 +15,7 @@ const Cart = () => {
     
     useEffect(() => {
         setOrderSummary({quantity: parseInt(totalItems), price: precioTotal})
-    }, [totalItems])
+    }, [totalItems, precioTotal])
     
     const vaciarClickHandler = () => {
         clearAllItems()
