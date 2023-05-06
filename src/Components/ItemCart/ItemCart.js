@@ -2,8 +2,6 @@ import './ItemCart.css'
 import ItemCount from '../ItemCount/ItemCount';
 
 const ItemCart = ({imgUrl, nombre, precio, id, stock}) => {
-
-
     return (
         <div className="itemCart">
             <div className='itemCartImg'>

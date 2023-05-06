@@ -7,6 +7,7 @@ const ItemsProvider = ({ children }) => {
     const [productosAgregados, setProductos] = useState([])
     const [precioTotal, setPrecioTotal] = useState(0)
     const [totalItems, setTotalItems] = useState(0)
+    const [preferenceId, setPreferenceId] = useState(null)
 
     const addItemToCart = (producto) => {
         if (productosAgregados.length === 0) {
@@ -15,31 +16,32 @@ const ItemsProvider = ({ children }) => {
             let found = false
             productosAgregados.forEach((prod) => {
                 if (prod.id === producto.id) {
-                   producto.Cantidad += prod.Cantidad
+                   producto.quantity += parseInt(prod.quantity)
                    found = true
                 }
             })
             found === false && setProductos([...productosAgregados, producto])
+            console.log(productosAgregados)
         }
-        setPrecioTotal(precioTotal + (producto.Precio * producto.Cantidad))
-        setTotalItems(totalItems + producto.Cantidad)
+        setPrecioTotal(precioTotal + (producto.price * producto.quantity))
+        setTotalItems(totalItems + producto.quantity)
     }
 
     const moreItemsOnCart = (id, cantidad) => {
         productosAgregados.forEach((prod) => {
             if (prod.id === id) {
-                prod.Cantidad += cantidad
+                prod.quantity += parseInt(cantidad)
                 setTotalItems(totalItems + cantidad)
-                setPrecioTotal(precioTotal + parseInt(prod.Precio))
+                setPrecioTotal(precioTotal + parseInt(prod.price))
             }
         })
     }
     const lessItemsOnCart = (id, cantidad) => {
         productosAgregados.forEach((prod) => {
             if (prod.id === id) {
-                prod.Cantidad -= cantidad
+                prod.quantity -= parseInt(cantidad)
                 setTotalItems(totalItems - cantidad)
-                setPrecioTotal(precioTotal - parseInt(prod.Precio))
+                setPrecioTotal(precioTotal - parseInt(prod.price))
 
             }
         })
@@ -61,7 +63,7 @@ const ItemsProvider = ({ children }) => {
 
     return (
         <div>
-            <CartContext.Provider value={{addItemToCart, removeItemFromCart, clearAllItems, moreItemsOnCart, lessItemsOnCart, productosAgregados, precioTotal, totalItems}}>
+            <CartContext.Provider value={{addItemToCart, removeItemFromCart, clearAllItems, moreItemsOnCart, lessItemsOnCart, setPreferenceId, preferenceId, productosAgregados, precioTotal, totalItems}}>
                 {children}
             </CartContext.Provider>
         </div>

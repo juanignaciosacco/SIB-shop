@@ -64,16 +64,16 @@ const UploadItem = () => {
             alert('Fallo interno, avisale a juanchi ', error)
         }
             setDoc(doc(items2), {
-                Nombre: nombreProd,
-                Precio: precioProd,
-                Categoria: categoriaProd,
+                title: nombreProd,
+                price: precioProd,
+                category_id: categoriaProd,
                 Materiales: materialesProd,
                 Stock: stockProd,
                 Largo: largo,
                 AnchoBusto: ancho,
                 Ruedo: ruedo,
                 NuevoIngreso: NIProd,
-                imgUrl: results
+                picture_url: results
             })
             setPrecioProd('')
             setNombreProd('')

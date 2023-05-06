@@ -10,7 +10,6 @@ import { AdminIsLoggedProvider } from './Contextos/AdminContext';
 import { ItemsProvider } from './Contextos/CartContext';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-
 function App() {
 
   return (

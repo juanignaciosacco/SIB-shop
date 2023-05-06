@@ -26,7 +26,7 @@ const ItemDetails = ({idProd}) => {
         let list = [{}]
         for (let key in producto) {
             // eslint-disable-next-line
-            key === 'imgUrl' && producto[key].map((key) => {list.push({image: key})})
+            key === 'picture_url' && producto[key].map((key) => {list.push({image: key})})
         }
         list.shift()
         setImages(list)
@@ -43,7 +43,7 @@ const ItemDetails = ({idProd}) => {
       }
 
       const addItemToCartList = () => {
-        const productoACarrito = {...producto, Cantidad: 1}
+        const productoACarrito = {...producto, quantity: 1}
         addItemToCart(productoACarrito)
       }
 
@@ -80,8 +80,8 @@ const ItemDetails = ({idProd}) => {
                     />
                 </div>
                 <div className='itemDetailInfo'>
-                    <h2>{producto.Nombre}</h2>
-                    <h3>${producto.Precio}</h3>
+                    <h2>{producto.title}</h2>
+                    <h3>${producto.price}</h3>
                     <hr />
                     <h4>Hecho en Uruguay</h4>
                     <p>Materiales: {producto.Materiales}</p>

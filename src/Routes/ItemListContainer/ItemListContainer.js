@@ -7,8 +7,6 @@ const ItemListContainer = () => {
 
     const { logged } = useContext(AdminContext)
 
-    console.log(logged)
-
     return (
         <div>
             <ItemList isLogged={logged} nuevosIngresos={false}/>

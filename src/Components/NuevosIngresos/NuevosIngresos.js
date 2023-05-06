@@ -1,9 +1,6 @@
 import ItemList from "../ItemList/ItemList";
 
-
 const NuevosIngresos = () => {
-
-
 
     return (
         <div>
