@@ -11,7 +11,6 @@ const UploadItem = () => {
     const [talleProd, setTalleProd] = useState([])
     const [colorsProd, setColorsProd] = useState([])
     const [color, setColor] = useState()
-    // const [numColorsProd, setNumColorsProd] = useState()
     const [materialesProd, setMaterialesProd] = useState('')
     const [stockProd, setStockProd] = useState('')
     const [largo, setLargo] = useState('')
@@ -109,12 +108,6 @@ const UploadItem = () => {
             setRuedo('')
     }
 
-    // const BackgroundColor = () => {
-    //     const backgroundColor = {
-    //         `background-color: `
-    //     }
-    // }
-
     return (
         <div className="formUpload">
             <form className='form'>
@@ -137,6 +130,7 @@ const UploadItem = () => {
                     <input type='checkbox' value='M' name='talle' onChange={talleChangeHandler} />M
                     <input type='checkbox' value='L' name='talle' onChange={talleChangeHandler} />L
                     <input type='checkbox' value='XL' name='talle' onChange={talleChangeHandler} />XL
+                    <input type='checkbox' value='talleUnico' name='talle' onChange={talleChangeHandler} />Talle unico
                 </div>
                 <label htmlFor='Colores'>Colores</label>
                 <div>

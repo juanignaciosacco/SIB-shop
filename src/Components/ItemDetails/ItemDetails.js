@@ -98,12 +98,12 @@ const ItemDetails = ({idProd}) => {
                         </div>
                         ):(
                         <div>
-                            <p>Talle unico: {producto.Talles}</p>
+                            <p>Talle unico</p>
                         </div>    
                     )}
-                    <p>- Largo: {producto.Largo} cm</p>
-                    <p>- Ancho Busto: {producto.AnchoBusto} cm</p>
-                    <p>- Ruedo: {producto.Ruedo} cm</p>
+                    {producto.Largo !== '0' &&  <p>- Largo: {producto.Largo} cm</p>}
+                    {producto.AnchoBusto !== '0' &&  <p>- Ancho Busto: {producto.AnchoBusto} cm</p>}
+                    {producto.Ruedo !== '0' &&  <p>- Ruedo: {producto.Ruedo} cm</p>}
                     <hr />
                     <h4>Colores</h4>
                     <Link to={'/carrito'}><button className='btn' onClick={addItemToCartList}>Agregar al carrito</button></Link>
