@@ -2,15 +2,14 @@ import './UploadItem.css'
 import { getFirestore, doc, collection, setDoc } from "firebase/firestore"
 import { useState } from "react"
 import { uploadFile } from '../../index'
+import ColorStockInput from '../ColorStockInput/ColorStockInput'
 
 const UploadItem = () => {
 
     const [nombreProd, setNombreProd] = useState('')
     const [precioProd, setPrecioProd] = useState('')
     const [categoriaProd, setCategoriaProd] = useState('')
-    const [talleProd, setTalleProd] = useState([])
-    const [colorsProd, setColorsProd] = useState([])
-    const [color, setColor] = useState()
+    const [colores, setColores] = useState([{ color: "#ffffff", stock: "" }]);
     const [materialesProd, setMaterialesProd] = useState('')
     const [stockProd, setStockProd] = useState('')
     const [largo, setLargo] = useState('')
@@ -20,6 +19,9 @@ const UploadItem = () => {
     const [file, setFile] = useState()
     const db = getFirestore()
     const items2 = collection(db, 'productos')
+    const [talles, setTalles] = useState([]);
+    const tallesDisponibles = ["XS", "S", "M", "L", "XL"];
+    
 
     const nombreChangeHandler = (ev) => {
         setNombreProd(ev.target.value)
@@ -32,6 +34,7 @@ const UploadItem = () => {
     const categoriaChangeHandler = (ev) => {
         setCategoriaProd(ev.target.value)
     }
+
     const stockChangeHandler = (ev) => {
         setStockProd(ev.target.value)
     }
@@ -56,24 +59,36 @@ const UploadItem = () => {
         setNIProd(ev.target.value)
     }
 
-    const talleChangeHandler = (ev) => {
-        setTalleProd([...talleProd, ev.target.value])
-    }
-
-    const colorChangeHandler = (ev) => {
-        setColor(ev.target.value)
-    }
-
-    const addColorHandler = (ev) => {
+    const handleAddColor = (ev) => {
         ev.preventDefault()
-        setColorsProd([...colorsProd, color])
-        console.log(colorsProd)
+        setColores([...colores, { color: "#ffffff", stock: "" }]);
+        console.log(colores)
     }
 
-    // const numColoresChangeHandler = (ev) => {
-    //     setNumColorProd(ev.target.value)
-    // }
+    const handleColorChange = (index, newColorStock) => {
+        setColores((prevColores) =>
+        prevColores.map((colorStock, i) => (i === index ? newColorStock : colorStock))
+        );
+      }
 
+    const handleDeleteColor = (index) => {
+    setColores((prevColores) => prevColores.filter((_, i) => i !== index));
+    }
+
+    const handleTalleChange = (talle, stock) => {
+        const newTalles = [...talles];
+        const index = newTalles.findIndex((item) => item.talle === talle);
+        if (index !== -1) {
+          if (stock === undefined) {
+            newTalles.splice(index, 1);
+          } else {
+            newTalles[index].stock = stock;
+          }
+        } else {
+          newTalles.push({ talle, stock });
+        }
+        setTalles(newTalles);
+      };
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -95,8 +110,8 @@ const UploadItem = () => {
                 AnchoBusto: ancho,
                 Ruedo: ruedo,
                 NuevoIngreso: NIProd,
-                Colores: colorsProd,
-                Talles: talleProd,
+                Colores: colores,
+                Talles: talles,
                 picture_url: results
             })
             setPrecioProd('')
@@ -125,22 +140,43 @@ const UploadItem = () => {
                 </select>
                 <label htmlFor='Talle'>Talle</label>
                 <div className='talle'>
-                    <input type='checkbox' value='XS' name='talle' onChange={talleChangeHandler} />XS
-                    <input type='checkbox' value='S' name='talle' onChange={talleChangeHandler} />S
-                    <input type='checkbox' value='M' name='talle' onChange={talleChangeHandler} />M
-                    <input type='checkbox' value='L' name='talle' onChange={talleChangeHandler} />L
-                    <input type='checkbox' value='XL' name='talle' onChange={talleChangeHandler} />XL
-                    <input type='checkbox' value='talleUnico' name='talle' onChange={talleChangeHandler} />Talle unico
+                    <div>
+                        {tallesDisponibles.map((talle) => (
+                        <div key={talle}>
+                            <label>
+                            <input type="checkbox" key={talle} value={talle} checked={talles.some((item) => item.talle === talle)} onChange={(e) => handleTalleChange
+                                (
+                                    e.target.value,
+                                    e.target.checked ? 0 : undefined
+                                )}/>
+                            {talle}
+                            </label>
+                            {talles.some((item) => item.talle === talle) && (
+                                <input type="number" placeholder='Stock' value={talles.find((item) => item.talle === talle)?.stock || ""} onChange={(e) => handleTalleChange( talle, Number(e.target.value))
+                            }/>
+                            )}
+                        </div>
+                        ))}
+                    </div>
+                    <div>
+                        <input type='checkbox' value='talleUnico' name='talle'  />Talle unico
+                    </div>
                 </div>
                 <label htmlFor='Colores'>Colores</label>
                 <div>
-                    <input type='color' onChange={colorChangeHandler} multiple/>
-                    <button onClick={addColorHandler}>+</button>
-                </div>
-                <div className='coloresShow'>
-                    {colorsProd.map((color) => (
-                        <div className='colorShow' style={{backgroundColor: color}}></div>
-                    ))}
+                {colores.map((colorStock, index) => (
+                    <div>
+                        <ColorStockInput
+                        key={index}
+                        color={colorStock.color}
+                        stock={colorStock.stock}
+                        index={index}
+                        onChange={(newColorStock) => handleColorChange(index, newColorStock)}
+                        onDelete={handleDeleteColor}
+                        />
+                    </div>
+                ))}
+                <button onClick={handleAddColor}>Agregar color</button>
                 </div>
                 <label htmlFor="Materiales">Materiales</label>
                 <input className='formInputs' name="materiales" id="materiales" onChange={materialesChangeHandler} value={materialesProd}/>

@@ -3,6 +3,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    text-align: center;
     background-color: #FFFFF7;
     box-shadow: 7px 4px 8px rgba(237, 234, 218, 1);
     border-radius: 8px;
@@ -11,6 +12,15 @@
     margin-right: 16px;
     margin-bottom: 16px;
     width: 300px;
+  }
+
+  .prodSinStock {
+    background-color: #6B6A63;
+    width: 150px;
+    border-radius: 60px;
+    color: #FAF7E6;
+    position: absolute;
+    /* top: 10px; */
   }
   
   .item-image {
@@ -61,4 +71,17 @@
   
   .formEdit select {
     margin-top: 10px;
+  }
+
+  .imgsMiniatura {
+    margin-top: 10px;
+  }
+
+  .imgsMiniatura img{
+    width: 80px;
+    margin-right: 10px;
+  }
+
+  .formEdit button {
+    margin-top: 20px;
   }

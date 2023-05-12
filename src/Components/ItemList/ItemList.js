@@ -36,13 +36,13 @@ const ItemList = ({isLogged, nuevosIngresos}) => {
             {nuevosIngresos ? (
                 <div className='nuevosIngresosItemList'>
                     {prodNuevos.map((prod) => (
-                            <ItemCard title={prod.title} image={prod.picture_url} price={prod.price} isLogged={isLogged} key={prod.id} id={prod.id} />
-                        ))}
+                            <ItemCard producto={prod} isLogged={isLogged} key={prod.id}  />
+                            ))}
                 </div>
             ):(
                 <div className='itemList'>
                     {productos.map((prod) => (
-                        <ItemCard title={prod.title} image={prod.picture_url} price={prod.price} isLogged={isLogged} key={prod.id} id={prod.id} />
+                        <ItemCard producto={prod} isLogged={isLogged} key={prod.id} />
                     ))}
                 </div>
                 )}

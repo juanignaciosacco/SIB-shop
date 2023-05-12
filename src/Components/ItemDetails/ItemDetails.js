@@ -30,6 +30,7 @@ const ItemDetails = ({idProd}) => {
         }
         list.shift()
         setImages(list)
+        console.log(producto.Largo)
     }, [producto])
 
     const captionStyle = {
@@ -91,8 +92,8 @@ const ItemDetails = ({idProd}) => {
                         <div>
                             <p>Talles: </p>
                             <select>
-                                {producto.Talles.map((talle) =>( 
-                                    <option name={talle} value={talle} id={talle}>{talle}</option>
+                                {producto.Talles.map((prod) =>( 
+                                    <option name={prod.talle} value={prod.talle} id={prod.talle}>{prod.talle}</option>
                                 ))}
                             </select>
                         </div>
@@ -101,11 +102,18 @@ const ItemDetails = ({idProd}) => {
                             <p>Talle unico</p>
                         </div>    
                     )}
-                    {producto.Largo !== '0' &&  <p>- Largo: {producto.Largo} cm</p>}
-                    {producto.AnchoBusto !== '0' &&  <p>- Ancho Busto: {producto.AnchoBusto} cm</p>}
-                    {producto.Ruedo !== '0' &&  <p>- Ruedo: {producto.Ruedo} cm</p>}
+                    {producto.Largo !== '0' && producto.Largo !== '' &&  <p>- Largo: {producto.Largo} cm</p>}
+                    {producto.AnchoBusto !== '0' && producto.AnchoBusto !== '' &&  <p>- Ancho Busto: {producto.AnchoBusto} cm</p>}
+                    {producto.Ruedo !== '0' && producto.Ruedo !== '' && <p>- Ruedo: {producto.Ruedo} cm</p>}
                     <hr />
-                    <h4>Colores</h4>
+                    <div id='coloresDetailsContainer'>
+                        <h4>Colores:</h4>
+                        {
+                            producto.Colores.length !== 0 && (producto.Colores.map((color, index) => (
+                                <button className='colorBtnItemDetails' key={index} id={color.color} style={{backgroundColor: color.color}}/>
+                            )
+                        ))}
+                    </div>
                     <Link to={'/carrito'}><button className='btn' onClick={addItemToCartList}>Agregar al carrito</button></Link>
                 </div>
             </div>

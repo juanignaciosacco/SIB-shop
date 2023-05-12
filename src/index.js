@@ -7,7 +7,7 @@ import { v4 } from 'uuid';
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -24,6 +24,15 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const storage = getStorage(app)
+
+export async function deletFile(file) {
+  const desertRef = ref(storage, file)
+  await deleteObject(desertRef).then(() => {
+    console.log("Se borro la imagen exitosamente")
+  }).catch((error) => {
+    console.log(error)
+  })
+}
 
 export async function uploadFile(file) {
   const storageRef = ref(storage, v4())

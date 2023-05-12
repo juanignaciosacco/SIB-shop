@@ -15,7 +15,7 @@ const Cart = () => {
     
     useEffect(() => {
         setOrderSummary({quantity: parseInt(totalItems), price: precioTotal})
-    }, [totalItems])
+    }, [totalItems, precioTotal])
     
     const vaciarClickHandler = () => {
         clearAllItems()
@@ -64,7 +64,6 @@ const Cart = () => {
                         <h3>Informacion del Carrito</h3>
                         <p>Cantidad de productos: {totalItems}</p>
                         <p>Precio total: ${precioTotal}</p>
-                        {/* <Wallet initialization={{ preferenceId: 'btnComprarMP' }} /> */}
                         <button id='btnCheckout' onClick={handleClick}>Continuar con la compra</button>
                         <button onClick={vaciarClickHandler}>Vaciar carrito</button>
                     </div>

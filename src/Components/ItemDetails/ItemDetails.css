@@ -10,3 +10,13 @@
     width: 650px;
 }
 
+.colorBtnItemDetails {
+    width: 45px;
+    height: 25px;
+    border: none;
+    margin-right: 20px; 
+}
+
+#coloresDetailsContainer {
+    margin-bottom: 20px;
+}
