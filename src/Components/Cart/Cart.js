@@ -10,11 +10,10 @@ initMercadoPago('TEST-443c3bde-e5e1-4b01-ad74-2c6fcb9da46c');
 const Cart = () => {
 
     const {productosAgregados, precioTotal, totalItems, clearAllItems, setPreferenceId, preferenceId } = useContext(CartContext)
-
     const [orderSummary, setOrderSummary] = useState({})
     
     useEffect(() => {
-        setOrderSummary({quantity: parseInt(totalItems), price: precioTotal})
+        setOrderSummary({quantity: parseInt(totalItems), price: parseInt(precioTotal) })
     }, [totalItems, precioTotal])
     
     const vaciarClickHandler = () => {
@@ -22,7 +21,6 @@ const Cart = () => {
     }
 
     const handleClick = () => {
-        console.log(JSON.stringify(orderSummary))
       fetch("http://localhost:8080/create_preference", {
             method: "POST",
             headers: {
@@ -30,16 +28,14 @@ const Cart = () => {
             },
                 body: JSON.stringify(orderSummary),
       })
-        .then((response) => {
-            console.log('Chau')
+      .then((response) => {
           return response.json();
         })
         .then((preference) => {
-            console.log('HOla')
+            console.log(preference)
           setPreferenceId(preference.id);
         })
         .catch((error) => {
-            alert('Noooo')
           console.error(error);
         })
     };
@@ -51,7 +47,7 @@ const Cart = () => {
                 {productosAgregados.length !== 0 ? (
                     <div className='itemsInCart'>
                         {productosAgregados.map((prod) => (
-                            <ItemCart id={prod.id} imgUrl={prod.picture_url} nombre={prod.title} precio={prod.price} stock={prod.Stock} key={prod.id}/>
+                            <ItemCart id={prod.id} imgUrl={prod.picture_url} nombre={prod.title} precio={prod.price} talle={prod.Talle} stock={prod.Stock} key={prod.id}/>
                         ))}
                     </div>
                 ):(
@@ -64,8 +60,8 @@ const Cart = () => {
                         <h3>Informacion del Carrito</h3>
                         <p>Cantidad de productos: {totalItems}</p>
                         <p>Precio total: ${precioTotal}</p>
-                        <button id='btnCheckout' onClick={handleClick}>Continuar con la compra</button>
-                        <button onClick={vaciarClickHandler}>Vaciar carrito</button>
+                        <button className='btn' id='btnCheckout' onClick={handleClick}>Finalizar compra</button>
+                        <button className='btn' onClick={vaciarClickHandler}>Vaciar carrito</button>
                     </div>
                 ):(
                     <Payment />

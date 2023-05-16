@@ -1,7 +1,7 @@
 import './ItemCart.css'
 import ItemCount from '../ItemCount/ItemCount';
 
-const ItemCart = ({imgUrl, nombre, precio, id, stock}) => {
+const ItemCart = ({imgUrl,talle, nombre, precio, id, stock}) => {
     return (
         <div className="itemCart">
             <div className='itemCartImg'>
@@ -10,6 +10,7 @@ const ItemCart = ({imgUrl, nombre, precio, id, stock}) => {
             <div>
                 <h3>{nombre}</h3>
                 <p>Precio: ${precio}</p>
+                <p>Talle: {talle}</p>
                 <ItemCount id={id} stock={stock} precio={precio}/>
             </div>
         </div>

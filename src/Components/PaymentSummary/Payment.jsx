@@ -14,7 +14,7 @@ const Payment = () => {
     setIsReady(true);
   }
 
-  const renderCheckoutButton = (preferenceId) => {
+  const renderCheckoutButton = () => {
     if (!preferenceId) return null;
 
     return (

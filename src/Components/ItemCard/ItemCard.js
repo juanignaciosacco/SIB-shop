@@ -19,7 +19,7 @@ const ItemCard = ({ producto, isLogged }) => {
       ):(
         <div className="user-options">
           <Link to={`/tienda/producto/${producto.id}`}>
-            <button className="user-button buy">Ver detalle</button>
+            <button className="btn">Ver detalle</button>
           </Link>
         </div>
       )}

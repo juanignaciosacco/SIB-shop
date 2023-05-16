@@ -11,7 +11,7 @@ const CartWidget = () => {
     const [totalItemsWidget, setTotalItemsWidget] = useState(0)
 
     useEffect(() => {
-        totalItems !== 0 && setTotalItemsWidget(totalItems)
+        setTotalItemsWidget(totalItems)
     }, [totalItems])
 
 

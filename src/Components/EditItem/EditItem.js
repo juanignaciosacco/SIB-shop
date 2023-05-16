@@ -23,6 +23,10 @@ const EditItem = ({ producto }) => {
     const db = getFirestore()
     const items2 = collection(db, 'productos')
 
+    // useEffect(() => {
+    //     console.log(colores)
+    // }, [])
+
     const nombreChangeHandler = (ev) => {
         setNombreProd(ev.target.value)
     }

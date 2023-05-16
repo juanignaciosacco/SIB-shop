@@ -9,6 +9,7 @@ const ItemDetails = ({idProd}) => {
     
     const [producto, setProducto] = useState({})
     const [images2, setImages] = useState([])
+    const [talleSelec, setTalleSelec] = useState()
     const { addItemToCart } = useContext(CartContext)
 
     useEffect(() => {
@@ -43,14 +44,23 @@ const ItemDetails = ({idProd}) => {
         fontWeight: 'bold',
       }
 
+      const selectTalleHandler = (ev) => {
+        setTalleSelec(ev.target.value)
+      }
+
       const addItemToCartList = () => {
-        const productoACarrito = {...producto, quantity: 1}
+        const productoACarrito = {
+            ...producto, 
+            quantity: 1,
+            Talle: talleSelec
+        }
+        console.log(productoACarrito)
         addItemToCart(productoACarrito)
       }
 
     return (
 
-        <div>
+        <div className='itemDetailsContainer'>
         {images2.length !== 0 ? (
             <div className='itemDetails'>
                 <div className="itemDetailCarousel">
@@ -91,7 +101,7 @@ const ItemDetails = ({idProd}) => {
                     {producto.Talles.length > 1 ? (
                         <div>
                             <p>Talles: </p>
-                            <select>
+                            <select onChange={selectTalleHandler}>
                                 {producto.Talles.map((prod) =>( 
                                     <option name={prod.talle} value={prod.talle} id={prod.talle}>{prod.talle}</option>
                                 ))}
