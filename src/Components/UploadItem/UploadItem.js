@@ -8,7 +8,7 @@ const UploadItem = () => {
 
     const [nombreProd, setNombreProd] = useState('')
     const [precioProd, setPrecioProd] = useState('')
-    const [categoriaProd, setCategoriaProd] = useState('')
+    const [categoriaProd, setCategoriaProd] = useState('SweatersYBuzos')
     const [colores, setColores] = useState([{ color: "#ffffff", stock: "" }]);
     const [materialesProd, setMaterialesProd] = useState('')
     const [stockProd, setStockProd] = useState('')
@@ -32,6 +32,7 @@ const UploadItem = () => {
     }
 
     const categoriaChangeHandler = (ev) => {
+        console.log(ev.target.value)
         setCategoriaProd(ev.target.value)
     }
 
@@ -136,7 +137,7 @@ const UploadItem = () => {
                 <select className='formInputs' name='categoria' id='categoria' onChange={categoriaChangeHandler}>
                     <option value='SweatersYBuzos' id='SweatersYBuzos'>Sweaters y buzos</option>
                     <option value='Camisas' id='Camisas'>Camisas</option>
-                    <option value='RemerasYTops' id='RemerasYTops'>Remeras y tops</option>''
+                    <option value='RemerasYTops' id='RemerasYTops'>Remeras y tops</option>
                 </select>
                 <label htmlFor='Talle'>Talle</label>
                 <div className='talle'>
@@ -144,7 +145,7 @@ const UploadItem = () => {
                         {tallesDisponibles.map((talle) => (
                         <div key={talle}>
                             <label>
-                            <input type="checkbox" key={talle} value={talle} checked={talles.some((item) => item.talle === talle)} onChange={(e) => handleTalleChange
+                            <input type="checkbox" value={talle} checked={talles.some((item) => item.talle === talle)} onChange={(e) => handleTalleChange
                                 (
                                     e.target.value,
                                     e.target.checked ? 0 : undefined
@@ -165,7 +166,7 @@ const UploadItem = () => {
                 <label htmlFor='Colores'>Colores</label>
                 <div>
                 {colores.map((colorStock, index) => (
-                    <div>
+                    <div key={index}>
                         <ColorStockInput
                         key={index}
                         color={colorStock.color}
