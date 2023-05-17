@@ -165,19 +165,16 @@ const UploadItem = () => {
                 </div>
                 <label htmlFor='Colores'>Colores</label>
                 <div>
-                {colores.map((colorStock, index) => (
-                    <div key={index}>
+                <h2>Administrar colores y stocks</h2>
+                    {colores.map((colorStock, index) => (
                         <ColorStockInput
                         key={index}
-                        color={colorStock.color}
-                        stock={colorStock.stock}
-                        index={index}
+                        colorStock={colorStock}
                         onChange={(newColorStock) => handleColorChange(index, newColorStock)}
-                        onDelete={handleDeleteColor}
+                        onDelete={() => handleDeleteColor(index)}
                         />
-                    </div>
-                ))}
-                <button onClick={handleAddColor}>Agregar color</button>
+                    ))}
+                    <button onClick={handleAddColor}>Agregar color</button>
                 </div>
                 <label htmlFor="Materiales">Materiales</label>
                 <input className='formInputs' name="materiales" id="materiales" onChange={materialesChangeHandler} value={materialesProd}/>

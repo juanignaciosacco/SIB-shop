@@ -98,7 +98,7 @@ const ItemDetails = ({idProd}) => {
                     <p>Materiales: {producto.Materiales}</p>
                     <hr />
                     <h4>Medidas</h4>
-                    {producto.Talles.length > 1 ? (
+                    {producto.Talles.length >= 1 ? (
                         <div>
                             <p>Talles: </p>
                             <select onChange={selectTalleHandler}>
@@ -120,7 +120,7 @@ const ItemDetails = ({idProd}) => {
                         <h4>Colores:</h4>
                         {
                             producto.Colores.length !== 0 && (producto.Colores.map((color, index) => (
-                                <button className='colorBtnItemDetails' key={index} id={color.color} style={{backgroundColor: color.color}}/>
+                                <button className='colorBtnItemDetails' key={index} id={color.color} style={{backgroundColor: `${color.color}`}}/>
                             )
                         ))}
                     </div>
