@@ -1,9 +1,9 @@
 import './ItemDetails.css'
 import { useContext, useEffect, useState } from "react";
 import { getFirestore, getDoc,  doc} from "firebase/firestore";
-import { Carousel } from 'react-carousel-minimal';
 import { CartContext } from '../../Contextos/CartContext';
 import { Link } from 'react-router-dom';
+import CarouselItemDetail from '../CarouselItemDetail/CarouselItemDetail';
 
 const ItemDetails = ({idProd}) => {
     
@@ -27,22 +27,11 @@ const ItemDetails = ({idProd}) => {
         let list = [{}]
         for (let key in producto) {
             // eslint-disable-next-line
-            key === 'picture_url' && producto[key].map((key) => {list.push({image: key})})
+            key === 'picture_url' && producto[key].map((key) => {list.push(key)})
         }
         list.shift()
         setImages(list)
-        console.log(producto.Largo)
     }, [producto])
-
-    const captionStyle = {
-        fontSize: '2em',
-        fontWeight: 'bold',
-      }
-
-      const slideNumberStyle = {
-        fontSize: '20px',
-        fontWeight: 'bold',
-      }
 
       const selectTalleHandler = (ev) => {
         setTalleSelec(ev.target.value)
@@ -54,41 +43,15 @@ const ItemDetails = ({idProd}) => {
             quantity: 1,
             Talle: talleSelec
         }
-        console.log(productoACarrito)
         addItemToCart(productoACarrito)
       }
 
     return (
-
         <div className='itemDetailsContainer'>
         {images2.length !== 0 ? (
             <div className='itemDetails'>
                 <div className="itemDetailCarousel">
-                    <Carousel
-                        data={images2}
-                        time={2000}
-                        width="750px"
-                        height="600px"
-                        captionStyle={captionStyle}
-                        radius="10px"
-                        slideNumber={false}
-                        slideNumberStyle={slideNumberStyle}
-                        captionPosition="bottom"
-                        automatic={false}
-                        dots={true}
-                        pauseIconColor="black"
-                        pauseIconSize="40px"
-                        slideBackgroundColor="#fff"
-                        slideImageFit="contain"
-                        thumbnails={true}
-                        thumbnailWidth="100px"
-                        style={{
-                            textAlign: "center",
-                            maxWidth: "850px",
-                            maxHeight: "500px",
-                            margin: "0 auto",
-                        }}
-                    />
+                    <CarouselItemDetail images={images2} />
                 </div>
                 <div className='itemDetailInfo'>
                     <h2>{producto.title}</h2>
