@@ -8,12 +8,6 @@ const ItemsProvider = ({ children }) => {
     const [precioTotal, setPrecioTotal] = useState(0)
     const [totalItems, setTotalItems] = useState(0)
     const [preferenceId, setPreferenceId] = useState(null)
-    const [colorS, setColorS] = useState()
-
-    const colorSelectHandler = (color) => {
-        setColorS(color)
-        console.log(colorS)
-    }
 
     const addItemToCart = (producto) => {
         if (productosAgregados.length === 0) {
@@ -69,7 +63,7 @@ const ItemsProvider = ({ children }) => {
 
     return (
         <div>
-            <CartContext.Provider value={{addItemToCart, removeItemFromCart, clearAllItems, moreItemsOnCart, colorSelectHandler, colorS, lessItemsOnCart, setPreferenceId, preferenceId, productosAgregados, precioTotal, totalItems}}>
+            <CartContext.Provider value={{addItemToCart, removeItemFromCart, clearAllItems, moreItemsOnCart, lessItemsOnCart, setPreferenceId, preferenceId, productosAgregados, precioTotal, totalItems}}>
                 {children}
             </CartContext.Provider>
         </div>

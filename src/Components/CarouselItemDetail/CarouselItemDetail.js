@@ -1,56 +1,51 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import './CarouselItemDetail.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { faCircleArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { CartContext } from "../../Contextos/CartContext";
 
-const CarouselItemDetail = ({ images }) => {
+const CarouselItemDetail = ({ images, colorP }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [colorES, setColorES] = useState()
-  const { colorS } = useContext(CartContext)
 
   useEffect(() => {
-    switch (colorS) {
+    let found = false
+    switch (colorP) {
       case 'white':
-        setColorES('blanco')
+        found = images.find(image => image.includes('blanco'))
         break;
       case 'beige':
-        setColorES('beige')
+        found = images.find(image => image.includes('beige'))
         break;
       case 'yellow':
-        setColorES('amarillo')
+        found = images.find(image => image.includes('amarillo'))
         break;
       case 'pink':
-        setColorES('rosado')
+        found = images.find(image => image.includes('rosado'))
         break;
       case 'green':
-        setColorES('verde')
+        found = images.find(image => image.includes('verde'))
         break;
       case 'violet':
-        setColorES('violeta')
+        found = images.find(image => image.includes('violeta'))
         break;
       case 'blue':
-        setColorES('azul')
+        found = images.find(image => image.includes('azul'))
         break;
       case 'black':
-        setColorES('negro')
+        found = images.find(image => image.includes('negro'))
         break;
       case 'red':
-        setColorES('rojo')
+        found = images.find(image => image.includes('rojo'))
         break;
       default:
-        setColorES('')
+        found = false;
         break;
     }
-    let found = images.find(image => image.includes(`${colorES}`))
     let indx = images.indexOf(found)
-    moveToIndex(indx)
-    // eslint-disable-next-line
-  }, [colorS])
+    indx !== -1 && moveToIndex(indx)
+  }, [colorP, images])
 
   const handleNext = () => {
-    // setCurrentIndex()
     setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
     console.log('hola')
     console.log(currentIndex)
@@ -66,6 +61,7 @@ const CarouselItemDetail = ({ images }) => {
   };
 
   const moveToIndex = (index) => {
+    console.log('hola')
     setCurrentIndex(index);
   }
 

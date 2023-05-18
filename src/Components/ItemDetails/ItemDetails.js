@@ -10,7 +10,8 @@ const ItemDetails = ({idProd}) => {
     const [producto, setProducto] = useState({})
     const [images2, setImages] = useState([])
     const [talleSelec, setTalleSelec] = useState()
-    const { addItemToCart, colorSelectHandler } = useContext(CartContext)
+    const [colorP, setColorP] = useState()
+    const { addItemToCart } = useContext(CartContext)
 
     useEffect(() => {
         const db = getFirestore()
@@ -47,8 +48,7 @@ const ItemDetails = ({idProd}) => {
       }
 
       const selectColor = (ev) => {
-        console.log(ev.target.id)
-        colorSelectHandler(ev.target.id)
+        setColorP(ev.target.id)
       }
 
     return (
@@ -56,7 +56,7 @@ const ItemDetails = ({idProd}) => {
         {images2.length !== 0 ? (
             <div className='itemDetails'>
                 <div className="itemDetailCarousel">
-                    <CarouselItemDetail images={images2}/>
+                    <CarouselItemDetail colorP={colorP} images={images2}/>
                 </div>
                 <div className='itemDetailInfo'>
                     <h2>{producto.title}</h2>
