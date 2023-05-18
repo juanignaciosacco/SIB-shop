@@ -46,6 +46,7 @@ const CarouselItemDetail = ({ images }) => {
     let found = images.find(image => image.includes(`${colorES}`))
     let indx = images.indexOf(found)
     moveToIndex(indx)
+    // eslint-disable-next-line
   }, [colorS])
 
   const handleNext = () => {
