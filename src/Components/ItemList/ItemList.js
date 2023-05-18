@@ -88,7 +88,7 @@ const ItemList = ({isLogged, nuevosIngresos, isFiltered, remerasF, camisasF, swe
                 }
             })
         } 
-        console.log(prodFiltrados)
+        // eslint-disable-next-line
     }, [remerasF, camisasF, sweatersF])
     
     useEffect(() => {
@@ -120,7 +120,6 @@ const ItemList = ({isLogged, nuevosIngresos, isFiltered, remerasF, camisasF, swe
                     </div>
                 )
                 )}
-                
                 {isLogged && <UploadItem />}
         </div>
     )

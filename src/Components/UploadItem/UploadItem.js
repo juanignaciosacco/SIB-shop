@@ -9,7 +9,7 @@ const UploadItem = () => {
     const [nombreProd, setNombreProd] = useState('')
     const [precioProd, setPrecioProd] = useState('')
     const [categoriaProd, setCategoriaProd] = useState('SweatersYBuzos')
-    const [colores, setColores] = useState([{ color: "#ffffff", stock: "" }]);
+    const [colores, setColores] = useState([{ color: "#ffffff", stock: ""}]);
     const [materialesProd, setMaterialesProd] = useState('')
     const [stockProd, setStockProd] = useState('')
     const [largo, setLargo] = useState('')
@@ -62,7 +62,7 @@ const UploadItem = () => {
 
     const handleAddColor = (ev) => {
         ev.preventDefault()
-        setColores([...colores, { color: "#ffffff", stock: "" }]);
+        setColores([...colores, { color: "#ffffff", stock: ""}]);
         console.log(colores)
     }
 
@@ -96,6 +96,7 @@ const UploadItem = () => {
         var results = []
         try {
             for (const i of file) {
+                console.log(i)
                 results.push(await uploadFile(i))
             }
         } catch (error) {
@@ -163,18 +164,18 @@ const UploadItem = () => {
                         <input type='checkbox' value='talleUnico' name='talle'  />Talle unico
                     </div>
                 </div>
-                <label htmlFor='Colores'>Colores</label>
-                <div>
-                <h2>Administrar colores y stocks</h2>
-                    {colores.map((colorStock, index) => (
-                        <ColorStockInput
-                        key={index}
-                        colorStock={colorStock}
-                        onChange={(newColorStock) => handleColorChange(index, newColorStock)}
-                        onDelete={() => handleDeleteColor(index)}
-                        />
-                    ))}
-                    <button onClick={handleAddColor}>Agregar color</button>
+                <div className='colores'>
+                    <label htmlFor='Colores'>Colores</label>
+                    <label>Administrar colores y stocks</label>
+                        {colores.map((colorStock, index) => (
+                            <ColorStockInput
+                            key={index}
+                            colorStock={colorStock}
+                            onChange={(newColorStock) => handleColorChange(index, newColorStock)}
+                            onDelete={() => handleDeleteColor(index)}
+                            />
+                        ))}
+                        <button onClick={handleAddColor}>Agregar color</button>
                 </div>
                 <label htmlFor="Materiales">Materiales</label>
                 <input className='formInputs' name="materiales" id="materiales" onChange={materialesChangeHandler} value={materialesProd}/>

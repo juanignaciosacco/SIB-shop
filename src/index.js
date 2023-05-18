@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { v4 } from 'uuid';
+// import { v4 } from 'uuid';
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -35,7 +35,7 @@ export async function deletFile(file) {
 }
 
 export async function uploadFile(file) {
-  const storageRef = ref(storage, v4())
+  const storageRef = ref(storage, file.name)
   await uploadBytes(storageRef, file)
   const url = await getDownloadURL(storageRef)
   return url

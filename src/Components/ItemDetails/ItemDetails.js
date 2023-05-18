@@ -10,7 +10,7 @@ const ItemDetails = ({idProd}) => {
     const [producto, setProducto] = useState({})
     const [images2, setImages] = useState([])
     const [talleSelec, setTalleSelec] = useState()
-    const { addItemToCart } = useContext(CartContext)
+    const { addItemToCart, colorSelectHandler } = useContext(CartContext)
 
     useEffect(() => {
         const db = getFirestore()
@@ -46,12 +46,17 @@ const ItemDetails = ({idProd}) => {
         addItemToCart(productoACarrito)
       }
 
+      const selectColor = (ev) => {
+        console.log(ev.target.id)
+        colorSelectHandler(ev.target.id)
+      }
+
     return (
         <div className='itemDetailsContainer'>
         {images2.length !== 0 ? (
             <div className='itemDetails'>
                 <div className="itemDetailCarousel">
-                    <CarouselItemDetail images={images2} />
+                    <CarouselItemDetail images={images2}/>
                 </div>
                 <div className='itemDetailInfo'>
                     <h2>{producto.title}</h2>
@@ -83,7 +88,7 @@ const ItemDetails = ({idProd}) => {
                         <h4>Colores:</h4>
                         {
                             producto.Colores.length !== 0 && (producto.Colores.map((color, index) => (
-                                <button className='colorBtnItemDetails' key={index} id={color.color} style={{backgroundColor: `${color.color}`}}/>
+                                <button className='colorBtnItemDetails' onClick={selectColor} key={index} id={color.color} style={{backgroundColor: `${color.color}`}}/>
                             )
                         ))}
                     </div>

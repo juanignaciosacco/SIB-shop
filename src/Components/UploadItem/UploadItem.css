@@ -46,3 +46,18 @@
 .stockTalle {
     width: 100px;
 }
+
+.colores {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.colores input {
+    margin-top: 10px;
+}
+
+.colores button {
+    margin-top: 10px;
+}
+
