@@ -11,7 +11,7 @@ const EditItem = ({ producto }) => {
     const [categoriaProdEdit, setCategoriaProd] = useState(producto.category_id)
     const [materialesProdEdit, setMaterialesProd] = useState(producto.Materiales)
     const [stockProd, setStockProd] = useState(producto.Stock)
-    const [colores, setColores] = useState([producto.Colores]);
+    const [colores, setColores] = useState(producto.Colores);
     const [largoEdit, setLargoEdit] = useState(producto.Largo)
     const [anchoEdit, setAnchoEdit] = useState(producto.AnchoBusto)
     const [ruedoEdit, setRuedoEdit] = useState(producto.Ruedo)
@@ -22,10 +22,6 @@ const EditItem = ({ producto }) => {
     const tallesDisponibles = ["XS", "S", "M", "L", "XL"];
     const db = getFirestore()
     const items2 = collection(db, 'productos')
-
-    // useEffect(() => {
-    //     console.log(colores)
-    // }, [])
 
     const nombreChangeHandler = (ev) => {
         setNombreProd(ev.target.value)
@@ -71,20 +67,17 @@ const EditItem = ({ producto }) => {
     deleteDoc(doc(db, 'productos', producto.id))
     }
 
+    const handleStockChange = (index, newStock) => {
+        setColores((prevColoresStocks) => {
+          const updatedColoresStocks = [...prevColoresStocks];
+          updatedColoresStocks[index].stock = newStock;
+          return updatedColoresStocks;
+        });
+      };
+
     const handleAddColor = (ev) => {
         ev.preventDefault()
         setColores([...colores, { color: "#ffffff", stock: "" }]);
-        console.log(colores)
-    }
-
-    const handleColorChange = (index, newColorStock) => {
-        setColores((prevColores) =>
-        prevColores.map((colorStock, i) => (i === index ? newColorStock : colorStock))
-        );
-      }
-
-    const handleDeleteColor = (index) => {
-    setColores((prevColores) => prevColores.filter((_, i) => i !== index));
     }
 
     const handleTalleChange = (talle, stock) => {
@@ -209,21 +202,19 @@ const EditItem = ({ producto }) => {
                     </div>
                   ))}
               </div>
-
                 <label htmlFor='Colores'>Colores</label>
                 <div>
                 {colores.map((colorStock, index) => (
-                    <div>
                         <ColorStockInput
-                        key={index}
-                        color={colorStock.color}
-                        stock={colorStock.stock}
-                        index={index}
-                        onChange={(newColorStock) => handleColorChange(index, newColorStock)}
-                        onDelete={handleDeleteColor}
+                          key={index}
+                          color={colorStock.color}
+                          stock={colorStock.stock}
+                          onStockChange={(newStock) => handleStockChange(index, newStock)}
                         />
+                      ))}
+                    <div>
+
                     </div>
-                ))}
                 <button onClick={handleAddColor}>Agregar color</button>
                 </div>
               <label htmlFor='materiales'>Materiales</label>

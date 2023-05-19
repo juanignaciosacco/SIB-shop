@@ -23,7 +23,7 @@ const ItemDetails = ({idProd}) => {
                 }
             })
     }, [idProd])
-
+    
     useEffect(() => {
         let list = [{}]
         for (let key in producto) {

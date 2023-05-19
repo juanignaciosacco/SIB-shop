@@ -1,6 +1,6 @@
-const ColorStockInput = ({ colorStock, onChange, onDelete }) => {
+const ColorStockInput = ({ color, stock, onStockChange, onDelete }) => {
 
-    const { color, stock } = colorStock;
+    // const { color, stock } = colorStock;
   
     return (
       <div>
@@ -13,7 +13,7 @@ const ColorStockInput = ({ colorStock, onChange, onDelete }) => {
             marginRight: 10,
           }}
         />
-        <select value={color} onChange={(e) => onChange({ color: e.target.value, stock })}>
+        <select value={color} onChange={(e) => onStockChange({ color: e.target.value, stock })}>
           <option value="">Seleccione un color</option>
           <option value="white">Blanco</option>
           <option value="beige">Beige</option>
@@ -25,7 +25,7 @@ const ColorStockInput = ({ colorStock, onChange, onDelete }) => {
           <option value="black">Negro</option>
           <option value="red">Rojo</option>
         </select>
-        <input type="number" placeholder="Stock" value={stock} onChange={(e) => onChange({ color, stock: e.target.value })} />
+        <input type="number" placeholder="Stock" value={stock} onChange={(e) => onStockChange({ color, stock: e.target.value })} />
         <button onClick={onDelete}>Eliminar</button>
       </div>
     );
