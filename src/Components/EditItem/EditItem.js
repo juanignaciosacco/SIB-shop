@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { deleteDoc, doc, getFirestore, updateDoc, collection } from 'firebase/firestore'
 import { uploadFile, deletFile } from "../../index"
-import ColorStockInput from "../ColorStockInput/ColorStockInput"
+import ColorInput from "../ColorInput/ColorInput"
 
 const EditItem = ({ producto }) => {
 
@@ -11,7 +11,7 @@ const EditItem = ({ producto }) => {
     const [categoriaProdEdit, setCategoriaProd] = useState(producto.category_id)
     const [materialesProdEdit, setMaterialesProd] = useState(producto.Materiales)
     const [stockProd, setStockProd] = useState(producto.Stock)
-    const [colores, setColores] = useState(producto.Colores);
+    const [selectedColors, setSelectedColors] = useState(producto.Colores);
     const [largoEdit, setLargoEdit] = useState(producto.Largo)
     const [anchoEdit, setAnchoEdit] = useState(producto.AnchoBusto)
     const [ruedoEdit, setRuedoEdit] = useState(producto.Ruedo)
@@ -66,19 +66,10 @@ const EditItem = ({ producto }) => {
     }
     deleteDoc(doc(db, 'productos', producto.id))
     }
-
-    const handleStockChange = (index, newStock) => {
-        setColores((prevColoresStocks) => {
-          const updatedColoresStocks = [...prevColoresStocks];
-          updatedColoresStocks[index].stock = newStock;
-          return updatedColoresStocks;
-        });
-      };
-
-    const handleAddColor = (ev) => {
-        ev.preventDefault()
-        setColores([...colores, { color: "#ffffff", stock: "" }]);
-    }
+      
+    const handleColorChange = (colors) => {
+        setSelectedColors(colors);
+    };
 
     const handleTalleChange = (talle, stock) => {
     const newTalles = [...talles];
@@ -124,7 +115,7 @@ const EditItem = ({ producto }) => {
         Precio: precioProdEdit,
         Categoria: categoriaProdEdit,
         Talles: talles,
-        Colores: colores,
+        Colores: selectedColors,
         Materiales: materialesProdEdit,
         Largo: largoEdit,
         AnchoBusto: anchoEdit,
@@ -151,7 +142,7 @@ const EditItem = ({ producto }) => {
         Precio: precioProdEdit,
         Categoria: categoriaProdEdit,
         Talles: talles,
-        Colores: colores,
+        Colores: selectedColors,
         Materiales: materialesProdEdit,
         Largo: largoEdit,
         AnchoBusto: anchoEdit,
@@ -204,18 +195,11 @@ const EditItem = ({ producto }) => {
               </div>
                 <label htmlFor='Colores'>Colores</label>
                 <div>
-                {colores.map((colorStock, index) => (
-                        <ColorStockInput
-                          key={index}
-                          color={colorStock.color}
-                          stock={colorStock.stock}
-                          onStockChange={(newStock) => handleStockChange(index, newStock)}
-                        />
-                      ))}
-                    <div>
-
-                    </div>
-                <button onClick={handleAddColor}>Agregar color</button>
+                    <ColorInput
+                        selectedColors={selectedColors}
+                        onColorChange={handleColorChange}
+                        existingColors={selectedColors}
+                    />
                 </div>
               <label htmlFor='materiales'>Materiales</label>
               <input name='materiales' id='materiales' onChange={materialesChangeHandler} />

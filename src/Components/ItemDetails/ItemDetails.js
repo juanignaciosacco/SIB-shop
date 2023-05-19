@@ -88,7 +88,7 @@ const ItemDetails = ({idProd}) => {
                         <h4>Colores:</h4>
                         {
                             producto.Colores.length !== 0 && (producto.Colores.map((color, index) => (
-                                <button className='colorBtnItemDetails' onClick={selectColor} key={index} id={color.color} style={{backgroundColor: `${color.color}`}}/>
+                                <button className='colorBtnItemDetails' onClick={selectColor} key={index} id={color} style={{backgroundColor: `${color}`}}/>
                             )
                         ))}
                     </div>

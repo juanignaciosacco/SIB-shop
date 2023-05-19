@@ -2,14 +2,13 @@ import './UploadItem.css'
 import { getFirestore, doc, collection, setDoc } from "firebase/firestore"
 import { useState } from "react"
 import { uploadFile } from '../../index'
-import ColorStockInput from '../ColorStockInput/ColorStockInput'
+import ColorInput from '../ColorInput/ColorInput'
 
 const UploadItem = () => {
 
     const [nombreProd, setNombreProd] = useState('')
     const [precioProd, setPrecioProd] = useState('')
     const [categoriaProd, setCategoriaProd] = useState('SweatersYBuzos')
-    const [colores, setColores] = useState([{ color: "#ffffff", stock: ""}]);
     const [materialesProd, setMaterialesProd] = useState('')
     const [stockProd, setStockProd] = useState('')
     const [largo, setLargo] = useState('')
@@ -21,6 +20,11 @@ const UploadItem = () => {
     const items2 = collection(db, 'productos')
     const [talles, setTalles] = useState([]);
     const tallesDisponibles = ["XS", "S", "M", "L", "XL"];
+    const [selectedColors, setSelectedColors] = useState([]);
+
+    const handleColorChange = (colors) => {
+      setSelectedColors(colors);
+    };
     
 
     const nombreChangeHandler = (ev) => {
@@ -60,22 +64,6 @@ const UploadItem = () => {
         setNIProd(ev.target.value)
     }
 
-    const handleAddColor = (ev) => {
-        ev.preventDefault()
-        setColores([...colores, { color: "#ffffff", stock: ""}]);
-        console.log(colores)
-    }
-
-    const handleColorChange = (index, newColorStock) => {
-        setColores((prevColores) =>
-        prevColores.map((colorStock, i) => (i === index ? newColorStock : colorStock))
-        );
-      }
-
-    const handleDeleteColor = (index) => {
-    setColores((prevColores) => prevColores.filter((_, i) => i !== index));
-    }
-
     const handleTalleChange = (talle, stock) => {
         const newTalles = [...talles];
         const index = newTalles.findIndex((item) => item.talle === talle);
@@ -112,7 +100,7 @@ const UploadItem = () => {
                 AnchoBusto: ancho,
                 Ruedo: ruedo,
                 NuevoIngreso: NIProd,
-                Colores: colores,
+                Colores: selectedColors,
                 Talles: talles,
                 picture_url: results
             })
@@ -167,15 +155,7 @@ const UploadItem = () => {
                 <div className='colores'>
                     <label htmlFor='Colores'>Colores</label>
                     <label>Administrar colores y stocks</label>
-                        {colores.map((colorStock, index) => (
-                            <ColorStockInput
-                            key={index}
-                            colorStock={colorStock}
-                            onChange={(newColorStock) => handleColorChange(index, newColorStock)}
-                            onDelete={() => handleDeleteColor(index)}
-                            />
-                        ))}
-                        <button onClick={handleAddColor}>Agregar color</button>
+                    <ColorInput selectedColors={selectedColors} onColorChange={handleColorChange} />
                 </div>
                 <label htmlFor="Materiales">Materiales</label>
                 <input className='formInputs' name="materiales" id="materiales" onChange={materialesChangeHandler} value={materialesProd}/>

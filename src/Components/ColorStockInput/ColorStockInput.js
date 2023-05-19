@@ -1,19 +1,19 @@
-const ColorStockInput = ({ color, stock, onStockChange, onDelete }) => {
-
-    // const { color, stock } = colorStock;
-  
-    return (
-      <div>
-        <div
-          style={{
-            display: "inline-block",
-            width: 20,
-            height: 20,
-            backgroundColor: `${color}`,
-            marginRight: 10,
-          }}
-        />
-        <select value={color} onChange={(e) => onStockChange({ color: e.target.value, stock })}>
+const ColorStockInput = ({ color, stock, onColorChange, onStockChange, onDelete }) => {
+  return (
+    <div>
+      <div
+        style={{
+          display: "inline-block",
+          width: 20,
+          height: 20,
+          backgroundColor: `${color}`,
+          marginRight: 10,
+        }}
+      />
+      <select
+        value={color}
+        onChange={(e) => onColorChange(e.target.value)}
+      >
           <option value="">Seleccione un color</option>
           <option value="white">Blanco</option>
           <option value="beige">Beige</option>
@@ -25,10 +25,15 @@ const ColorStockInput = ({ color, stock, onStockChange, onDelete }) => {
           <option value="black">Negro</option>
           <option value="red">Rojo</option>
         </select>
-        <input type="number" placeholder="Stock" value={stock} onChange={(e) => onStockChange({ color, stock: e.target.value })} />
-        <button onClick={onDelete}>Eliminar</button>
-      </div>
-    );
-  }  
+        <input
+        type="number"
+        placeholder="Stock"
+        value={stock}
+        onChange={(e) => onStockChange(color, e.target.value)}
+      />
+      <button onClick={onDelete}>Eliminar</button>
+    </div>
+  );
+};
 
 export default ColorStockInput;
