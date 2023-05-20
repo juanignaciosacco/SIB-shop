@@ -24,7 +24,7 @@ const ItemList = ({isLogged, nuevosIngresos, isFiltered, remerasF, camisasF, swe
                 setProductos(arrayProds)
         })
         .catch((error) => console.log(error))
-    })
+    }, [prodCollection])
 
     useEffect(() => {
         if (remerasF) {
@@ -88,8 +88,8 @@ const ItemList = ({isLogged, nuevosIngresos, isFiltered, remerasF, camisasF, swe
                 }
             })
         } 
-        // eslint-disable-next-line
-    }, [remerasF, camisasF, sweatersF])
+
+    }, [camisasF, sweatersF, remerasF, prodCollection, prodFiltrados])
     
     useEffect(() => {
         const arrayNuevos = productos.filter((prod) => (
@@ -103,7 +103,7 @@ const ItemList = ({isLogged, nuevosIngresos, isFiltered, remerasF, camisasF, swe
                 <div className='nuevosIngresosItemList'>
                     {prodNuevos.map((prod) => (
                             <ItemCard producto={prod} isLogged={isLogged} key={prod.id}  />
-                            ))}
+                    ))}
                 </div>
             ):(
                 isFiltered ? (

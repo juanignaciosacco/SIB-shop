@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-// import { v4 } from 'uuid';
+import { v4 } from 'uuid';
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -25,17 +25,19 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const storage = getStorage(app)
 
+
 export async function deletFile(file) {
   const desertRef = ref(storage, file)
   await deleteObject(desertRef).then(() => {
-    console.log("Se borro la imagen exitosamente")
+    alert("Se borro la imagen exitosamente")
   }).catch((error) => {
     console.log(error)
   })
 }
 
 export async function uploadFile(file) {
-  const storageRef = ref(storage, file.name)
+  const name = v4() + file.name
+  const storageRef = ref(storage, name)
   await uploadBytes(storageRef, file)
   const url = await getDownloadURL(storageRef)
   return url
