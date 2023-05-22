@@ -21,16 +21,18 @@ const EditItem = ({ producto }) => {
     const tallesDisponibles = ["XS", "S", "M", "L", "XL"];
     const db = getFirestore()
     const items2 = collection(db, 'productos')
-    const [selectedColors, setSelectedColors] = useState(producto.Colores);
-    const [colorData, setColorData] = useState([]);
+    const [colors, setColors] = useState(producto.Colores);
 
-  
-    const handleColorChange = (colors) => {
-      setSelectedColors(colors);
+    const handleColorSelect = (colorItem) => {
+      setColors((prevColors) => [...prevColors, colorItem]);
     };
   
-    const handleColorDataChange = (data) => {
-      setColorData(data);
+    const handleColorDelete = (index) => {
+      setColors((prevColors) => {
+        const updatedColors = [...prevColors];
+        updatedColors.splice(index, 1);
+        return updatedColors;
+      });
     };
 
     const nombreChangeHandler = (ev) => {
@@ -38,11 +40,11 @@ const EditItem = ({ producto }) => {
     }
     
     const precioChangeHandler = (ev) => {
-    setPrecioProd(ev.target.value)
+        setPrecioProd(ev.target.value)
     }
 
     const categoriaChangeHandler = (ev) => {
-    setCategoriaProd(ev.target.value)
+        setCategoriaProd(ev.target.value)
     }
 
     const materialesChangeHandler = (ev) => {
@@ -54,7 +56,7 @@ const EditItem = ({ producto }) => {
     }
 
     const largoChangeHandler = (ev) => {
-    setLargoEdit(ev.target.value)
+        setLargoEdit(ev.target.value)
     }
 
     const anchoBustoChangeHandler = (ev) => {
@@ -66,99 +68,96 @@ const EditItem = ({ producto }) => {
     }
 
     const NIChangeHandler = (ev) => {
-    setNIProd(ev.target.value)
+        setNIProd(ev.target.value)
     }
 
     const handleDelete = () => {
-    var results = producto.picture_url
-    for (const i of results) {
-        deletFile(i)
-    }
-    deleteDoc(doc(db, 'productos', producto.id))
+        var results = producto.picture_url
+        for (const i of results) {
+            deletFile(i)
+        }
+        deleteDoc(doc(db, 'productos', producto.id))
     }
       
-
-
     const handleTalleChange = (talle, stock) => {
-    const newTalles = [...talles];
-    const index = newTalles.findIndex((item) => item.talle === talle);
-    if (index !== -1) {
-        if (stock === undefined) {
-        newTalles.splice(index, 1);
+        const newTalles = [...talles];
+        const index = newTalles.findIndex((item) => item.talle === talle);
+        if (index !== -1) {
+            if (stock === undefined) {
+            newTalles.splice(index, 1);
+            } else {
+            newTalles[index].stock = stock;
+            }
         } else {
-        newTalles[index].stock = stock;
+            newTalles.push({ talle, stock });
         }
-    } else {
-        newTalles.push({ talle, stock });
-    }
-    setTalles(newTalles);
+        setTalles(newTalles);
     }
 
     const handleEdit = () => {
-    setEditing(true)
-    isEditing && setEditing(false)
+        setEditing(true)
+        isEditing && setEditing(false)
     }
 
     const imgDeleteClickHandle = async (ev) => {
-    const srcToDelete = ev.target.currentSrc
-    var results = producto.picture_url
-    try {
-        await deletFile(srcToDelete)
-        console.log('Exitoso')
-    } catch (error) {
-        console.log(error)
-    }
-    const newImages = files.filter(img => srcToDelete !== img)
-    setFiles(newImages)
-    for (const i of results) {
-        if (i === srcToDelete) {
-        const indexToSplice = (results.indexOf(i))
-        results.splice(indexToSplice, 1)
+        const srcToDelete = ev.target.currentSrc
+        var results = producto.picture_url
+        try {
+            await deletFile(srcToDelete)
+            console.log('Exitoso')
+        } catch (error) {
+            console.log(error)
         }
-    }
-    console.log(results)
-    const prod = doc(items2, `${producto.id}`)
-    updateDoc(prod, {
-        Nombre: nombreProdEdit,
-        Precio: precioProdEdit,
-        Categoria: categoriaProdEdit,
-        Talles: talles,
-        Colores: selectedColors,
-        Materiales: materialesProdEdit,
-        Largo: largoEdit,
-        AnchoBusto: anchoEdit,
-        Ruedo: ruedoEdit,
-        picture_url: results,
-        NuevoIngreso: NIProd
-    })
+        const newImages = files.filter(img => srcToDelete !== img)
+        setFiles(newImages)
+        for (const i of results) {
+            if (i === srcToDelete) {
+            const indexToSplice = (results.indexOf(i))
+            results.splice(indexToSplice, 1)
+            }
+        }
+        const prod = doc(items2, `${producto.id}`)
+        updateDoc(prod, {
+            Nombre: nombreProdEdit,
+            Precio: precioProdEdit,
+            Categoria: categoriaProdEdit,
+            Talles: talles,
+            Colores: colors,
+            Materiales: materialesProdEdit,
+            Largo: largoEdit,
+            AnchoBusto: anchoEdit,
+            Ruedo: ruedoEdit,
+            picture_url: results,
+            NuevoIngreso: NIProd
+        })
     }
     
     const updateProduct = async (ev) => {
-    ev.preventDefault()
-    var results = producto.picture_url
-    try {
-        for (const i of file) {
-            results.push(await uploadFile(i))
-        }
-        } catch (error) {
-        alert('Fallo interno, avisale a juanchi ', error)
-        }
-    const prod = doc(items2, `${producto.id}`)
-    
-    updateDoc(prod, {
-        Nombre: nombreProdEdit,
-        Precio: precioProdEdit,
-        Categoria: categoriaProdEdit,
-        Talles: talles,
-        Colores: selectedColors,
-        Materiales: materialesProdEdit,
-        Largo: largoEdit,
-        AnchoBusto: anchoEdit,
-        Ruedo: ruedoEdit,
-        picture_url: results,
-        NuevoIngreso: NIProd
-    })
-    setEditing(false)
+        ev.preventDefault()
+        var results = producto.picture_url
+        try {
+            for (const i of file) {
+                results.push(await uploadFile(i))
+            }
+            } catch (error) {
+            alert('Fallo interno, avisale a juanchi ', error)
+            }
+        const prod = doc(items2, `${producto.id}`)
+        
+        updateDoc(prod, {
+            Nombre: nombreProdEdit,
+            Precio: precioProdEdit,
+            Categoria: categoriaProdEdit,
+            Talles: talles,
+            Colores: colors,
+            Materiales: materialesProdEdit,
+            Largo: largoEdit,
+            AnchoBusto: anchoEdit,
+            Ruedo: ruedoEdit,
+            picture_url: results,
+            NuevoIngreso: NIProd
+        })
+        setEditing(false)
     }
 
     return (
@@ -203,13 +202,25 @@ const EditItem = ({ producto }) => {
               </div>
                 <label htmlFor='Colores'>Colores</label>
                 <div>
-                <ColorInput
-                    selectedColors={selectedColors}
-                    onColorChange={handleColorChange}
-                    colorData={colorData}
-                    onColorDataChange={handleColorDataChange}
-                    existingColors={selectedColors}
-                />
+                <ColorInput onSelectColor={handleColorSelect} onColorDelete={handleColorDelete}/>
+                    <h2>Colores seleccionados:</h2>
+                    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                    {colors.map((colorItem, index) => (
+                        <div key={index} style={{ display: 'flex', alignItems: 'center', marginRight: '10px' }}>
+                            <div style={{ width: '30px', height: '30px', backgroundColor: colorItem.color, border: '1px solid black', marginRight: '5px' }}>
+                            </div>
+                            <button onClick={(event) => handleColorDelete(index, event)}>Eliminar</button>
+                            <div>
+                                Talles:
+                                {Object.entries(colorItem.sizes).map(([size, stock]) => (
+                                    <div key={size}>
+                                        {size}, Stock: {stock}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        ))}
+                    </div>
                 </div>
               <label htmlFor='materiales'>Materiales</label>
               <input name='materiales' id='materiales' onChange={materialesChangeHandler} />
