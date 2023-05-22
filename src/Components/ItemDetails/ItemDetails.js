@@ -9,9 +9,11 @@ const ItemDetails = ({idProd}) => {
     
     const [producto, setProducto] = useState({})
     const [images2, setImages] = useState([])
-    const [talleSelec, setTalleSelec] = useState()
+    const [talleSelec, setTalleSelec] = useState('')
     const [colorP, setColorP] = useState()
     const { addItemToCart } = useContext(CartContext)
+    const [colorSeleccionado, setColorSeleccionado] = useState(false)
+    const [talleSeleccionado, setTalleSeleccionado] = useState('')
 
     useEffect(() => {
         const db = getFirestore()
@@ -35,7 +37,11 @@ const ItemDetails = ({idProd}) => {
     }, [producto])
 
       const selectTalleHandler = (ev) => {
-        setTalleSelec(ev.target.value)
+        ev.target.value !== 'Selecciona un talle' ? (
+            setTalleSelec(ev.target.value)
+        ) : (
+            setTalleSelec('')
+        )
       }
 
       const addItemToCartList = () => {
@@ -49,6 +55,12 @@ const ItemDetails = ({idProd}) => {
 
       const selectColor = (ev) => {
         setColorP(ev.target.id)
+        setColorSeleccionado(true)
+        setTalleSeleccionado('')
+      }
+
+      const selectTalle = (ev) => {
+        setTalleSeleccionado(ev.target.id)
       }
 
     return (
@@ -59,17 +71,18 @@ const ItemDetails = ({idProd}) => {
                     <CarouselItemDetail colorP={colorP} images={images2}/>
                 </div>
                 <div className='itemDetailInfo'>
-                    <h2>{producto.title}</h2>
-                    <h3>${producto.price}</h3>
-                    <hr />
-                    <h4>Hecho en Uruguay</h4>
+                    <h1>{producto.title}</h1>
+                    <h2>${producto.price}</h2>
+                    <hr style={{marginBottom: '30px', marginTop: '30px'}}/>
+                    <h3>Hecho en Uruguay</h3>
                     <p>Materiales: {producto.Materiales}</p>
-                    <hr />
-                    <h4>Medidas</h4>
+                    <hr style={{marginBottom: '30px', marginTop: '30px'}}/>
+                    <h3>Medidas</h3>
                     {producto.Talles.length >= 1 ? (
                         <div>
                             <p>Talles: </p>
                             <select onChange={selectTalleHandler}>
+                                <option>Selecciona un talle</option>
                                 {producto.Talles.map((prod) =>( 
                                     <option name={prod.talle} value={prod.talle} id={prod.talle}>{prod.talle}</option>
                                 ))}
@@ -83,14 +96,35 @@ const ItemDetails = ({idProd}) => {
                     {producto.Largo !== '0' && producto.Largo !== '' &&  <p>- Largo: {producto.Largo} cm</p>}
                     {producto.AnchoBusto !== '0' && producto.AnchoBusto !== '' &&  <p>- Ancho Busto: {producto.AnchoBusto} cm</p>}
                     {producto.Ruedo !== '0' && producto.Ruedo !== '' && <p>- Ruedo: {producto.Ruedo} cm</p>}
-                    <hr />
+                    <hr style={{marginBottom: '30px', marginTop: '30px'}}/>
                     <div id='coloresDetailsContainer'>
-                        <h4>Colores:</h4>
-                        {
-                            producto.Colores.length !== 0 && (producto.Colores.map((color, index) => (
+                        <h3>Colores:</h3>        
+                        <div>
+                        {producto.Colores.length !== 0 && (producto.Colores.map((color, index) => (
+                            // eslint-disable-next-line
+                            Object.keys(color.sizes) == `${talleSelec}` ? (
                                 <button className='colorBtnItemDetails' onClick={selectColor} key={index} id={color.color} style={{backgroundColor: `${color.color}`}}/>
-                            )
-                        ))}
+                            ):(talleSelec === '' && (
+                                <button className='colorBtnItemDetails' onClick={selectColor} key={index} id={color.color} style={{backgroundColor: `${color.color}`}}/>
+                            ))
+                            )))}
+                        </div>
+                        {colorSeleccionado && (
+                            <div>
+                                <h3>Color seleccionado para agregar a carrito</h3>
+                                <div className='colorBtnItemDetails' style={{backgroundColor: `${colorP}`, marginBottom: '15px'}}></div>
+                                <label style={{marginRight: '10px'}}>Selecciona un talle:</label>
+                                <div className='talleSelection'>
+                                    {producto.Colores.map((color) => (
+                                        color.color === colorP && (
+                                            Object.entries(color.sizes).map(([size, index]) => (
+                                                <div className={talleSeleccionado === size ? 'tallesDetails seleccionado' : 'tallesDetails'} onClick={selectTalle} id={size} key={index}>{size}</div>
+                                            ))
+                                        )
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </div>
                     <Link to={'/carrito'}><button className='btn' onClick={addItemToCartList}>Agregar al carrito</button></Link>
                 </div>

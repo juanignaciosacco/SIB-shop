@@ -16,24 +16,25 @@ const UploadItem = () => {
     const [ruedo, setRuedo] = useState('')
     const [NIProd, setNIProd] = useState()
     const [file, setFile] = useState()
+    const [colorItems, setColorItems] = useState([]);
+    const tallesDisponibles = ["XS", "S", "M", "L", "XL"];
+    const [talles, setTalles] = useState([]);
+    
     const db = getFirestore()
     const items2 = collection(db, 'productos')
-    const [talles, setTalles] = useState([]);
-    const tallesDisponibles = ["XS", "S", "M", "L", "XL"];
-    const [colorItems, setColorItems] = useState([]);
       
     const handleColorSelect = (colorItem) => {
         setColorItems((prevColorItems) => [...prevColorItems, colorItem]);
-      };
+    };
 
-      const handleColorDelete = (index, event) => {
-        event.preventDefault();
-        setColorItems((prevColorItems) => {
-          const updatedColorItems = [...prevColorItems];
-          updatedColorItems.splice(index, 1);
-          return updatedColorItems;
-        });
-      };
+    const handleColorDelete = (index, event) => {
+    event.preventDefault();
+    setColorItems((prevColorItems) => {
+        const updatedColorItems = [...prevColorItems];
+        updatedColorItems.splice(index, 1);
+        return updatedColorItems;
+    });
+    };
 
     const nombreChangeHandler = (ev) => {
         setNombreProd(ev.target.value)
@@ -84,7 +85,7 @@ const UploadItem = () => {
           newTalles.push({ talle, stock });
         }
         setTalles(newTalles);
-      };
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault()

@@ -26,3 +26,29 @@
 #coloresDetailsContainer {
     margin-bottom: 20px;
 }
+
+.talleSelection {
+    display: flex;
+    flex-direction: row;
+}
+
+.tallesDetails {
+    font-size: 20px;
+    line-height: 30px;
+    text-align: center;
+    border: 1px solid black;
+    width: 50px;
+    height: 30px;
+    background: white;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.tallesDetails:hover {
+    background-color: #FAF7E6;
+}
+
+.seleccionado {
+    background-color: #FAF7E6;
+}
+

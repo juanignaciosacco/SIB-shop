@@ -1,7 +1,7 @@
 import './ItemCart.css'
 import ItemCount from '../ItemCount/ItemCount';
 
-const ItemCart = ({imgUrl,talle, nombre, precio, id, stock}) => {
+const ItemCart = ({imgUrl, talle, nombre, precio, id, stock}) => {
     return (
         <div className="itemCart">
             <div className='itemCartImg'>
