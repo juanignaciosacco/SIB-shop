@@ -20,12 +20,20 @@ const UploadItem = () => {
     const items2 = collection(db, 'productos')
     const [talles, setTalles] = useState([]);
     const tallesDisponibles = ["XS", "S", "M", "L", "XL"];
-    const [selectedColors, setSelectedColors] = useState([]);
+    const [colorItems, setColorItems] = useState([]);
+      
+    const handleColorSelect = (colorItem) => {
+        setColorItems((prevColorItems) => [...prevColorItems, colorItem]);
+      };
 
-    const handleColorChange = (colors) => {
-      setSelectedColors(colors);
-    };
-    
+      const handleColorDelete = (index, event) => {
+        event.preventDefault();
+        setColorItems((prevColorItems) => {
+          const updatedColorItems = [...prevColorItems];
+          updatedColorItems.splice(index, 1);
+          return updatedColorItems;
+        });
+      };
 
     const nombreChangeHandler = (ev) => {
         setNombreProd(ev.target.value)
@@ -36,7 +44,6 @@ const UploadItem = () => {
     }
 
     const categoriaChangeHandler = (ev) => {
-        console.log(ev.target.value)
         setCategoriaProd(ev.target.value)
     }
 
@@ -100,7 +107,7 @@ const UploadItem = () => {
                 AnchoBusto: ancho,
                 Ruedo: ruedo,
                 NuevoIngreso: NIProd,
-                Colores: selectedColors,
+                Colores: colorItems,
                 Talles: talles,
                 picture_url: results
             })
@@ -153,9 +160,25 @@ const UploadItem = () => {
                     </div>
                 </div>
                 <div className='colores'>
-                    <label htmlFor='Colores'>Colores</label>
-                    <label>Administrar colores y stocks</label>
-                    <ColorInput selectedColors={selectedColors} onColorChange={handleColorChange} />
+                <ColorInput onSelectColor={handleColorSelect} onColorDelete={handleColorDelete}/>
+                    <h2>Colores seleccionados:</h2>
+                    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                    {colorItems.map((colorItem, index) => (
+                        <div key={index} style={{ display: 'flex', alignItems: 'center', marginRight: '10px' }}>
+                            <div style={{ width: '30px', height: '30px', backgroundColor: colorItem.color, border: '1px solid black', marginRight: '5px' }}>
+                            </div>
+                            <button onClick={(event) => handleColorDelete(index, event)}>Eliminar</button>
+                            <div>
+                                Talles:
+                                {Object.entries(colorItem.sizes).map(([size, stock]) => (
+                                    <div key={size}>
+                                        {size}, Stock: {stock}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                    </div>
                 </div>
                 <label htmlFor="Materiales">Materiales</label>
                 <input className='formInputs' name="materiales" id="materiales" onChange={materialesChangeHandler} value={materialesProd}/>

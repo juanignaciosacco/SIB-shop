@@ -11,7 +11,6 @@ const EditItem = ({ producto }) => {
     const [categoriaProdEdit, setCategoriaProd] = useState(producto.category_id)
     const [materialesProdEdit, setMaterialesProd] = useState(producto.Materiales)
     const [stockProd, setStockProd] = useState(producto.Stock)
-    const [selectedColors, setSelectedColors] = useState(producto.Colores);
     const [largoEdit, setLargoEdit] = useState(producto.Largo)
     const [anchoEdit, setAnchoEdit] = useState(producto.AnchoBusto)
     const [ruedoEdit, setRuedoEdit] = useState(producto.Ruedo)
@@ -22,6 +21,17 @@ const EditItem = ({ producto }) => {
     const tallesDisponibles = ["XS", "S", "M", "L", "XL"];
     const db = getFirestore()
     const items2 = collection(db, 'productos')
+    const [selectedColors, setSelectedColors] = useState(producto.Colores);
+    const [colorData, setColorData] = useState([]);
+
+  
+    const handleColorChange = (colors) => {
+      setSelectedColors(colors);
+    };
+  
+    const handleColorDataChange = (data) => {
+      setColorData(data);
+    };
 
     const nombreChangeHandler = (ev) => {
         setNombreProd(ev.target.value)
@@ -67,9 +77,7 @@ const EditItem = ({ producto }) => {
     deleteDoc(doc(db, 'productos', producto.id))
     }
       
-    const handleColorChange = (colors) => {
-        setSelectedColors(colors);
-    };
+
 
     const handleTalleChange = (talle, stock) => {
     const newTalles = [...talles];
@@ -195,11 +203,13 @@ const EditItem = ({ producto }) => {
               </div>
                 <label htmlFor='Colores'>Colores</label>
                 <div>
-                    <ColorInput
-                        selectedColors={selectedColors}
-                        onColorChange={handleColorChange}
-                        existingColors={selectedColors}
-                    />
+                <ColorInput
+                    selectedColors={selectedColors}
+                    onColorChange={handleColorChange}
+                    colorData={colorData}
+                    onColorDataChange={handleColorDataChange}
+                    existingColors={selectedColors}
+                />
                 </div>
               <label htmlFor='materiales'>Materiales</label>
               <input name='materiales' id='materiales' onChange={materialesChangeHandler} />

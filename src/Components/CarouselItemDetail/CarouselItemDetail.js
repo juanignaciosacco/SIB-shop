@@ -9,6 +9,7 @@ const CarouselItemDetail = ({ images, colorP }) => {
 
   useEffect(() => {
     let found = false
+
     switch (colorP) {
       case 'white':
         found = images.find(image => image.includes('blanco'))
@@ -47,7 +48,6 @@ const CarouselItemDetail = ({ images, colorP }) => {
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
-    console.log('hola')
     console.log(currentIndex)
   };
 
@@ -57,11 +57,9 @@ const CarouselItemDetail = ({ images, colorP }) => {
 
   const handleThumbnailClick = (index) => {
     setCurrentIndex(index);
-    console.log(currentIndex)
   };
 
   const moveToIndex = (index) => {
-    console.log('hola')
     setCurrentIndex(index);
   }
 

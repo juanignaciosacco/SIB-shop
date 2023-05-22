@@ -1,91 +1,93 @@
-import './ColorInput.css'
 import React, { useState } from 'react';
+import './ColorInput.css'
 
-const colors = [
-  { name: 'Blanco', value: 'white' },
-  { name: 'Beige', value: 'beige' },
-  { name: 'Amarillo', value: 'yellow' },
-  { name: 'Rosado', value: 'pink' },
-  { name: 'Verde', value: 'green' },
-  { name: 'Violeta', value: 'violet' },
-  { name: 'Azul', value: 'blue' },
-  { name: 'Negro', value: 'black' },
-  { name: 'Rojo', value: 'red' },
-  { name: 'Marrón', value: 'brown' }
-];
+const ColorInput = ({ onSelectColor }) => {
+  const [selectedColor, setSelectedColor] = useState('');
+  const [selectedSizes, setSelectedSizes] = useState({});
 
-const ColorInput = ({ selectedColors, onColorChange, existingColors }) => {
-  const [colorStocks, setColorStocks] = useState({});
+  const availableColors = [
+    { color: 'azul', value: 'blue' },
+    { color: 'rojo', value: 'red' },
+    { color: 'verde', value: 'green' },
+    { color: 'amarillo', value: 'yellow' },
+    { color: 'beige', value: 'beige' },
+    { color: 'marron', value: 'brown' },
+    { color: 'blanco', value: 'white' },
+    { color: 'negro', value: 'black' },
+    { color: 'celeste', value: 'lightblue' },
+  ];
 
-  const handleStockChange = (color, stock) => {
-    setColorStocks((prevStocks) => ({
-      ...prevStocks,
-      [color]: stock
+  const availableSizes = ['XS', 'S', 'M', 'L', 'XL', 'Talle Unico'];
+
+  const handleColorChange = (event) => {
+    const color = event.target.value;
+    setSelectedColor(color);
+    setSelectedSizes((prevSizes) => ({
+      ...prevSizes,
+      [color]: prevSizes[color] || {},
     }));
   };
 
-  const handleColorChange = (event) => {
-    const selectedColor = event.target.value;
-    if (selectedColors.includes(selectedColor)) {
-      const { [selectedColor]: _, ...rest } = colorStocks;
-      setColorStocks(rest);
-      onColorChange(selectedColors.filter((color) => color !== selectedColor));
-    } else {
-      onColorChange([...selectedColors, selectedColor]);
-    }
+  const handleStockChange = (event, color, size) => {
+    const stock = event.target.value;
+    setSelectedSizes((prevSizes) => ({
+      ...prevSizes,
+      [color]: {
+        ...prevSizes[color],
+        [size]: stock,
+      },
+    }));
   };
 
-  const handleRemoveColor = (color) => {
-    const { [color]: _, ...rest } = colorStocks;
-    setColorStocks(rest);
-    onColorChange(selectedColors.filter((c) => c !== color));
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const colorItem = {
+      color: selectedColor,
+      sizes: selectedSizes[selectedColor],
+    };
+    onSelectColor(colorItem);
+    setSelectedColor('');
+    setSelectedSizes({});
   };
 
   return (
-    <div>
-      <h4>Colores:</h4>
-      {selectedColors.map((color) => (
-        <div key={color}>
-          <div
-            className="color-square"
-            style={{ backgroundColor: colors.find((c) => c.value === color)?.value }}
-          />
-          <label>
-            <input
-              type="number"
-              min="0"
-              value={colorStocks[color] || ''}
-              onChange={(event) => handleStockChange(color, event.target.value)}
-              placeholder="Stock"
-            />
-          </label>
-          <button onClick={() => handleRemoveColor(color)}>Eliminar</button>
-        </div>
-      ))}
-      <select value="" onChange={handleColorChange}>
-        <option value="" disabled>
-          Seleccionar color
-        </option>
-        {colors.map((color) => (
-          <option key={color.name} value={color.value}>
-            {color.name}
-          </option>
-        ))}
-      </select>
-      {existingColors && (
-        <div>
-          <h4>Colores existentes:</h4>
-          {existingColors.map((color) => (
-            <div key={color}>
-              <div
-                className="color-square"
-                style={{ backgroundColor: colors.find((c) => c.value === color)?.value }}
-              />
-              <span>{color}</span>
-            </div>
+    <div className='colorInput'>
+      <label>
+        Color:
+        <select value={selectedColor} onChange={handleColorChange}>
+          <option value="">Seleccionar color</option>
+          {availableColors.map((color) => (
+            <option key={color.value} value={color.value}>
+              {color.color}
+            </option>
           ))}
+        </select>
+      </label>
+
+      {selectedColor && (
+        <div>
+          <p>Talles:</p>
+          <div>
+            {availableSizes.map((size) => (
+              <div key={size}>
+                <span>{size}</span>
+                <input
+                  type="number"
+                  placeholder='Stock'
+                  min="0"
+                  value={selectedSizes[selectedColor]?.[size] || ''}
+                  onChange={(event) =>
+                    handleStockChange(event, selectedColor, size)
+                  }
+                />
+              </div>
+            ))}
+          </div>
         </div>
       )}
+      <button type="button" onClick={handleSubmit} disabled={!selectedColor}>
+        Agregar
+      </button>
     </div>
   );
 };
