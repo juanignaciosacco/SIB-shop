@@ -5,3 +5,10 @@
 .itemCartImg img {
     width: 300px;
 }
+
+.colorDivItemCart {
+    width: 45px;
+    height: 25px;
+    border: 1px solid black;
+    margin: 0 auto;
+}

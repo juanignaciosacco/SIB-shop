@@ -47,7 +47,8 @@ const ItemList = ({isLogged, nuevosIngresos, isFiltered, remerasF, camisasF, swe
                     setProdFiltrados(arrayFiltrados)
                 }
             })
-        } else if (camisasF) {
+        } 
+        if (camisasF) {
             const arryF = prodFiltrados
             const q = query(prodCollection, where('category_id', '==', 'Camisas'))
             getDocs(q).then((snapshot) => {
@@ -67,7 +68,8 @@ const ItemList = ({isLogged, nuevosIngresos, isFiltered, remerasF, camisasF, swe
                     setProdFiltrados(arrayFiltrados)
                 }
             })
-        } else if (sweatersF) {
+        } 
+        if (sweatersF) {
             const arryF = prodFiltrados
             const q = query(prodCollection, where('category_id', '==', 'SweatersYBuzos'))
             getDocs(q).then((snapshot) => {
@@ -77,9 +79,11 @@ const ItemList = ({isLogged, nuevosIngresos, isFiltered, remerasF, camisasF, swe
                         ...prod.data()
                     }
                 ))
+                console.log(camisasF, remerasF)
                 if ((camisasF || remerasF) || (camisasF && remerasF)) {
                     arrayFiltrados.forEach(prod => {
                        const si =  arryF.some((item) => item.id === prod.id)
+                       console.log(si)
                        !si && arryF.push(prod)
                     })
                     setProdFiltrados(arryF)

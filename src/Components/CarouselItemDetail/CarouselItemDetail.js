@@ -1,11 +1,10 @@
-import React, {  useEffect, useState } from "react";
+import React, {  useEffect } from "react";
 import './CarouselItemDetail.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { faCircleArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
-const CarouselItemDetail = ({ images, colorP }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+const CarouselItemDetail = ({ images, colorP, currentIndex, setCurrentIndex }) => {
 
   useEffect(() => {
     let found = false
@@ -44,11 +43,11 @@ const CarouselItemDetail = ({ images, colorP }) => {
     }
     let indx = images.indexOf(found)
     indx !== -1 && moveToIndex(indx)
+    // eslint-disable-next-line
   }, [colorP, images])
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
-    console.log(currentIndex)
   };
 
   const handlePrev = () => {

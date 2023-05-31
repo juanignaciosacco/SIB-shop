@@ -12,45 +12,57 @@ const ItemsProvider = ({ children }) => {
     const addItemToCart = (producto) => {
         if (productosAgregados.length === 0) {
             setProductos([...productosAgregados, producto])
+            setTotalItems(totalItems + producto.quantity)
         } else {
             let found = false
             productosAgregados.forEach((prod) => {
-                if (prod.id === producto.id) {
-                   producto.quantity += parseInt(prod.quantity)
-                   found = true
+                if (prod.id === producto.id && !found) {
+                    console.log('Ids iguales')
+                    if (prod.ColorSelec !== producto.ColorSelec) {
+                    console.log('Ids iguales, colores diferentes')
+                        found = false
+                    } else if (prod.ColorSelec === producto.ColorSelec && prod.TalleSelec !== producto.TalleSelec) {
+                    console.log('Ids iguales, colores iguales, talles diferentes')
+                        found = false
+                    } else {
+                        console.log('Solo IDS iguales')
+                        prod.quantity ++
+                        found = true
+                        setTotalItems(totalItems + 1)
+                    }
                 }
             })
-            found === false && setProductos([...productosAgregados, producto])
-            console.log(productosAgregados)
+            if (found === false) {
+                setProductos([...productosAgregados, producto])
+                setTotalItems(totalItems + producto.quantity)
+            }
         }
         setPrecioTotal(precioTotal + (producto.price * producto.quantity))
-        setTotalItems(totalItems + producto.quantity)
     }
 
     const moreItemsOnCart = (id, cantidad) => {
         productosAgregados.forEach((prod) => {
             if (prod.id === id) {
                 prod.quantity += parseInt(cantidad)
-                setTotalItems(totalItems + cantidad)
                 setPrecioTotal(precioTotal + parseInt(prod.price))
             }
         })
+        setTotalItems(totalItems + cantidad)
     }
-    const lessItemsOnCart = (id, cantidad) => {
+    const lessItemsOnCart = (id, cantidad, color, talle) => {
         productosAgregados.forEach((prod) => {
-            if (prod.id === id) {
+            if (prod.id === id && prod.TalleSelec === talle && prod.ColorSelec === color) {
                 prod.quantity -= parseInt(cantidad)
                 setTotalItems(totalItems - cantidad)
                 setPrecioTotal(precioTotal - parseInt(prod.price))
-
             }
         })
     }
 
-    const removeItemFromCart = (prodId, precio, cantidad) => {
-        const nuevaListaProds = productosAgregados.filter(prod => prod.id !== prodId)
-        setPrecioTotal(precioTotal - parseInt(precio))
-        setTotalItems(totalItems - cantidad)
+    const removeItemFromCart = (product) => {
+        const nuevaListaProds = productosAgregados.filter(prod => prod !== product)
+        setPrecioTotal(precioTotal - parseInt(product.price))
+        setTotalItems(totalItems - product.quantity)
         setProductos(nuevaListaProds)
     }
 
@@ -59,7 +71,6 @@ const ItemsProvider = ({ children }) => {
         setPrecioTotal(0)
         setTotalItems(0)
     }
-
 
     return (
         <div>

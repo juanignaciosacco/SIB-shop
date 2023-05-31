@@ -1,6 +1,7 @@
 .login {
   margin-top: 120px;
   text-align: center;
+  min-height: 70vh;
 }
 
 .logInContainer {

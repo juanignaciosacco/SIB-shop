@@ -1,29 +1,46 @@
 import './ItemCount.css'
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { CartContext } from "../../Contextos/CartContext";
 
-const ItemCount = ({stock, id, precio}) => {
+const ItemCount = ({ producto }) => {
 
-    const { moreItemsOnCart, lessItemsOnCart, removeItemFromCart } = useContext(CartContext)
-
-    const [contador, setContador] = useState(1)
+    const [stockReal, setStockReal] = useState(0)
+    const [contador, setContador] = useState()
+    const { productosAgregados, moreItemsOnCart, lessItemsOnCart, removeItemFromCart } = useContext(CartContext)
+    
+        useEffect(() => {
+            productosAgregados.forEach(prod => {
+                if (prod === producto) {
+                    setContador(prod.quantity)
+                }
+            });
+            for (const i of producto.Colores) {
+                if (`${i.color}` === producto.ColorSelec) {
+                    for (const key in i.sizes) {
+                        if ( `${key}` === producto.TalleSelec ) {
+                            setStockReal(i.sizes[key])
+                        } 
+                    }
+                }
+            }
+        }, [producto, productosAgregados])
 
     const moreItems = () => {
-        if (contador >= stock) {
+        if (contador >= stockReal) {
             alert('No quedan mas productos en stock')
         } else {
             setContador(contador + 1)
-            moreItemsOnCart(id, 1)
+            moreItemsOnCart(producto.id, 1)
         }
     }
 
     const lessItems = () => {
        if (contador <= 1) {
         alert('Has eliminado el producto')
-        removeItemFromCart(id, precio, 1)
+        removeItemFromCart(producto)
        } else {
         setContador(contador - 1)
-        lessItemsOnCart(id, 1)
+        lessItemsOnCart(producto.id, 1, producto.ColorSelec, producto.TalleSelec)
        }
     }
 

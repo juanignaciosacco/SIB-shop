@@ -49,7 +49,8 @@ const ItemListContainer = () => {
         <div>
             <FiltrosTienda sweaters={isSweatersFiltered} camisas={isCamisasFiltered} remeras={isRemerasFiltered} onClickSweaters={sweatersHandler} onClickCamisas={camisasHandler} onClickRemeras={remerasHandler} />
             <ItemList isLogged={logged} nuevosIngresos={false} isFiltered={isFiltered} sweatersF={isSweatersFiltered} camisasF={isCamisasFiltered} remerasF={isRemerasFiltered}/>
-        </div>)
+        </div>
+        )
 }
 
 export default ItemListContainer;

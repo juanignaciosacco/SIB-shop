@@ -14,6 +14,7 @@ const ItemDetails = ({idProd}) => {
     const { addItemToCart } = useContext(CartContext)
     const [colorSeleccionado, setColorSeleccionado] = useState(false)
     const [talleSeleccionado, setTalleSeleccionado] = useState('')
+    const [currentIndex, setCurrentIndex] = useState(0)
 
     useEffect(() => {
         const db = getFirestore()
@@ -48,7 +49,9 @@ const ItemDetails = ({idProd}) => {
         const productoACarrito = {
             ...producto, 
             quantity: 1,
-            Talle: talleSelec
+            TalleSelec: talleSeleccionado, 
+            ColorSelec: colorP,
+            imageIndx: currentIndex
         }
         addItemToCart(productoACarrito)
       }
@@ -68,7 +71,7 @@ const ItemDetails = ({idProd}) => {
         {images2.length !== 0 ? (
             <div className='itemDetails'>
                 <div className="itemDetailCarousel">
-                    <CarouselItemDetail colorP={colorP} images={images2}/>
+                    <CarouselItemDetail currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} colorP={colorP} images={images2}/>
                 </div>
                 <div className='itemDetailInfo'>
                     <h1>{producto.title}</h1>
@@ -84,7 +87,7 @@ const ItemDetails = ({idProd}) => {
                             <select onChange={selectTalleHandler}>
                                 <option>Selecciona un talle</option>
                                 {producto.Talles.map((prod) =>( 
-                                    <option name={prod.talle} value={prod.talle} id={prod.talle}>{prod.talle}</option>
+                                    <option key={prod.id} name={prod.talle} value={prod.talle} id={prod.talle}>{prod.talle}</option>
                                 ))}
                             </select>
                         </div>
@@ -101,8 +104,7 @@ const ItemDetails = ({idProd}) => {
                         <h3>Colores:</h3>        
                         <div>
                         {producto.Colores.length !== 0 && (producto.Colores.map((color, index) => (
-                            // eslint-disable-next-line
-                            Object.keys(color.sizes) == `${talleSelec}` ? (
+                            Object.keys(color.sizes).some((size) => size === talleSelec) ? (
                                 <button className='colorBtnItemDetails' onClick={selectColor} key={index} id={color.color} style={{backgroundColor: `${color.color}`}}/>
                             ):(talleSelec === '' && (
                                 <button className='colorBtnItemDetails' onClick={selectColor} key={index} id={color.color} style={{backgroundColor: `${color.color}`}}/>

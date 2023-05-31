@@ -67,7 +67,7 @@ const AccesoAdmin = () => {
             <div className='logInContainer'>
                 {isLogged ? (
                     <div>
-                        <button onClick={logOutHandler}>Cerrar sesion</button>
+                        <button className='btn' onClick={logOutHandler}>Cerrar sesion</button>
                     </div>
                 ):(
                     <form className='formLogIn' onSubmit={logInHandler}>

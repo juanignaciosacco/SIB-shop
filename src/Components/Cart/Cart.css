@@ -1,12 +1,18 @@
+.cartContainer {
+    /* min-height: 80vh; */
+}
+
 .cartContainer h1 {
     margin-top: 120px;
     text-align: center;
 }
 
 #cart {
+    min-height: 80vh;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    align-items: center;
 }
 
 .itemsInCart {
@@ -24,4 +30,12 @@
 
 #cartInfo button {
     margin: 10px;
+}
+
+.emptyCart {
+    text-align: center;
+}
+
+.emptyCart .btn a {
+    color: #fff;
 }
