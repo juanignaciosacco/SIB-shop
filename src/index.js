@@ -36,8 +36,13 @@ export async function deletFile(file) {
   })
 }
 
-export async function uploadFile(file) {
-  const name = v4() + file.name
+export async function uploadFile(file, imageHeic) {
+  let name = ''
+  if (file.name === undefined) {
+    name = v4() + imageHeic.name
+  } else {
+    name = v4() + file.name
+  }
   const storageRef = ref(storage, name)
   await uploadBytes(storageRef, file)
   const url = await getDownloadURL(storageRef)
@@ -54,7 +59,7 @@ export async function convertHeic(imageHeic) {
     .catch((error) => {
       console.log(error)
     })
-    const ur = await uploadFile(img)
+    const ur = await uploadFile(img, imageHeic)
     return ur
 };
 

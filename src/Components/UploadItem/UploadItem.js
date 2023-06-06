@@ -18,7 +18,8 @@ const UploadItem = () => {
     const [colorItems, setColorItems] = useState([]);
     const tallesDisponibles = ["XS", "S", "M", "L", "XL"];
     const [talles, setTalles] = useState([]);
-    const [imgConv, setImgConv] = useState()
+    const [cargandoItem, setCargandoItem] = useState(false)
+    const [itemCargado, setItemCargado] = useState(false)
     
     const db = getFirestore()
     const items2 = collection(db, 'productos')
@@ -87,6 +88,8 @@ const UploadItem = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         var results = []
+        setCargandoItem(true)
+        setItemCargado(false)
         try {
             for (const i of file) {
                 if (i.type === "image/heic") {
@@ -97,6 +100,7 @@ const UploadItem = () => {
             }
         } catch (error) {
             alert('Fallo interno, avisale a juanchi ', error)
+            setCargandoItem(false)
         }
             setDoc(doc(items2), {
                 title: nombreProd,
@@ -110,6 +114,9 @@ const UploadItem = () => {
                 Colores: colorItems,
                 Talles: talles,
                 picture_url: results
+            }).then(() => {
+                setItemCargado(true) 
+                setCargandoItem(false)
             })
             setPrecioProd('')
             setNombreProd('')
@@ -192,6 +199,11 @@ const UploadItem = () => {
                 <input className='formUploadInputs' multiple id='file' type='file' onChange={(e) => setFile(e.target.files)} />
                 <button className='btnForm' onClick={handleSubmit}>Subir</button>
             </form>
+            {cargandoItem && (
+                <div className='cargando'>
+                    <p>Cargando...</p>
+                </div>
+            )}
         </div>
     )
 }
