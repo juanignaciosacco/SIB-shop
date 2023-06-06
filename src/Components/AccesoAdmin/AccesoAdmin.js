@@ -2,6 +2,7 @@ import './AccesoAdmin.css'
 import { getAuth, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from 'firebase/auth'
 import { useContext, useState } from 'react'
 import { AdminContext } from '../../Contextos/AdminContext'
+import { Link } from 'react-router-dom'
 
 const AccesoAdmin = () => {
 
@@ -67,6 +68,7 @@ const AccesoAdmin = () => {
             <div className='logInContainer'>
                 {isLogged ? (
                     <div>
+                        <Link to={'/historial'}><button>Ordenes</button></Link>
                         <button className='btn' onClick={logOutHandler}>Cerrar sesion</button>
                     </div>
                 ):(

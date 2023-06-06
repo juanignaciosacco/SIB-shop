@@ -27,7 +27,8 @@ const EditItem = ({ producto }) => {
       setColors((prevColors) => [...prevColors, colorItem]);
     };
   
-    const handleColorDelete = (index) => {
+    const handleColorDelete = (index, event) => {
+        event.preventDefault()
       setColors((prevColors) => {
         const updatedColors = [...prevColors];
         updatedColors.splice(index, 1);

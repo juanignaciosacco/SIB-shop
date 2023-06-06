@@ -2,8 +2,6 @@ import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { CartContext } from "../../Contextos/CartContext";
-import { initMercadoPago } from '@mercadopago/sdk-react'
-initMercadoPago('TEST-443c3bde-e5e1-4b01-ad74-2c6fcb9da46c');
 
 const FeedbackCompra = () => {
 
@@ -24,10 +22,6 @@ const FeedbackCompra = () => {
       }, [searchParams]);
     
       useEffect(() => {
-        fetch(`https://api.mercadopago.com/checkout/preferences/${orderId}`)
-        .then((res) => {return res.json()})
-        .then((ress) => console.log(ress))
-
         orderStatus === "approved" && (
             setDoc(doc(ordenesCollection), {
                 idPago: paymentId,

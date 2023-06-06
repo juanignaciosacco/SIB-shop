@@ -2,6 +2,14 @@
     text-align: center;
 }
 
+.imgContainerPortada {
+    max-width: 100vw;
+}
+
+.imgContainerPortada img {
+    width: 100%;
+}
+
 .nuevosIngresos { 
     display: flex;
     flex-direction: row;

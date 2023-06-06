@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import heic2any from 'heic2any';
 import { v4 } from 'uuid';
 
 // Import the functions you need from the SDKs you need
@@ -42,6 +43,27 @@ export async function uploadFile(file) {
   const url = await getDownloadURL(storageRef)
   return url
 }
+
+
+function blobToFile(theBlob, fileName) {
+  return new File([theBlob], fileName, {
+    lastModified: new Date().getTime(),
+    type: theBlob.type
+  });
+}
+
+export async function convertHeic(imageHeic) {
+  let img
+    await heic2any({ blob: imageHeic, toType: "image/jpg", quality: 1 })
+      .then((newImage) => {
+        img = newImage
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+      const ur = await uploadFile(img)
+      return ur
+};
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

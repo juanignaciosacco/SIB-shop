@@ -1,6 +1,8 @@
-.cartContainer {
+/* .cartContainer {
+    display: flex;
+    flex-direction: row;
     /* min-height: 80vh; */
-}
+
 
 .cartContainer h1 {
     margin-top: 120px;
@@ -8,7 +10,10 @@
 }
 
 #cart {
-    min-height: 80vh;
+    min-height: 70vh;
+}
+
+.cart {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -38,4 +43,12 @@
 
 .emptyCart .btn a {
     color: #fff;
+}
+
+.pagoET {
+    text-align: center;
+}
+
+.pagoMP {
+    text-align: center;
 }

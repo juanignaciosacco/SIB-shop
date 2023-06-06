@@ -30,7 +30,7 @@ const ItemCount = ({ producto }) => {
             alert('No quedan mas productos en stock')
         } else {
             setContador(contador + 1)
-            moreItemsOnCart(producto.id, 1)
+            moreItemsOnCart(producto.id, 1, producto.ColorSelec, producto.TalleSelec)
         }
     }
 

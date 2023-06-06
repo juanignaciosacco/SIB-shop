@@ -11,6 +11,8 @@ import { ItemsProvider } from './Contextos/CartContext';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import FeedbackCompra from './Components/feedbackCompra/FeedbackCompra';
 import Footer from './Components/Footer/Footer';
+import HistoryOrders from './Components/HistoryOrders/HistoryOrders';
+import WhatsappWidget from './Components/WhatsappWidget/WhatsappWidget';
 
 function App() {
 
@@ -30,7 +32,9 @@ function App() {
                     <Route exact path='/contacto' element={<Contacto />} />
                     <Route exact path='/carrito' element={<Cart />} />
                     <Route exact path='/feedback' element={<FeedbackCompra />} />
+                    <Route exact path='/historial' element={<HistoryOrders />} />
                 </Routes>
+                <WhatsappWidget />
             <footer>
               <Footer />
             </footer>

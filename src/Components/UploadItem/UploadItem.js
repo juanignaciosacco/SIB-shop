@@ -1,7 +1,7 @@
 import './UploadItem.css'
 import { getFirestore, doc, collection, setDoc } from "firebase/firestore"
 import { useState } from "react"
-import { uploadFile } from '../../index'
+import { uploadFile, convertHeic } from '../../index'
 import ColorInput from '../ColorInput/ColorInput'
 
 const UploadItem = () => {
@@ -18,6 +18,7 @@ const UploadItem = () => {
     const [colorItems, setColorItems] = useState([]);
     const tallesDisponibles = ["XS", "S", "M", "L", "XL"];
     const [talles, setTalles] = useState([]);
+    const [imgConv, setImgConv] = useState()
     
     const db = getFirestore()
     const items2 = collection(db, 'productos')
@@ -65,6 +66,7 @@ const UploadItem = () => {
 
     const NIChangeHandler = (ev) => {
         setNIProd(ev.target.value)
+        console.log(file)
     }
 
     const handleTalleChange = (talle, stock) => {
@@ -87,8 +89,11 @@ const UploadItem = () => {
         var results = []
         try {
             for (const i of file) {
-                console.log(i)
-                results.push(await uploadFile(i))
+                if (i.type === "image/heic") {
+                    results.push(await convertHeic(i))
+                } else {
+                    results.push(await uploadFile(i))
+                }
             }
         } catch (error) {
             alert('Fallo interno, avisale a juanchi ', error)

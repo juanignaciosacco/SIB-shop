@@ -17,15 +17,11 @@ const ItemsProvider = ({ children }) => {
             let found = false
             productosAgregados.forEach((prod) => {
                 if (prod.id === producto.id && !found) {
-                    console.log('Ids iguales')
                     if (prod.ColorSelec !== producto.ColorSelec) {
-                    console.log('Ids iguales, colores diferentes')
                         found = false
                     } else if (prod.ColorSelec === producto.ColorSelec && prod.TalleSelec !== producto.TalleSelec) {
-                    console.log('Ids iguales, colores iguales, talles diferentes')
                         found = false
-                    } else {
-                        console.log('Solo IDS iguales')
+                    } else  if (prod === producto) {
                         prod.quantity ++
                         found = true
                         setTotalItems(totalItems + 1)
@@ -40,9 +36,9 @@ const ItemsProvider = ({ children }) => {
         setPrecioTotal(precioTotal + (producto.price * producto.quantity))
     }
 
-    const moreItemsOnCart = (id, cantidad) => {
+    const moreItemsOnCart = (id, cantidad, color, talle) => {
         productosAgregados.forEach((prod) => {
-            if (prod.id === id) {
+            if (prod.id === id && prod.TalleSelec === talle && prod.ColorSelec === color) {
                 prod.quantity += parseInt(cantidad)
                 setPrecioTotal(precioTotal + parseInt(prod.price))
             }
