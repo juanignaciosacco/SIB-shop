@@ -15,7 +15,7 @@ useEffect(() => {
         .catch((error) => {
         console.error(error);
         })
-}, [])
+}, [preferenceId])
 
 const txtChangeHandler = (ev) => {
   setPreferenceId(ev.target.value)
