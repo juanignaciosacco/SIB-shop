@@ -19,7 +19,6 @@ const UploadItem = () => {
     const tallesDisponibles = ["XS", "S", "M", "L", "XL"];
     const [talles, setTalles] = useState([]);
     const [cargandoItem, setCargandoItem] = useState(false)
-    const [itemCargado, setItemCargado] = useState(false)
     
     const db = getFirestore()
     const items2 = collection(db, 'productos')
@@ -89,7 +88,6 @@ const UploadItem = () => {
         e.preventDefault()
         var results = []
         setCargandoItem(true)
-        setItemCargado(false)
         try {
             for (const i of file) {
                 if (i.type === "image/heic") {
@@ -115,7 +113,6 @@ const UploadItem = () => {
                 Talles: talles,
                 picture_url: results
             }).then(() => {
-                setItemCargado(true) 
                 setCargandoItem(false)
             })
             setPrecioProd('')
