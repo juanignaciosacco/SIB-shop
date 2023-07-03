@@ -13,12 +13,11 @@ import FeedbackCompra from './Components/feedbackCompra/FeedbackCompra';
 import Footer from './Components/Footer/Footer';
 import HistoryOrders from './Components/HistoryOrders/HistoryOrders';
 import WhatsappWidget from './Components/WhatsappWidget/WhatsappWidget';
-import { useState } from 'react';
 import InConstruction from './Components/InConstruction/InConstruction';
 
 function App() {
 
-  const [inConstruction, setInConstruction] = useState(false)
+ const inConstruction = false;
 
   return (
 

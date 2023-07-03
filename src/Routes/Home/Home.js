@@ -1,10 +1,10 @@
 import './Home.css'
 import video from '../../assets/video.mp4'
 import video2 from '../../assets/video4.mp4'
-import sib from '../../assets/sib rosa transp.png'
+// import sib from '../../assets/sib rosa transp.png'
 import NuevosIngresos from '../../Components/NuevosIngresos/NuevosIngresos'
-import WhatsappWidget from '../../Components/WhatsappWidget/WhatsappWidget'
-import InstagramWidget from '../../Components/InstagraWidget/InstagramWidget'
+// import WhatsappWidget from '../../Components/WhatsappWidget/WhatsappWidget'
+// import InstagramWidget from '../../Components/InstagraWidget/InstagramWidget'
 
 
 const Home = () => {
