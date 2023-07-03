@@ -13,34 +13,45 @@ import FeedbackCompra from './Components/feedbackCompra/FeedbackCompra';
 import Footer from './Components/Footer/Footer';
 import HistoryOrders from './Components/HistoryOrders/HistoryOrders';
 import WhatsappWidget from './Components/WhatsappWidget/WhatsappWidget';
+import { useState } from 'react';
+import InConstruction from './Components/InConstruction/InConstruction';
 
 function App() {
 
+  const [inConstruction, setInConstruction] = useState(false)
+
   return (
+
     <div>
-      <BrowserRouter>
-        <AdminIsLoggedProvider>
-          <ItemsProvider>
-            <nav>
-              <Navbar />
-            </nav>
-                <Routes>
-                    <Route exact path='/' element={<Home />} />
-                    <Route exact path="/tienda" element={<ItemListContainer />} />
-                    <Route exact path='/login' element={<AccesoAdmin />} />
-                    <Route exact path="/tienda/producto/:id" element={<ItemDetailContainer />} />
-                    <Route exact path='/contacto' element={<Contacto />} />
-                    <Route exact path='/carrito' element={<Cart />} />
-                    <Route exact path='/feedback' element={<FeedbackCompra />} />
-                    <Route exact path='/historial' element={<HistoryOrders />} />
-                </Routes>
-                <WhatsappWidget />
-            <footer>
-              <Footer />
-            </footer>
-          </ItemsProvider>
-        </AdminIsLoggedProvider>
-      </BrowserRouter>
+      {inConstruction ? (
+        <InConstruction />
+      ):(
+      <div>
+        <BrowserRouter>
+          <AdminIsLoggedProvider>
+            <ItemsProvider>
+              <nav>
+                <Navbar />
+              </nav>
+                  <Routes>
+                      <Route exact path='/' element={<Home />} />
+                      <Route exact path="/tienda" element={<ItemListContainer />} />
+                      <Route exact path='/login' element={<AccesoAdmin />} />
+                      <Route exact path="/tienda/producto/:id" element={<ItemDetailContainer />} />
+                      <Route exact path='/contacto' element={<Contacto />} />
+                      <Route exact path='/carrito' element={<Cart />} />
+                      <Route exact path='/feedback' element={<FeedbackCompra />} />
+                      <Route exact path='/historial' element={<HistoryOrders />} />
+                  </Routes>
+                  <WhatsappWidget />
+              <footer>
+                <Footer />
+              </footer>
+            </ItemsProvider>
+          </AdminIsLoggedProvider>
+        </BrowserRouter>
+      </div>
+      )}
     </div>
   );
 }

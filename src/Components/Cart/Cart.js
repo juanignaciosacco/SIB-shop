@@ -25,8 +25,9 @@ const Cart = () => {
     }
 
     const handleClickMP = () => {
-      fetch("http://localhost:8080/create_preference", {
-            method: "POST",
+       // fetch("http://75.101.229.155/create_preference", {
+        fetch("https://ec2-18-222-87-92.us-east-2.compute.amazonaws.com:443/create_preference", {
+        method: "POST",
             headers: {
             "Content-Type": "application/json",
             },

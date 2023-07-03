@@ -1,9 +1,12 @@
 i {
     font-size: 50px;
-    z-index: 1001;
+    color: #6B6A63;
+    cursor: pointer;
+}
+
+.sticky {
     position: fixed;
     bottom: 5%;
     right: 50px;
-    color: green;
-    cursor: pointer;
+    z-index: 1001;
 }

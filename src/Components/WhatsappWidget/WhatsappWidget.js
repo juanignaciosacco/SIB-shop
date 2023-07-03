@@ -6,7 +6,7 @@ const WhatsappWidget = () => {
 
     return (
         <div id='whatsapp'>
-            <i><FontAwesomeIcon icon={faWhatsapp} /></i>
+            <i><FontAwesomeIcon className='sticky' icon={faWhatsapp} /></i>
         </div>
     )
 }

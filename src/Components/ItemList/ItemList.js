@@ -12,6 +12,17 @@ const ItemList = ({isLogged, nuevosIngresos, isFiltered, remerasF, camisasF, swe
     const [prodFiltrados, setProdFiltrados] = useState([])
     const db = getFirestore()
     const prodCollection = collection(db, 'productos')
+    // const [prodJs, setProdJs] = useState([])
+
+
+    // useEffect(() => {
+    //     fetch('http://localhost:8080/products')
+    //     .then((res) => res.json())
+    //     .then((res) => {
+    //         // console.log(res)
+    //         setProdJs(res)
+    //     })
+    // }, [])
 
     useEffect(() => {
         getDocs(prodCollection).then((snapshot) => {
