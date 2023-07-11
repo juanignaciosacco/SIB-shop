@@ -1,0 +1,22 @@
+.feedback {
+    width: 500px;
+    margin: 150px auto;
+    border: 2px solid #6B6A63;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.feedback i {
+    font-size: 100px;
+}
+
+.check {
+    color: lightgreen;
+}
+
+.denied {
+    color: red;
+}

@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { CartContext } from "../../Contextos/CartContext";
 
-const ResumenDeCompra = ({pagoMP, pagoET, onClickCancel, onClickET, onClickMP, onClickVaciar }) => {
+const ResumenDeCompra = ({pagoMP, pagoET, onClickCancel, onClickET, onClickMP, onClickVaciar, onClickVolver }) => {
 
     const { productosAgregados, precioTotal, totalItems} = useContext(CartContext)
 
@@ -21,6 +21,10 @@ const ResumenDeCompra = ({pagoMP, pagoET, onClickCancel, onClickET, onClickMP, o
         onClickVaciar()
     }
 
+    const clickVolver = () => {
+        onClickVolver()
+    }
+
     return (
         <div>
          {!pagoET && !pagoMP ? (
@@ -31,6 +35,8 @@ const ResumenDeCompra = ({pagoMP, pagoET, onClickCancel, onClickET, onClickMP, o
                  <button className='btn' id='btnCheckout' onClick={handleClickMP}>Pagar con debito</button>
                  <button className='btn' id='btnCheckout' onClick={handleClickET}>Pagar en efectivo / transferencia</button>
                  <button className='btn' onClick={vaciarClickHandler}>Vaciar carrito</button>
+                 <br></br>
+                 <button className="btn" onClick={clickVolver}>Volver</button>
              </div>
          ):(
             <div>

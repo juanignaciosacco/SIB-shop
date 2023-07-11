@@ -66,7 +66,6 @@ const UploadItem = () => {
 
     const NIChangeHandler = (ev) => {
         setNIProd(ev.target.value)
-        console.log(file)
     }
 
     const handleTalleChange = (talle, stock) => {

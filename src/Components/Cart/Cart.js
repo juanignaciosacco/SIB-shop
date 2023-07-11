@@ -6,6 +6,8 @@ import { CartContext } from '../../Contextos/CartContext';
 import { initMercadoPago } from '@mercadopago/sdk-react'
 import Payment from '../PaymentSummary/Payment';
 import ResumenDeCompra from '../ResumenDeCompra/ResumenDeCompra';
+import FormCompra from '../FormCompra/FormCompra';
+import FormCompraDireccion from '../FormCompraDireccion/FormCompraDireccion';
 
 initMercadoPago('TEST-443c3bde-e5e1-4b01-ad74-2c6fcb9da46c');
 
@@ -15,6 +17,9 @@ const Cart = () => {
     const [orderSummary, setOrderSummary] = useState({})
     const [pagoET, setPagoET] = useState(false)
     const [pagoMP, setPagoMP] = useState(false)
+    const [formFilled, setFormFilled] = useState(false)
+    const [formDirectionFilled, setFormDirectionFilled] = useState(false)
+    const [retiro, setRetiro] = useState()
     
     useEffect(() => {
         setOrderSummary({quantity: parseInt(totalItems), price: parseInt(precioTotal) })
@@ -25,8 +30,7 @@ const Cart = () => {
     }
 
     const handleClickMP = () => {
-       // fetch("http://75.101.229.155/create_preference", {
-        fetch("https://ec2-18-222-87-92.us-east-2.compute.amazonaws.com:443/create_preference", {
+        fetch("https://backend.sib.com.uy/create_preference", {
         method: "POST",
             headers: {
             "Content-Type": "application/json",
@@ -57,6 +61,23 @@ const Cart = () => {
         setPagoMP(false)
     }
 
+    const siguienteClickHandler = () => {
+        setFormFilled(true)
+    }
+
+    const volverClickHandler = () => {
+        setRetiro('')
+        setFormDirectionFilled(false)
+    }
+
+    const formDirectionIsFilled = () => {
+        setFormDirectionFilled(true)
+    }
+
+    const envio = (ev) => {
+        setRetiro(ev)
+    }
+
     return (
         <div className='cartContainer'>
             <h1>Carrito</h1>
@@ -69,17 +90,44 @@ const Cart = () => {
                             ))}
                         </div>
                         <div>
-                            {!preferenceId ? (
-                                <div>
-                                <ResumenDeCompra pagoMP={pagoMP} pagoET={pagoET} onClickMP={handleClickMP} onClickET={handleClickET} onClickCancel={handleClickCancel} onClickVaciar={vaciarClickHandler}/>
-                                </div>
+                            {!formFilled ? (
+                                <FormCompra onClickSiguiente={siguienteClickHandler} envio={envio} />
                             ):(
-                                <div className='pagoMP'>
-                                    <ResumenDeCompra pagoMP={pagoMP} pagoET={pagoET} onClickMP={handleClickMP} onClickET={handleClickET} onClickCancel={handleClickCancel} onClickVaciar={vaciarClickHandler}/>
-                                    <Payment />
-                                    <button className='btn' onClick={handleClickCancel}>Cancelar</button>
+                                <div>
+                                    {retiro === 'Domicilio' ? (
+                                        <div>
+                                            <FormCompraDireccion onClickSiguiente={formDirectionIsFilled} isHidden={formDirectionFilled}/>
+                                            {formDirectionFilled && (
+                                                <div>
+                                                <ResumenDeCompra pagoMP={pagoMP} pagoET={pagoET} onClickMP={handleClickMP} onClickET={handleClickET} onClickCancel={handleClickCancel} onClickVaciar={vaciarClickHandler} onClickVolver={volverClickHandler}/>
+                                                {preferenceId && (
+                                                    <div className='pagoMP'>
+                                                        <Payment />
+                                                        <button className='btn' onClick={handleClickCancel}>Cancelar</button>
+                                                    </div>
+                                                ) }
+                                                </div>
+                                            )}
+                                        </div>
+                                    ):(
+                                        retiro === 'Tienda' ? (
+                                            <div>
+                                                <ResumenDeCompra pagoMP={pagoMP} pagoET={pagoET} onClickMP={handleClickMP} onClickET={handleClickET} onClickCancel={handleClickCancel} onClickVaciar={vaciarClickHandler} onClickVolver={volverClickHandler}/>
+                                                {preferenceId && (
+                                                    <div className='pagoMP'>
+                                                        <Payment />
+                                                        <button className='btn' onClick={handleClickCancel}>Cancelar</button>
+                                                    </div>
+                                                ) }
+                                            </div>
+                                        ):(
+                                            <div>
+                                                <FormCompra onClickSiguiente={siguienteClickHandler} envio={envio} />
+                                            </div>
+                                        )
+                                    )}             
                                 </div>
-                            )}
+                            )}   
                         </div>
                     </div>
                 ):(
