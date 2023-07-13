@@ -8,7 +8,7 @@ import AccesoAdmin from './Components/AccesoAdmin/AccesoAdmin';
 import Cart from './Components/Cart/Cart';
 import { AdminIsLoggedProvider } from './Contextos/AdminContext';
 import { ItemsProvider } from './Contextos/CartContext';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Link, Route, Routes } from 'react-router-dom';
 import FeedbackCompra from './Components/feedbackCompra/FeedbackCompra';
 import Footer from './Components/Footer/Footer';
 import HistoryOrders from './Components/HistoryOrders/HistoryOrders';
@@ -26,7 +26,7 @@ function App() {
         <InConstruction />
       ):(
       <div>
-        <BrowserRouter>
+        <HashRouter>
           <AdminIsLoggedProvider>
             <ItemsProvider>
               <nav>
@@ -48,7 +48,7 @@ function App() {
               </footer>
             </ItemsProvider>
           </AdminIsLoggedProvider>
-        </BrowserRouter>
+        </HashRouter>
       </div>
       )}
     </div>

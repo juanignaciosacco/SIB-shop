@@ -179,6 +179,8 @@ const EditItem = ({ producto }) => {
                     <option value='SweatersYBuzos' id='SweatersYBuzos'>Sweaters y buzos</option>
                     <option value='Camisas' id='Camisas'>Camisas</option>
                     <option value='RemerasYTops' id='RemerasYTops'>Remeras y tops</option>
+                    <option value='Bikinis' id='Bikinis'>Bikinis</option>
+                    <option value='Accesorios' id='Accesorios'>Accesorios</option>
               </select>
               <label htmlFor='Talle'>Talle</label>
               <div>

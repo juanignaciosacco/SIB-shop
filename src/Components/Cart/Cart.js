@@ -9,7 +9,8 @@ import ResumenDeCompra from '../ResumenDeCompra/ResumenDeCompra';
 import FormCompra from '../FormCompra/FormCompra';
 import FormCompraDireccion from '../FormCompraDireccion/FormCompraDireccion';
 
-initMercadoPago('TEST-443c3bde-e5e1-4b01-ad74-2c6fcb9da46c');
+initMercadoPago('APP_USR-21fa9365-b7a0-44e2-b57e-b518d8ef2322');
+
 
 const Cart = () => {
 
