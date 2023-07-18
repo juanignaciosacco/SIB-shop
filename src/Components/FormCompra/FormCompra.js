@@ -46,8 +46,8 @@ const FormCompra = ({ onClickSiguiente, envio }) => {
     },[nombre, apellido, email, telefono])
 
     return (
-        <div>
-            <form id="formCompra" className='form'>
+        <div className="formCompraUsu">
+            <form>
                 <label htmlFor="Nombre">Nombre</label>
                 <input className='formInputs' type="text" id="Nombre" name="Nombre" required={true} onChange={setNombreForm}/>
                 <label htmlFor="Apellido">Apellido</label>

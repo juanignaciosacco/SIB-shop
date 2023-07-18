@@ -69,13 +69,7 @@ const CarouselItemDetail = ({ images, colorP, currentIndex, setCurrentIndex }) =
             <img className="imgCarousel" src={images[currentIndex]} alt="Carousel" />
         <div className="carousel-thumbnails">
             {images.map((image, index) => (
-            <img
-                key={index}
-                src={image}
-                alt="Thumbnail"
-                className={`carousel-thumbnail ${index === currentIndex ? "selected" : ""}`}
-                onClick={() => handleThumbnailClick(index)}
-            />
+            <img key={index} src={image} alt="Thumbnail" className={`carousel-thumbnail ${index === currentIndex ? "selected" : ""}`} onClick={() => handleThumbnailClick(index)}/>
             ))}
         </div>
         </div>

@@ -10,3 +10,17 @@ i {
     right: 50px;
     z-index: 1001;
 }
+
+@media only screen and (max-width: 480px) {
+
+    i {
+        font-size: 40px;
+    }
+
+    .sticky {
+        position: fixed;
+        bottom: 5%;
+        right: 5%;
+        z-index: 1001;
+    }
+}

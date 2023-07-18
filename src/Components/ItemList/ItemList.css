@@ -1,12 +1,18 @@
 .filtros {
-    width: 50%;
+    width: 70%;
     margin: 150px auto 25px;
     padding-bottom: 25px;
     border-bottom: 1px solid black;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
     alignn-items: center;
+}
+
+.filtro {
+    display: flex;
+    flex-direction: row;
 }
 
 .filtros label {
@@ -37,4 +43,30 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
+}
+
+@media only screen and (max-width: 480px) {
+
+    .filtros {
+        margin: auto;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .filtros label {
+        padding: 5px;
+        margin: 0;
+        border-radius: 5px;
+        font-size: 18px;
+    }
+    
+    .filtros label input {
+        margin-right: 10px;
+    }
+
+}
+
+@media only screen and (max-width: 769px) {
+
 }

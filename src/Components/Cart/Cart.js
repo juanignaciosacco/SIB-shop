@@ -92,11 +92,13 @@ const Cart = () => {
                         </div>
                         <div>
                             {!formFilled ? (
-                                <FormCompra onClickSiguiente={siguienteClickHandler} envio={envio} />
+                                <div className='formInCart'>
+                                    <FormCompra onClickSiguiente={siguienteClickHandler} envio={envio} />
+                                </div>
                             ):(
                                 <div>
                                     {retiro === 'Domicilio' ? (
-                                        <div>
+                                        <div className='formInCart'>
                                             <FormCompraDireccion onClickSiguiente={formDirectionIsFilled} isHidden={formDirectionFilled}/>
                                             {formDirectionFilled && (
                                                 <div>

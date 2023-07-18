@@ -52,3 +52,23 @@
     background-color: #FAF7E6;
 }
 
+@media only screen and (max-width: 480px) {
+
+    .itemDetailsContainer {
+        height: auto;
+    }
+
+    .itemDetails {
+        flex-direction: column;
+    }
+
+    .itemDetailInfo {
+        width: 80%;
+        text-align: center;
+    }
+
+    .colorBtnItemDetails {
+        margin: auto;
+    }
+
+}

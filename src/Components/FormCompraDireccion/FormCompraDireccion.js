@@ -51,8 +51,8 @@ const FormCompraDireccion = ({ onClickSiguiente, isHidden }) => {
     },[calles, localidad, numeroPuerta, piso, departamento])
 
     return (
-        <div className={isHidden ? 'hidden': ''}>
-            <form className="form">
+        <div className={isHidden ? 'hidden formCompraUsu': 'formCompraUsu'}>
+            <form>
                 <label htmlFor="calles">Calles</label>
                 <input className='formInputs' type="text" id="calles" name="calles" required={true} placeholder='Obligatorio' onChange={callesFormChangeHandler}/>
                 <label htmlFor="localidad">Localidad</label>

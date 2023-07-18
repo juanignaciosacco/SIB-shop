@@ -40,3 +40,26 @@ nav {
   cursor: pointer;
   font-size: 16px;
 }
+
+.btns {   
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+}
+
+@media only screen and (max-width: 480px) {
+
+  .form {
+    width: 80%;
+  }
+
+  .btns {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .btn {
+    margin-top: 10px;
+  }
+
+}

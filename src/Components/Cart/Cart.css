@@ -52,3 +52,28 @@
 .pagoMP {
     text-align: center;
 }
+
+@media only screen and (max-width: 480px) {
+    
+    .cart {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    .itemsInCart {
+        flex-direction: column;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .formInCart {
+        display: flex;
+        width: 90%;
+        flex-direction: column;
+        justify-content: center;
+        margin: 20px auto 40px;
+    }
+
+}

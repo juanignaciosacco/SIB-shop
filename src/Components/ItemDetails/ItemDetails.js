@@ -68,75 +68,75 @@ const ItemDetails = ({idProd}) => {
 
     return (
         <div className='itemDetailsContainer'>
-        {images2.length !== 0 ? (
-            <div className='itemDetails'>
-                <div className="itemDetailCarousel">
-                    <CarouselItemDetail currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} colorP={colorP} images={images2}/>
-                </div>
-                <div className='itemDetailInfo'>
-                    <h1>{producto.title}</h1>
-                    <h2>${producto.price}</h2>
-                    <hr style={{marginBottom: '30px', marginTop: '30px'}}/>
-                    <h3>Hecho en Uruguay</h3>
-                    <p>Materiales: {producto.Materiales}</p>
-                    <hr style={{marginBottom: '30px', marginTop: '30px'}}/>
-                    <h3>Medidas</h3>
-                    {producto.Talles.length >= 1 ? (
-                        <div>
-                            <p>Talles: </p>
-                            <select onChange={selectTalleHandler}>
-                                <option>Selecciona un talle</option>
-                                {producto.Talles.map((prod) =>( 
-                                    <option key={prod.id} name={prod.talle} value={prod.talle} id={prod.talle}>{prod.talle}</option>
-                                ))}
-                            </select>
-                        </div>
-                        ):(
-                        <div>
-                            <p>Talle unico</p>
-                        </div>    
-                    )}
-                    {producto.Largo !== '0' && producto.Largo !== '' &&  <p>- Largo: {producto.Largo} cm</p>}
-                    {producto.AnchoBusto !== '0' && producto.AnchoBusto !== '' &&  <p>- Ancho Busto: {producto.AnchoBusto} cm</p>}
-                    {producto.Ruedo !== '0' && producto.Ruedo !== '' && <p>- Ruedo: {producto.Ruedo} cm</p>}
-                    <hr style={{marginBottom: '30px', marginTop: '30px'}}/>
-                    <div id='coloresDetailsContainer'>
-                        <h3>Colores:</h3>        
-                        <div>
-                        {producto.Colores.length !== 0 && (producto.Colores.map((color, index) => (
-                            Object.keys(color.sizes).some((size) => size === talleSelec) ? (
-                                <button className='colorBtnItemDetails' onClick={selectColor} key={index} id={color.color} style={{backgroundColor: `${color.color}`}}/>
-                            ):(talleSelec === '' && (
-                                <button className='colorBtnItemDetails' onClick={selectColor} key={index} id={color.color} style={{backgroundColor: `${color.color}`}}/>
-                            ))
-                            )))}
-                        </div>
-                        {colorSeleccionado && (
-                            <div>
-                                <h3>Color seleccionado para agregar a carrito</h3>
-                                <div className='colorBtnItemDetails' style={{backgroundColor: `${colorP}`, marginBottom: '15px'}}></div>
-                                <label style={{marginRight: '10px'}}>Selecciona un talle:</label>
-                                <div className='talleSelection'>
-                                    {producto.Colores.map((color) => (
-                                        color.color === colorP && (
-                                            Object.entries(color.sizes).map(([size, index]) => (
-                                                <div className={talleSeleccionado === size ? 'tallesDetails seleccionado' : 'tallesDetails'} onClick={selectTalle} id={size} key={index}>{size}</div>
-                                            ))
-                                        )
-                                    ))}
-                                </div>
-                            </div>
-                        )}
+            {images2.length !== 0 ? (
+                <div className='itemDetails'>
+                    <div className="itemDetailCarousel">
+                        <CarouselItemDetail currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} colorP={colorP} images={images2}/>
                     </div>
-                    <Link to={'/carrito'}><button className='btn' onClick={addItemToCartList}>Agregar al carrito</button></Link>
+                    <div className='itemDetailInfo'>
+                        <h1>{producto.title}</h1>
+                        <h2>${producto.price}</h2>
+                        <hr style={{marginBottom: '30px', marginTop: '30px'}}/>
+                        <h3>Hecho en Uruguay</h3>
+                        <p>Materiales: {producto.Materiales}</p>
+                        <hr style={{marginBottom: '30px', marginTop: '30px'}}/>
+                        <h3>Medidas</h3>
+                        {producto.Talles.length >= 1 ? (
+                            <div>
+                                <p>Talles: </p>
+                                <select onChange={selectTalleHandler}>
+                                    <option>Selecciona un talle</option>
+                                    {producto.Talles.map((prod) =>( 
+                                        <option key={prod.id} name={prod.talle} value={prod.talle} id={prod.talle}>{prod.talle}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            ):(
+                            <div>
+                                <p>Talle unico</p>
+                            </div>    
+                        )}
+                        {producto.Largo !== '0' && producto.Largo !== '' &&  <p>- Largo: {producto.Largo} cm</p>}
+                        {producto.AnchoBusto !== '0' && producto.AnchoBusto !== '' &&  <p>- Ancho Busto: {producto.AnchoBusto} cm</p>}
+                        {producto.Ruedo !== '0' && producto.Ruedo !== '' && <p>- Ruedo: {producto.Ruedo} cm</p>}
+                        <hr style={{marginBottom: '30px', marginTop: '30px'}}/>
+                        <div id='coloresDetailsContainer'>
+                            <h3>Colores:</h3>        
+                            <div>
+                            {producto.Colores.length !== 0 && (producto.Colores.map((color, index) => (
+                                Object.keys(color.sizes).some((size) => size === talleSelec) ? (
+                                    <button className='colorBtnItemDetails' onClick={selectColor} key={index} id={color.color} style={{backgroundColor: `${color.color}`}}/>
+                                ):(talleSelec === '' && (
+                                    <button className='colorBtnItemDetails' onClick={selectColor} key={index} id={color.color} style={{backgroundColor: `${color.color}`}}/>
+                                ))
+                                )))}
+                            </div>
+                            {colorSeleccionado && (
+                                <div>
+                                    <h3>Color seleccionado para agregar a carrito</h3>
+                                    <div className='colorBtnItemDetails' style={{backgroundColor: `${colorP}`, marginBottom: '15px'}}></div>
+                                    <label style={{marginRight: '10px'}}>Selecciona un talle:</label>
+                                    <div className='talleSelection'>
+                                        {producto.Colores.map((color) => (
+                                            color.color === colorP && (
+                                                Object.entries(color.sizes).map(([size, index]) => (
+                                                    <div className={talleSeleccionado === size ? 'tallesDetails seleccionado' : 'tallesDetails'} onClick={selectTalle} id={size} key={index}>{size}</div>
+                                                ))
+                                            )
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                        <Link to={'/carrito'}><button className='btn' onClick={addItemToCartList}>Agregar al carrito</button></Link>
+                    </div>
                 </div>
-            </div>
-        ):(
-            <div>
-                <p>Cargando...</p>
-            </div>
-            )
-        }  
+            ):(
+                <div>
+                    <p>Cargando...</p>
+                </div>
+                )
+            }  
         </div>
     )
 }

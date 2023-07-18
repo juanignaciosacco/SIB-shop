@@ -1,6 +1,24 @@
-#formCompra {
+.formCompraUsu form{
+    display: flex;
+    width: 350px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+/* #formCompra {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+} */
+
+@media only screen and (max-width: 480px) {
+
+    .formCompraUsu form {
+        width: auto;
+    }
 }

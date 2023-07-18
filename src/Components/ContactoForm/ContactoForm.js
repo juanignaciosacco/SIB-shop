@@ -13,7 +13,7 @@ const ContactoForm = () => {
                 <input name="email" id="email" className='formInputs' />
                 <label htmlFor="mensaje">Mensaje</label>
                 <textarea name="mensaje" id="mensaje" rows='10' cols='50' className='formInputs' />
-                <div>
+                <div className='btns'>
                     <button className='btn'>Enviar</button>
                     <button className='btn'>Resetear</button>
                 </div>

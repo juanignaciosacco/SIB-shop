@@ -12,3 +12,11 @@
     border: 1px solid black;
     margin: 0 auto;
 }
+
+@media only screen and (max-width: 480px) {
+
+    .itemCartImg img {
+        width: 280px;
+    }
+
+}

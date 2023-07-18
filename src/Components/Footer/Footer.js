@@ -22,14 +22,6 @@ const Footer = () => {
             <li><a href="wwww.instagram.com"><FontAwesomeIcon icon={faInstagram} /></a></li>
           </ul>
         </div>
-        <div className="section--news">
-          <h3 className="heading">Newsletter</h3>
-          <p>Suscríbete a nuestro boletín para recibir nuestras últimas noticias y ofertas.</p>
-          <form>
-            <input type="email" placeholder="Tu correo electrónico" className="input" />
-            <button type="submit" className="btn">Suscribirse</button>
-          </form>
-        </div>
       </div>
     </footer>
   );
