@@ -10,7 +10,7 @@
     flex-wrap: wrap;
     row-gap: 20px;
     justify-content: space-evenly;
-    algin-items: center;
+    align-items: center;
 }
 
 .ordenEnHistorial {

@@ -15,7 +15,7 @@ const AccesoAdmin = () => {
     const logInHandler = (ev) => {
         ev.preventDefault()
         signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
+            .then(() => {
                 setIsLogged(true)
                 adminIsLogged()
             })
