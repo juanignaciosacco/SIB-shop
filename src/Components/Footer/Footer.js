@@ -19,7 +19,7 @@ const Footer = () => {
         <div className="section--redes">
           <h3 className="heading">Redes Sociales</h3>
           <ul className="list--redes">
-            <li><a href="wwww.instagram.com"><FontAwesomeIcon icon={faInstagram} /></a></li>
+            <li><a href="https://instagram.com/sibhouse.uy?igshid=MjEwN2IyYWYwYw==" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faInstagram} /></a></li>
           </ul>
         </div>
       </div>

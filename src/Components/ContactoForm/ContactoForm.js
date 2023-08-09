@@ -4,7 +4,7 @@ const ContactoForm = () => {
 
     return (
         <div id="contactoForm">
-            <form className="form">
+            <form className="form" action="https://formsubmit.co/your@email.com" method='POST'>
                 <label htmlFor="nombre">Nombre</label>
                 <input name="nombre" id="nombre" className='formInputs' />
                 <label htmlFor="apellido">Apellido</label>

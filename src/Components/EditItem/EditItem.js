@@ -29,11 +29,11 @@ const EditItem = ({ producto }) => {
   
     const handleColorDelete = (index, event) => {
         event.preventDefault()
-      setColors((prevColors) => {
-        const updatedColors = [...prevColors];
-        updatedColors.splice(index, 1);
-        return updatedColors;
-      });
+        setColors((prevColors) => {
+            const updatedColors = [...prevColors];
+            updatedColors.splice(index, 1);
+            return updatedColors;
+        });
     };
 
     const nombreChangeHandler = (ev) => {
@@ -144,7 +144,6 @@ const EditItem = ({ producto }) => {
             alert('Fallo interno, avisale a juanchi ', error)
             }
         const prod = doc(items2, `${producto.id}`)
-        
         updateDoc(prod, {
             Nombre: nombreProdEdit,
             Precio: precioProdEdit,

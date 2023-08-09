@@ -1,15 +1,16 @@
 import './Cart.css'
 import { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import ItemCart from "../ItemCart/ItemCart";
 import { CartContext } from '../../Contextos/CartContext';
-import { initMercadoPago } from '@mercadopago/sdk-react'
+import { initMercadoPago } from '@mercadopago/sdk-react';
 import Payment from '../PaymentSummary/Payment';
 import ResumenDeCompra from '../ResumenDeCompra/ResumenDeCompra';
 import FormCompra from '../FormCompra/FormCompra';
 import FormCompraDireccion from '../FormCompraDireccion/FormCompraDireccion';
 
-initMercadoPago('APP_USR-21fa9365-b7a0-44e2-b57e-b518d8ef2322');
+// initMercadoPago('APP_USR-21fa9365-b7a0-44e2-b57e-b518d8ef2322');
+initMercadoPago("TEST-643bb10a-a98a-4070-ba43-8874c23f7f3b");
 
 
 const Cart = () => {
@@ -21,17 +22,18 @@ const Cart = () => {
     const [formFilled, setFormFilled] = useState(false)
     const [formDirectionFilled, setFormDirectionFilled] = useState(false)
     const [retiro, setRetiro] = useState()
-    
+
     useEffect(() => {
         setOrderSummary({quantity: parseInt(totalItems), price: parseInt(precioTotal) })
     }, [totalItems, precioTotal])
-    
+
     const vaciarClickHandler = () => {
         clearAllItems()
     }
 
     const handleClickMP = () => {
-        fetch("https://backend.sib.com.uy/create_preference", {
+        // fetch("https://backend.sib.com.uy/create_preference", {
+        fetch("http://localhost:8080/create_preference", {
         method: "POST",
             headers: {
             "Content-Type": "application/json",
@@ -64,6 +66,7 @@ const Cart = () => {
 
     const siguienteClickHandler = () => {
         setFormFilled(true)
+    
     }
 
     const volverClickHandler = () => {
@@ -119,7 +122,7 @@ const Cart = () => {
                                                 {preferenceId && (
                                                     <div className='pagoMP'>
                                                         <Payment />
-                                                        <button className='btn' onClick={handleClickCancel}>Cancelar</button>
+                                                        <button className='btn btn-cancelar' onClick={handleClickCancel}>Cancelar</button>
                                                     </div>
                                                 ) }
                                             </div>

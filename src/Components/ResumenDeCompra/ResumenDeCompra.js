@@ -1,9 +1,11 @@
 import { useContext } from "react";
 import { CartContext } from "../../Contextos/CartContext";
+import { Link } from "react-router-dom";
 
 const ResumenDeCompra = ({pagoMP, pagoET, onClickCancel, onClickET, onClickMP, onClickVaciar, onClickVolver }) => {
 
     const { productosAgregados, precioTotal, totalItems} = useContext(CartContext)
+    
 
     const handleClickET = () => {
         onClickET()
@@ -57,8 +59,8 @@ const ResumenDeCompra = ({pagoMP, pagoET, onClickCancel, onClickET, onClickMP, o
                                 <p>Total: <span>${precioTotal}</span></p>
                             </div>
                             <p>Debes contactarte con el administrador para coordinar el pago</p>
-                            <button className='btn'>Contactate</button>
-                            <button className='btn' onClick={handleClickCancel}>Cancelar</button>
+                            <Link to={`/feedback/true`}><button className='btn'>Contactate</button></Link>
+                            <button className='btn btn-cancelar' onClick={handleClickCancel}>Cancelar</button>
                         </div>
                     )}
                 </div>

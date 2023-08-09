@@ -16,8 +16,6 @@ const AccesoAdmin = () => {
         ev.preventDefault()
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-                const user = userCredential.user
-                console.log(user.uid)
                 setIsLogged(true)
                 adminIsLogged()
             })
@@ -37,9 +35,7 @@ const AccesoAdmin = () => {
     }
 
     const updatePassHandler = () => {
-        console.log(email)
         if (email !== undefined && email !== null) {
-            console.log('gola')
             sendPasswordResetEmail(auth, email)
                 .then(() => {
                     alert('Email enviado correctamente')
@@ -68,7 +64,7 @@ const AccesoAdmin = () => {
             <div className='logInContainer'>
                 {isLogged ? (
                     <div>
-                        <Link to={'/historial'}><button>Ordenes</button></Link>
+                        <Link to={'/obtenerOrdenes'}><button className='btn'>Ordenes</button></Link>
                         <button className='btn' onClick={logOutHandler}>Cerrar sesion</button>
                     </div>
                 ):(

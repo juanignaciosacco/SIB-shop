@@ -2,7 +2,6 @@ import './Navbar.css'
 import ImgLogo1 from '../../assets/logo1.png'
 import { Link } from 'react-router-dom'
 import { useContext, useState, useEffect } from 'react'
-import { AdminContext } from '../../Contextos/AdminContext'
 import { CartContext } from '../../Contextos/CartContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBarsStaggered, faCartShopping, faUser } from '@fortawesome/free-solid-svg-icons'
@@ -13,7 +12,6 @@ const Navbar = () => {
     const [isCollapsed, setIsCollapsed] = useState()
     const [totalItemsWidget, setTotalItemsWidget] = useState(0)
     const [showNabar, setShowNavbar] = useState()
-    const { logged, adminIsLogged } = useContext(AdminContext)
     const { totalItems } = useContext(CartContext)
 
     useEffect(() => {
@@ -25,10 +23,6 @@ const Navbar = () => {
         showPerfil ? setShowPerfil(false) : setShowPerfil(true)
     }
 
-    const logoutClickHandler = () => {
-        adminIsLogged()
-    }
-
     const showNavbarItems = () => {
         showNabar ? setShowNavbar(false) : setShowNavbar(true)
     }
@@ -37,7 +31,7 @@ const Navbar = () => {
         if (window.innerWidth <= 768) {
           setIsCollapsed(true);
           setShowNavbar(false);
-        } else if (window.innerWidth >= 770 && window.innerWidth <= 784) {
+        } else if (window.innerWidth >= 769 && window.innerWidth <= 784) {
             setIsCollapsed(true);
             setShowNavbar(false);
         } else {
@@ -47,9 +41,8 @@ const Navbar = () => {
       };
     
       useEffect(() => {
-        // handleResize();
+        handleResize();
         window.addEventListener('resize', handleResize);
-        console.log('hola')
         return () => {
           window.removeEventListener('resize', handleResize);
         };
@@ -77,25 +70,7 @@ const Navbar = () => {
                         <li  onClick={userWidgetClickHandler}>
                             <div className='widget-user'>
                                 <div className='widget'>
-                                    <FontAwesomeIcon icon={faUser} />
-                                </div>
-                                <div>
-                                    {showPerfil ? (
-                                        logged ? (
-                                            <ul className='profileMenu'>
-                                                <li onClick={logoutClickHandler}>Logout</li>
-                                            </ul>
-                                        ):(
-                                            <ul className='profileMenu'>
-                                                <li><Link to={'/login'}>Login</Link></li>
-                                            </ul>
-                                        )
-                                    ):(
-                                        <ul className='profileMenu-hidden'>
-                                            <li><Link to={'/login'}>Login</Link></li>
-                                            <li><Link to={'/login'}>Logout</Link></li>
-                                        </ul>
-                                    )}
+                                    <Link to={'/login'}><FontAwesomeIcon icon={faUser} /></Link>
                                 </div>
                             </div>
                         </li>

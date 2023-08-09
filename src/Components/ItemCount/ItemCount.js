@@ -1,33 +1,36 @@
 import './ItemCount.css'
-import { useState, useContext, useEffect } from "react";
-import { CartContext } from "../../Contextos/CartContext";
+import {useState, useContext, useEffect} from "react";
+import {CartContext} from "../../Contextos/CartContext";
+import swal from 'sweetalert';
 
-const ItemCount = ({ producto }) => {
+const ItemCount = ({producto}) => {
 
     const [stockReal, setStockReal] = useState(0)
     const [contador, setContador] = useState()
-    const { productosAgregados, moreItemsOnCart, lessItemsOnCart, removeItemFromCart } = useContext(CartContext)
-    
-        useEffect(() => {
-            productosAgregados.forEach(prod => {
-                if (prod === producto) {
-                    setContador(prod.quantity)
-                }
-            });
-            for (const i of producto.Colores) {
-                if (`${i.color}` === producto.ColorSelec) {
-                    for (const key in i.sizes) {
-                        if ( `${key}` === producto.TalleSelec ) {
-                            setStockReal(i.sizes[key])
-                        } 
+    const {productosAgregados, moreItemsOnCart, lessItemsOnCart, removeItemFromCart} = useContext(CartContext)
+
+    useEffect(() => {
+        productosAgregados.forEach(prod => {
+            if (prod === producto) {
+                setContador(prod.quantity)
+            }
+        });
+        for (const i of producto.Colores) {
+            if (`${
+                i.color
+            }` === producto.ColorSelec) {
+                for (const key in i.sizes) {
+                    if (`${key}` === producto.TalleSelec) {
+                        setStockReal(i.sizes[key])
                     }
                 }
             }
-        }, [producto, productosAgregados])
+        }
+    }, [producto, productosAgregados])
 
     const moreItems = () => {
-        if (contador >= stockReal) {
-            alert('No quedan mas productos en stock')
+        if (contador > stockReal) {
+            swal('No quedan mas productos en stock!')
         } else {
             setContador(contador + 1)
             moreItemsOnCart(producto.id, 1, producto.ColorSelec, producto.TalleSelec)
@@ -35,13 +38,13 @@ const ItemCount = ({ producto }) => {
     }
 
     const lessItems = () => {
-       if (contador <= 1) {
-        alert('Has eliminado el producto')
-        removeItemFromCart(producto)
-       } else {
-        setContador(contador - 1)
-        lessItemsOnCart(producto.id, 1, producto.ColorSelec, producto.TalleSelec)
-       }
+        if (contador <= 1) {
+            swal('Has eliminado el producto de tu carrito!')
+            removeItemFromCart(producto)
+        } else {
+            setContador(contador - 1)
+            lessItemsOnCart(producto.id, 1, producto.ColorSelec, producto.TalleSelec)
+        }
     }
 
     return (

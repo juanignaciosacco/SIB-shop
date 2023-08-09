@@ -11,9 +11,9 @@ import { ItemsProvider } from './Contextos/CartContext';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import FeedbackCompra from './Components/feedbackCompra/FeedbackCompra';
 import Footer from './Components/Footer/Footer';
-import HistoryOrders from './Components/HistoryOrders/HistoryOrders';
 import WhatsappWidget from './Components/WhatsappWidget/WhatsappWidget';
 import InConstruction from './Components/InConstruction/InConstruction';
+import ObtenerOrdenes from './Components/ObtenerOrdenes/ObtenerOrdenes';
 
 function App() {
 
@@ -39,9 +39,8 @@ function App() {
                       <Route exact path="/tienda/producto/:id" element={<ItemDetailContainer />} />
                       <Route exact path='/contacto' element={<Contacto />} />
                       <Route exact path='/carrito' element={<Cart />} />
-                      {/* <Link to='/feedback' element={<FeedbackCompra />} /> */}
-                      <Route exact path='/feedback' element={<FeedbackCompra />} />
-                      <Route exact path='/historial' element={<HistoryOrders />} />
+                      <Route exact path='/feedback/:compraEf' element={<FeedbackCompra />} />
+                      <Route exact path='/obtenerOrdenes' element={<ObtenerOrdenes />} />
                   </Routes>
                   <WhatsappWidget />
               <footer>

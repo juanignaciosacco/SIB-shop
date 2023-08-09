@@ -3,11 +3,11 @@ import { useState, useEffect } from 'react'
 
 const FormCompra = ({ onClickSiguiente, envio }) => {
 
-    const [nombre, setNombre] = useState()
-    const [apellido, setApellido] = useState()
-    const [email, setEmail] = useState()
-    const [telefono, setTelefono] = useState()
-    const [retiro, setRetiro] = useState()
+    const [nombre, setNombre] = useState('')
+    const [apellido, setApellido] = useState('')
+    const [email, setEmail] = useState('')
+    const [telefono, setTelefono] = useState('')
+    const [retiro, setRetiro] = useState('')
     const [infoUsuario, setInfoUsuario] = useState({})
 
     const setNombreForm = (ev) => {
@@ -32,18 +32,31 @@ const FormCompra = ({ onClickSiguiente, envio }) => {
     }
 
     const siguienteClickHandler = () => {
-        localStorage.setItem('infoUsuario', JSON.stringify(infoUsuario))
         !Object.values(infoUsuario).some((e) => e === undefined) && onClickSiguiente()
     }
 
     useEffect(() => {
+        let nombreNormalizado = nombre.toString()
+        nombreNormalizado = nombreNormalizado.toLowerCase()
+        let apellidoNormalizado = apellido.toString()
+        apellidoNormalizado = apellidoNormalizado.toLowerCase()
+        let emailNormalizado = email.toString()
+        emailNormalizado = emailNormalizado.toLowerCase()
+        let telefonoNormalizado = telefono.toString()
         setInfoUsuario({
-            nombre: nombre,
-            apellido: apellido,
-            email: email,
-            telefono: telefono
+            nombre: nombreNormalizado,
+            apellido: apellidoNormalizado,
+            email: emailNormalizado,
+            telefono: telefonoNormalizado,
+            tipoDeEnvio: retiro
+
         })
-    },[nombre, apellido, email, telefono])
+    },[nombre, apellido, email, telefono, retiro])
+
+    useEffect(() => {
+        console.log(infoUsuario)
+        localStorage.setItem('infoUsuario', JSON.stringify(infoUsuario))
+    }, [infoUsuario])
 
     return (
         <div className="formCompraUsu">

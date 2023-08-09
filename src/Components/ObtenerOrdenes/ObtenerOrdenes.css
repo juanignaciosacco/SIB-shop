@@ -1,0 +1,46 @@
+#ordenesContainer {
+    margin-bottom: 50px;
+    text-align: center;
+    margin-top: 150px;
+}
+
+.historialOrdenesContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    row-gap: 20px;
+    justify-content: space-evenly;
+    algin-items: center;
+}
+
+.ordenEnHistorial {
+    border: 1px solid black;
+    border-radius: 10px;
+    max-height: 400px;
+    padding: 10px;
+    text-align: center;
+    overflow-y: scroll;
+}
+
+.ordenEnHistorial-verde {
+    background-color: rgba(10, 245, 0, 0.3);
+}
+
+.ordenEnHistorial-rojo {
+    background-color: rgba(245, 18, 1, 0.3);
+}
+
+.ordenEnHistorial-amarillo {
+    background-color: rgba(255, 210, 3, 0.3);
+}
+
+.buscadorDeOrdenes {
+    margin: 0 auto 20px;
+    width: 500px;
+}
+
+.btnsOrdenes {
+    display: flex;
+    justify-content: space-evenly;
+    column-gap: 20px;
+}
