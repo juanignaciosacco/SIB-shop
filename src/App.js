@@ -14,6 +14,7 @@ import Footer from './Components/Footer/Footer';
 import WhatsappWidget from './Components/WhatsappWidget/WhatsappWidget';
 import InConstruction from './Components/InConstruction/InConstruction';
 import ObtenerOrdenes from './Components/ObtenerOrdenes/ObtenerOrdenes';
+import ObtenerOrden from './Components/ObtenerOrden/ObtenerOrden';
 
 function App() {
 
@@ -40,7 +41,8 @@ function App() {
                       <Route exact path='/contacto' element={<Contacto />} />
                       <Route exact path='/carrito' element={<Cart />} />
                       <Route exact path='/feedback/:compraEf' element={<FeedbackCompra />} />
-                      <Route exact path='/obtenerOrdenes' element={<ObtenerOrdenes />} />
+                      <Route exact path='/obtenerOrdenes/' element={<ObtenerOrdenes />} />
+                      <Route exact path='/obtenerOrden/:idOrdenComprador' element={<ObtenerOrden />} />
                   </Routes>
                   <WhatsappWidget />
               <footer>
