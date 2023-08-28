@@ -24,3 +24,9 @@
 .pending {
     color: #bbbb15;
 }
+
+.botonesFeedback {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const OrdenCard = ( { orden, deleteOrden, marcarOrden } ) => {
+const OrdenCard = ( { orden, deleteOrden, marcarOrden, isLogged } ) => {
 
     const marcarOrdenCard = (ev) => {
         marcarOrden(ev.target.parentElement.parentElement.id);
@@ -11,7 +11,10 @@ const OrdenCard = ( { orden, deleteOrden, marcarOrden } ) => {
     }
 
   return (
-    <div id={orden.id} className={orden.estadoDePago === "Pendiente" ? 'ordenEnHistorial ordenEnHistorial-amarillo' : orden.ordenEntregada ? 'ordenEnHistorial ordenEnHistorial-verde' : 'ordenEnHistorial ordenEnHistorial-rojo'} key={orden.id}>
+    <div id={orden.id} className={orden.estadoDePago === "Pendiente" ?
+        'ordenEnHistorial ordenEnHistorial-rojo' : orden.ordenEntregada ?
+                 'ordenEnHistorial ordenEnHistorial-verde' : 'ordenEnHistorial ordenEnHistorial-amarillo'}
+         key={orden.id}>
         <h3>Orden: {orden.ordenEntregada ? 'Orden entregada' : 'Entrega pendiente'}</h3>
         <p><b>ID Orden:</b> {orden.idOrden}</p>
         <p><b>ID Pago:</b> {orden.idPago}</p>
@@ -38,14 +41,17 @@ const OrdenCard = ( { orden, deleteOrden, marcarOrden } ) => {
                     <p><b>Talle:</b> {prod.TalleSelec}</p>
                     <p><b>Cantidad:</b> {prod.quantity}</p>
                     <p><b>Color:</b> {prod.ColorSelec}</p>
+                    <p><b>Precio Total:</b> {prod.precioTotal}</p>
                     <hr/>
                 </div>
             ))}
         </div>
-        <div className='btnsOrdenes'>
-            <button className='btn' onClick={marcarOrdenCard}>{orden.ordenEntregada ? 'Marcar como no entregada' : 'Marcar como entregada'}</button>
-            <button className='btn' onClick={delteDocCard}>Eliminar orden</button>
-        </div>
+        {isLogged && (
+            <div className='btnsOrdenes'>
+                <button className='btn' onClick={marcarOrdenCard}>{orden.ordenEntregada ? 'Marcar como no entregada' : 'Marcar como entregada'}</button>
+                <button className='btn' onClick={delteDocCard}>Eliminar orden</button>
+            </div>
+        )}
     </div>
   )}
 

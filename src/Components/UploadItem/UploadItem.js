@@ -1,8 +1,9 @@
-import './UploadItem.css'
-import { getFirestore, doc, collection, setDoc } from "firebase/firestore"
-import { useState } from "react"
-import { uploadFile, convertHeic } from '../../index'
-import ColorInput from '../ColorInput/ColorInput'
+import './UploadItem.css';
+import { getFirestore, doc, collection, setDoc } from "firebase/firestore";
+import {useEffect, useState} from "react";
+import { uploadFile, convertHeic } from '../../index';
+import ColorInput from '../ColorInput/ColorInput';
+import swal from 'sweetalert';
 
 const UploadItem = () => {
 
@@ -13,6 +14,7 @@ const UploadItem = () => {
     const [largo, setLargo] = useState('')
     const [ancho, setAncho] = useState('')
     const [ruedo, setRuedo] = useState('')
+    const [tieneMedidas, setTieneMedidas] = useState(false)
     const [NIProd, setNIProd] = useState()
     const [file, setFile] = useState()
     const [colorItems, setColorItems] = useState([]);
@@ -83,52 +85,73 @@ const UploadItem = () => {
         setTalles(newTalles);
     }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        var results = []
-        setCargandoItem(true)
-        try {
-            for (const i of file) {
-                if (i.type === "image/heic") {
-                    results.push(await convertHeic(i))
-                } else {
-                    results.push(await uploadFile(i))
-                }
+    useEffect(() => {
+        if (talles.length === 0) {
+            if (largo !== "" || ancho !== "" || ruedo !== "") {
+                setTieneMedidas(true)
             }
-        } catch (error) {
-            alert('Fallo interno, avisale a juanchi ', error)
-            setCargandoItem(false)
+        } else {
+            setTieneMedidas(true)
         }
-            setDoc(doc(items2), {
-                title: nombreProd,
-                price: precioProd,
-                category_id: categoriaProd,
-                Materiales: materialesProd,
-                Largo: largo,
-                AnchoBusto: ancho,
-                Ruedo: ruedo,
-                NuevoIngreso: NIProd,
-                Colores: colorItems,
-                Talles: talles,
-                picture_url: results
-            }).then(() => {
-                setCargandoItem(false)
-            })
-            setPrecioProd('')
-            setNombreProd('')
-            setMaterialesProd('')
-            setAncho('')
-            setLargo('')
-            setRuedo('')
+    }, [talles, largo, ancho, ruedo]);
+
+    const handleSubmit = async (e) => {
+        if ( colorItems.length !== 0 ) {
+            if ( tieneMedidas ) {
+                e.preventDefault()
+                var results = []
+                setCargandoItem(true)
+                try {
+                    for (const i of file) {
+                        if (i.type === "image/heic") {
+                            results.push(await convertHeic(i))
+                        } else {
+                            results.push(await uploadFile(i))
+                        }
+                    }
+                } catch (error) {
+                    e.preventDefault()
+                    alert('Fallo interno, avisale a juanchi ', error)
+                    setCargandoItem(false)
+                }
+                setDoc(doc(items2), {
+                    title: nombreProd,
+                    price: precioProd,
+                    category_id: categoriaProd,
+                    Materiales: materialesProd,
+                    Largo: largo,
+                    AnchoBusto: ancho,
+                    Ruedo: ruedo,
+                    NuevoIngreso: NIProd,
+                    Colores: colorItems,
+                    Talles: talles,
+                    picture_url: results
+                }).then(() => {
+                    setCargandoItem(false)
+                })
+                setPrecioProd('')
+                setNombreProd('')
+                setMaterialesProd('')
+                setAncho('')
+                setLargo('')
+                setRuedo('')
+            } else {
+                e.preventDefault()
+                swal("Debe ingresar medidas o talles!")
+            }
+        } else {
+            e.preventDefault()
+            swal('Debe ingresar al menos 1 color!')
+        }
     }
 
     return (
         <div className="formUpload">
             <form className='form'>
                 <label htmlFor="Titulo">Titulo</label>
-                <input className='formInputs' name="titulo" id="titulo" onChange={nombreChangeHandler} value={nombreProd}/>
+                <input className='formInputs' required name="titulo" id="titulo" onChange={nombreChangeHandler} value={nombreProd}/>
                 <label htmlFor="Precio">Precio</label>
-                <input className='formInputs' name="precio" id="precio" onChange={precioChangeHandler} value={precioProd}/>
+                <input className='formInputs' required name="precio" id="precio" onChange={precioChangeHandler} value={precioProd}/>
                 <label htmlFor='Categoria'>Categoria</label>
                 <select className='formInputs' name='categoria' id='categoria' onChange={categoriaChangeHandler}>
                     <option value='SweatersYBuzos' id='SweatersYBuzos'>Sweaters y buzos</option>

@@ -1,14 +1,34 @@
 import './FormCompra.css'
 import { useState, useEffect } from 'react'
+import swal from "sweetalert";
 
 const FormCompra = ({ onClickSiguiente, envio }) => {
 
-    const [nombre, setNombre] = useState('')
-    const [apellido, setApellido] = useState('')
-    const [email, setEmail] = useState('')
-    const [telefono, setTelefono] = useState('')
-    const [retiro, setRetiro] = useState('')
+    const [nombre, setNombre] = useState()
+    const [apellido, setApellido] = useState()
+    const [email, setEmail] = useState()
+    const [telefono, setTelefono] = useState()
+    const [retiro, setRetiro] = useState()
     const [infoUsuario, setInfoUsuario] = useState({})
+
+    useEffect(() => {
+        // sessionStorage.setItem('infoUsuario', JSON.stringify(infoUsuario))
+        if (sessionStorage.getItem('infoUsuario') === null) {
+            sessionStorage.setItem('infoUsuario', JSON.stringify(infoUsuario))
+        } else {
+            if (Object.keys(JSON.parse(sessionStorage.getItem('infoUsuario'))).length === 5) {
+                const datos = sessionStorage.getItem('infoUsuario')
+                console.log(datos)
+                setInfoUsuario({
+                    nombre: datos.nombre,
+                    apellido: datos.apellido,
+                    email: datos.email,
+                    telefono: datos.telefono,
+                    tipoDeEnvio: datos.tipoDeEnvio
+                })
+            }
+        }
+    },[])
 
     const setNombreForm = (ev) => {
         setNombre(ev.target.value)
@@ -31,31 +51,45 @@ const FormCompra = ({ onClickSiguiente, envio }) => {
         envio(ev.target.value)
     }
 
-    const siguienteClickHandler = () => {
-        !Object.values(infoUsuario).some((e) => e === undefined) && onClickSiguiente()
+    const siguienteClickHandler = (ev) => {
+        ev.preventDefault()
+        !Object.values(infoUsuario).some((e) => e === "") ? onClickSiguiente() : swal("Debe llenar todos los campos")
     }
 
     useEffect(() => {
-        let nombreNormalizado = nombre.toString()
-        nombreNormalizado = nombreNormalizado.toLowerCase()
-        let apellidoNormalizado = apellido.toString()
-        apellidoNormalizado = apellidoNormalizado.toLowerCase()
-        let emailNormalizado = email.toString()
-        emailNormalizado = emailNormalizado.toLowerCase()
-        let telefonoNormalizado = telefono.toString()
-        setInfoUsuario({
-            nombre: nombreNormalizado,
-            apellido: apellidoNormalizado,
-            email: emailNormalizado,
-            telefono: telefonoNormalizado,
-            tipoDeEnvio: retiro
-
-        })
+            // setInfoUsuario({
+            //     nombre: nombre,
+            //     apellido: apellido,
+            //     email: email,
+            //     telefono: telefono,
+            //     tipoDeEnvio: retiro
+            // })
+        if (Object.keys(JSON.parse(sessionStorage.getItem('infoUsuario'))).length === 5 ) {
+            const datos = JSON.parse(sessionStorage.getItem('infoUsuario'))
+            setInfoUsuario({
+                nombre: datos.nombre,
+                apellido: datos.apellido,
+                email: datos.email,
+                telefono: datos.telefono,
+                tipoDeEnvio: datos.tipoDeEnvio
+            })
+        } else {
+            setInfoUsuario({
+                nombre: nombre,
+                apellido: apellido,
+                email: email,
+                telefono: telefono,
+                tipoDeEnvio: retiro
+            })
+        }
     },[nombre, apellido, email, telefono, retiro])
 
     useEffect(() => {
+        console.log(Object.keys(infoUsuario).length)
         console.log(infoUsuario)
-        localStorage.setItem('infoUsuario', JSON.stringify(infoUsuario))
+        if (Object.keys(infoUsuario).length === 5) {
+            sessionStorage.setItem('infoUsuario', JSON.stringify(infoUsuario))
+        }
     }, [infoUsuario])
 
     return (
@@ -70,8 +104,8 @@ const FormCompra = ({ onClickSiguiente, envio }) => {
                 <label htmlFor="Telefono">Telefono</label>
                 <input className='formInputs' type="text" name="Telefono" id="Telefono" required={true} onChange={setTelefonoForm}/>
                 <div className='radio'>
-                    <input type='radio' value="Tienda" name='retiro' onChange={retiroChangeHandler}/> Retiro en tienda
-                    <input type='radio' value="Domicilio" name='retiro' onChange={retiroChangeHandler}/> Retiro en domicilio
+                    <input type='radio' value="Tienda" name='retiro' onChange={retiroChangeHandler} /> Retiro en tienda
+                    <input type='radio' value="Domicilio" name='retiro' onChange={retiroChangeHandler} /> Retiro en domicilio
                 </div>
                 <div>
                     {retiro === "Tienda" && <p>Te avisaremos por mail cuando este pronta tu compra para que lo retires por nuestro local!</p>}

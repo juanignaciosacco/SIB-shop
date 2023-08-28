@@ -1,5 +1,6 @@
 import './FormCompraDireccion.css'
 import { useState, useEffect } from "react";
+import swal from "sweetalert";
 
 const FormCompraDireccion = ({ onClickSiguiente, isHidden }) => {
 
@@ -32,11 +33,12 @@ const FormCompraDireccion = ({ onClickSiguiente, isHidden }) => {
 
     const siguienteClickHandler = (ev) => {
         ev.preventDefault();
+        console.log(calles, localidad, numeroPuerta)
         localStorage.setItem('direccionUsuario', JSON.stringify(direccionUsuario))
-        if (direccionUsuario.calles !== undefined && direccionUsuario.localidad !== undefined && direccionUsuario.numero !== undefined) {
+        if (calles !== undefined && localidad !== undefined && numeroPuerta !== undefined) {
             onClickSiguiente()
-        } else if (direccionUsuario.calles === undefined && direccionUsuario.localStorage === undefined && direccionUsuario.numero === undefined) {
-            alert("Debe ingrsar los campos obligatorios!")
+        } else {
+            swal("Debe ingresar los campos obligatorios!")
         }
     }
 

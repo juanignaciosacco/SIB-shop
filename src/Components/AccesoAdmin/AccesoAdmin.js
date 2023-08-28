@@ -8,8 +8,8 @@ const AccesoAdmin = () => {
 
     const [email, setMail] = useState()
     const [password, setPassword] = useState()
-    const [isLogged, setIsLogged] = useState(false)
-    const { adminIsLogged } = useContext(AdminContext)
+    const { adminIsLogged, logged } = useContext(AdminContext)
+    const [isLogged, setIsLogged] = useState(logged)
     const auth = getAuth()
 
     const logInHandler = (ev) => {
@@ -29,6 +29,7 @@ const AccesoAdmin = () => {
             .then(() => {
                 alert('Cerraste sesion correctamente')
                 setIsLogged(false)
+                adminIsLogged()
             }).catch((error) => {
                 alert(error)
             })
@@ -63,7 +64,7 @@ const AccesoAdmin = () => {
             <h1>Login</h1>
             <div className='logInContainer'>
                 {isLogged ? (
-                    <div>
+                    <div className="btns-accesoAdmin">
                         <Link to={'/obtenerOrdenes'}><button className='btn'>Ordenes</button></Link>
                         <button className='btn' onClick={logOutHandler}>Cerrar sesion</button>
                     </div>

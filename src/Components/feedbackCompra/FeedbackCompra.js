@@ -19,6 +19,7 @@ const FeedbackCompra = () => {
     const [orderId, setOrderId] = useState()
     const [userInfo, setUserInfo] = useState({})
     const [mailOrderInfoConfig, setMailOrderInfoConfig] = useState({})
+    const [mailOrderCashInfoConfig, setMailOrderCashInfoConfig] = useState({})
     const [productos, setProductos] = useState([])
     const { compraEf } = useParams();
 
@@ -70,8 +71,9 @@ const FeedbackCompra = () => {
     }, [searchParams]);
 
     useEffect(() => {
-        const infoUsuario = JSON.parse(localStorage.getItem('infoUsuario'))
+        const infoUsuario = JSON.parse(sessionStorage.getItem('infoUsuario'))
         const dirUsuario = JSON.parse(localStorage.getItem('direccionUsuario'))
+        const precioTotal = JSON.parse(localStorage.getItem('precioTotal'))
         const infoTotalUsu = Object.assign(infoUsuario, dirUsuario)
         infoTotalUsu && setUserInfo(infoTotalUsu)
         if (orderStatus === "approved") {
@@ -81,6 +83,7 @@ const FeedbackCompra = () => {
                 idOrden: orderId,
                 ordenEntregada: false,
                 productos: productos,
+                precioTotal: precioTotal,
                 pago: "Mercadopago",
                 estadoDePago: "Confirmado"
             }).catch((error) => {
@@ -94,6 +97,7 @@ const FeedbackCompra = () => {
                 userAdress: userInfo.calles,
                 userState: userInfo.localidad,
                 userAdressNumber: userInfo.numero,
+                precioTotal: precioTotal,
                 tipoDeEnvio: userInfo.tipoDeEnvio,
                 userPaymentId: paymentId
             })
@@ -102,16 +106,24 @@ const FeedbackCompra = () => {
     }, [orderStatus, paymentId])
 
     useEffect(() => {
-        const infoUsuario = JSON.parse(localStorage.getItem('infoUsuario'))
+        const infoUsuario = JSON.parse(sessionStorage.getItem('infoUsuario'))
         const dirUsuario = JSON.parse(localStorage.getItem('direccionUsuario'))
+        const precioTotal = JSON.parse(localStorage.getItem('precioTotal'))
         const infoTotalUsu = Object.assign(infoUsuario, dirUsuario)
         if (compraEf === "true" && productos.length > 0) {
-            console.log('Hola')
+            let idCompra = v4()
+            setMailOrderCashInfoConfig({
+                idCompra: orderId,
+                tipoDeEnvio: infoUsuario.tipoDeEnvio,
+                precioTotal: precioTotal,
+                userMail: userInfo.email
+            })
             setDoc(doc(ordenesCollection), {
                 usuario: infoTotalUsu,
-                idOrden: v4(),
+                idOrden: idCompra,
                 ordenEntregada: false,
                 productos: productos,
+                precioTotal: precioTotal,
                 pago: "Efectivo, Transferencia",
                 estadoDePago: "Pendiente"
             }).catch((error) => {
@@ -138,6 +150,23 @@ const FeedbackCompra = () => {
         }
     }, [mailOrderInfoConfig, orderStatus])
 
+    useEffect(() => {
+        if (orderStatus === 'approved' && Object.keys(mailOrderCashInfoConfig).length > 0) {
+            // fetch("https://backend.sib.com.uy/feedback", {
+            fetch("http://localhost:8080/confirmacion_compra", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(mailOrderCashInfoConfig)
+            }).then((response) => {
+                return response.json();
+            }).catch((error) => {
+                console.error(error);
+            })
+        }
+    }, [mailOrderCashInfoConfig, orderStatus])
+
 
     return (
         <div className="feedback">
@@ -158,8 +187,10 @@ const FeedbackCompra = () => {
                 <h3>Informacion Compra:</h3>
                 {orderStatus === "approved" ? <p><b>Payment ID:</b> {paymentId}</p> : ""}
                 <p><b>Estado de compra:</b> {orderStatus === "approved" ? "Aprovada" : compraEf === "true" ? "Pendiente" : "Denegada"}</p>
+                <p><b>Precio Total:</b>{userInfo.precioTotal}</p>
             </div>
-            <div>
+            <div className='botonesFeedback'>
+                {compraEf === "true" && <a href='https://wa.link/p6zef9' target='_blank'><button className='btn'>Arreglar el pago</button></a>}
                 <Link to={"/"}><button className='btn'>Volver</button></Link>
             </div>
         </div>
@@ -167,4 +198,3 @@ const FeedbackCompra = () => {
 }
 
 export default FeedbackCompra;
-

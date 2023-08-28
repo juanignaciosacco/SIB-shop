@@ -52,3 +52,7 @@
     text-decoration-line: underline;
     cursor: pointer;
   }
+
+.btns-accesoAdmin button {
+    margin-left: 20px;
+}

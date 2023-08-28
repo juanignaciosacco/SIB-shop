@@ -10,8 +10,7 @@ import FormCompra from '../FormCompra/FormCompra';
 import FormCompraDireccion from '../FormCompraDireccion/FormCompraDireccion';
 
 // initMercadoPago('APP_USR-21fa9365-b7a0-44e2-b57e-b518d8ef2322');
-initMercadoPago("TEST-643bb10a-a98a-4070-ba43-8874c23f7f3b");
-
+initMercadoPago('TEST-643bb10a-a98a-4070-ba43-8874c23f7f3b');
 
 const Cart = () => {
 
@@ -22,6 +21,14 @@ const Cart = () => {
     const [formFilled, setFormFilled] = useState(false)
     const [formDirectionFilled, setFormDirectionFilled] = useState(false)
     const [retiro, setRetiro] = useState()
+
+    useEffect(() => { 
+        const data = JSON.parse(sessionStorage.getItem('infoUsuario'))
+        if (Object.keys(data).length === 5) {
+            setFormFilled(true)
+            setRetiro(data.tipoDeEnvio)
+        }
+    },[])
 
     useEffect(() => {
         setOrderSummary({quantity: parseInt(totalItems), price: parseInt(precioTotal) })
@@ -70,8 +77,9 @@ const Cart = () => {
     }
 
     const volverClickHandler = () => {
-        setRetiro('')
+        sessionStorage.removeItem('infoUsuario')
         setFormDirectionFilled(false)
+        setFormFilled(false)
     }
 
     const formDirectionIsFilled = () => {
@@ -126,7 +134,7 @@ const Cart = () => {
                                                     </div>
                                                 ) }
                                             </div>
-                                        ):(
+                                        ):(                                          
                                             <div>
                                                 <FormCompra onClickSiguiente={siguienteClickHandler} envio={envio} />
                                             </div>

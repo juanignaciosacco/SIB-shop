@@ -4,6 +4,7 @@ import { getFirestore, getDoc,  doc} from "firebase/firestore";
 import { CartContext } from '../../Contextos/CartContext';
 import { Link } from 'react-router-dom';
 import CarouselItemDetail from '../CarouselItemDetail/CarouselItemDetail';
+import swal from 'sweetalert';
 
 const ItemDetails = ({idProd}) => {
     
@@ -15,6 +16,11 @@ const ItemDetails = ({idProd}) => {
     const [colorSeleccionado, setColorSeleccionado] = useState(false)
     const [talleSeleccionado, setTalleSeleccionado] = useState('')
     const [currentIndex, setCurrentIndex] = useState(0)
+    const [esTalleUnico, setEsTalleUnico] = useState(false)
+
+    useEffect(() => {
+        setEsTalleUnico(false)
+    }, []);
 
     useEffect(() => {
         const db = getFirestore()
@@ -35,6 +41,13 @@ const ItemDetails = ({idProd}) => {
         }
         list.shift()
         setImages(list)
+        if (producto.Talles === undefined) {
+            if (producto.Largo !== "" || producto.AnchoBusto !== "" || producto.Ruedo !== "") {
+                setEsTalleUnico(true)
+            }
+        } else {
+            setEsTalleUnico(false)
+        }
     }, [producto])
 
       const selectTalleHandler = (ev) => {
@@ -45,15 +58,25 @@ const ItemDetails = ({idProd}) => {
         )
       }
 
-      const addItemToCartList = () => {
-        const productoACarrito = {
-            ...producto, 
-            quantity: 1,
-            TalleSelec: talleSeleccionado, 
-            ColorSelec: colorP,
-            imageIndx: currentIndex
-        }
-        addItemToCart(productoACarrito)
+      const addItemToCartList = (ev) => {
+        if ( colorP !== undefined ) {
+            if ( talleSeleccionado !== "" || esTalleUnico) {
+                const productoACarrito = {
+                    ...producto,
+                    quantity: 1,
+                    TalleSelec: talleSeleccionado,
+                    ColorSelec: colorP,
+                    imageIndx: currentIndex
+                }
+                addItemToCart(productoACarrito)
+            } else {
+                ev.preventDefault()
+                swal("Debe seleccionar un talle!")
+            }
+        } else {
+            ev.preventDefault()
+            swal("Debe seleccionar un color!")
+          }
       }
 
       const selectColor = (ev) => {
@@ -84,8 +107,8 @@ const ItemDetails = ({idProd}) => {
                         {producto.Talles.length >= 1 ? (
                             <div>
                                 <p>Talles: </p>
-                                <select onChange={selectTalleHandler}>
-                                    <option>Selecciona un talle</option>
+                                <select required onChange={selectTalleHandler}>
+                                    <option value="">Selecciona un talle</option>
                                     {producto.Talles.map((prod) =>( 
                                         <option key={prod.id} name={prod.talle} value={prod.talle} id={prod.talle}>{prod.talle}</option>
                                     ))}
@@ -94,37 +117,50 @@ const ItemDetails = ({idProd}) => {
                             ):(
                             <div>
                                 <p>Talle unico</p>
-                            </div>    
+                            </div>
                         )}
                         {producto.Largo !== '0' && producto.Largo !== '' &&  <p>- Largo: {producto.Largo} cm</p>}
                         {producto.AnchoBusto !== '0' && producto.AnchoBusto !== '' &&  <p>- Ancho Busto: {producto.AnchoBusto} cm</p>}
                         {producto.Ruedo !== '0' && producto.Ruedo !== '' && <p>- Ruedo: {producto.Ruedo} cm</p>}
                         <hr style={{marginBottom: '30px', marginTop: '30px'}}/>
-                        <div id='coloresDetailsContainer'>
-                            <h3>Colores:</h3>        
-                            <div>
-                            {producto.Colores.length !== 0 && (producto.Colores.map((color, index) => (
-                                Object.keys(color.sizes).some((size) => size === talleSelec) ? (
-                                    <button className='colorBtnItemDetails' onClick={selectColor} key={index} id={color.color} style={{backgroundColor: `${color.color}`}}/>
-                                ):(talleSelec === '' && (
-                                    <button className='colorBtnItemDetails' onClick={selectColor} key={index} id={color.color} style={{backgroundColor: `${color.color}`}}/>
-                                ))
-                                )))}
-                            </div>
-                            {colorSeleccionado && (
-                                <div>
-                                    <h3>Color seleccionado para agregar a carrito</h3>
-                                    <div className='colorBtnItemDetails' style={{backgroundColor: `${colorP}`, marginBottom: '15px'}}></div>
-                                    <label style={{marginRight: '10px'}}>Selecciona un talle:</label>
-                                    <div className='talleSelection'>
-                                        {producto.Colores.map((color) => (
-                                            color.color === colorP && (
-                                                Object.entries(color.sizes).map(([size, index]) => (
-                                                    <div className={talleSeleccionado === size ? 'tallesDetails seleccionado' : 'tallesDetails'} onClick={selectTalle} id={size} key={index}>{size}</div>
-                                                ))
-                                            )
-                                        ))}
+                        <div>
+                            {producto.Colores.length !== 0 && (
+                                <div id='coloresDetailsContainer'>
+                                    <h3>Colores:</h3>
+                                    <div>
+                                    {producto.Colores.length !== 0 && (producto.Colores.map((color, index) => (
+                                        Object.keys(color.sizes).some((size) => size === talleSelec) ? (
+                                            <button className='colorBtnItemDetails' onClick={selectColor} key={index} id={color.color} style={{backgroundColor: `${color.color}`}}/>
+                                        ):(talleSelec === '' && (
+                                            <button className='colorBtnItemDetails' onClick={selectColor} key={index} id={color.color} style={{backgroundColor: `${color.color}`}}/>
+                                        )))))
+                                    }
                                     </div>
+                                    {colorSeleccionado && (
+                                        <div>
+                                            <h3>Color seleccionado para agregar a carrito</h3>
+                                            <div className='colorBtnItemDetails' style={{backgroundColor: `${colorP}`, marginBottom: '15px'}}></div>
+                                            {esTalleUnico ? (
+                                                <div>
+                                                    <p>Es talle único</p>
+                                                </div>
+                                            ):(
+                                                <div>
+                                                    <label style={{marginRight: '10px'}}>Selecciona un talle:</label>
+                                                    <div className='talleSelection'>
+                                                        {producto.Colores.map((color) => (
+                                                            color.color === colorP && (
+                                                                Object.entries(color.sizes).map(([size, index]) => (
+                                                                    <div className={talleSeleccionado === size ? 'tallesDetails seleccionado' : 'tallesDetails'} onClick={selectTalle}
+                                                                         id={size} key={index}>{size}</div>
+                                                                ))
+                                                            )
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
                             )}
                         </div>
