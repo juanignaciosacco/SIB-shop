@@ -1,10 +1,10 @@
 import './ItemList.css'
 import { getDocs, collection, getFirestore } from 'firebase/firestore'
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import ItemCard from '../ItemCard/ItemCard';
 import UploadItem from '../../Components/UploadItem/UploadItem'
 
-const ItemList = ({isLogged, nuevosIngresos}) => {
+const ItemList = ({ isLogged, nuevosIngresos }) => {
 
     const [productos, setProductos] = useState([])
     const [prodNuevos, setProdNuevos] = useState([])
@@ -67,52 +67,52 @@ const ItemList = ({isLogged, nuevosIngresos}) => {
                 nuevosIngresos ? (
                     <div className='nuevosIngresosItemList'>
                         {prodNuevos.map((prod) => (
-                            <ItemCard producto={prod} isLogged={isLogged} key={prod.id}/>
-                        ))} 
+                            <ItemCard producto={prod} isLogged={isLogged} key={prod.id} />
+                        ))}
                     </div>
                 ) : (
                     <div>
                         <div className='filtros'>
                             <div className='filtro'>
                                 <label className={remerasChck ? 'activo' : ''}>
-                                    <input id='Remeras' type="checkbox" value="RemerasYTops" checked={categoriasSeleccionadas.includes("RemerasYTops")} onChange={handleFiltroCategoria}/>
+                                    <input id='Remeras' type="checkbox" value="RemerasYTops" checked={categoriasSeleccionadas.includes("RemerasYTops")} onChange={handleFiltroCategoria} />
                                     Remeras
                                 </label>
                             </div>
                             <div className='filtro'>
                                 <label className={buzosChck ? 'activo' : ''}>
-                                    <input type="checkbox" value="SweatersYBuzos" checked={categoriasSeleccionadas.includes("SweatersYBuzos")} onChange={handleFiltroCategoria}/>
+                                    <input type="checkbox" value="SweatersYBuzos" checked={categoriasSeleccionadas.includes("SweatersYBuzos")} onChange={handleFiltroCategoria} />
                                     Sweaters
                                 </label>
                             </div>
                             <div className='filtro'>
                                 <label className={camisasChck ? 'activo' : ''}>
-                                    <input type="checkbox" value="Camisas" checked={categoriasSeleccionadas.includes("Camisas")} onChange={handleFiltroCategoria}/>
+                                    <input type="checkbox" value="Camisas" checked={categoriasSeleccionadas.includes("Camisas")} onChange={handleFiltroCategoria} />
                                     Camisas
                                 </label>
                             </div>
                             <div className='filtro'>
                                 <label className={bikinisChck ? 'activo' : ''}>
-                                    <input type="checkbox" value="Bikinis" checked={categoriasSeleccionadas.includes("Bikinis")} onChange={handleFiltroCategoria}/>
+                                    <input type="checkbox" value="Bikinis" checked={categoriasSeleccionadas.includes("Bikinis")} onChange={handleFiltroCategoria} />
                                     Bikinis
                                 </label>
                             </div>
                             <div className='filtro'>
                                 <label className={accesoriosChck ? 'activo' : ''}>
-                                    <input type="checkbox" value="Accesorios" checked={categoriasSeleccionadas.includes("Accesorios")} onChange={handleFiltroCategoria}/>
+                                    <input type="checkbox" value="Accesorios" checked={categoriasSeleccionadas.includes("Accesorios")} onChange={handleFiltroCategoria} />
                                     Accesorios
                                 </label>
                             </div>
                         </div>
                         <div className='itemList'>
                             {productosFiltrados.map((prod) => (
-                                <ItemCard producto={prod} isLogged={isLogged} key={prod.id}/>
-                            ))} 
+                                <ItemCard producto={prod} isLogged={isLogged} key={prod.id} />
+                            ))}
                         </div>
                     </div>
                 )
             }
-            {isLogged && <UploadItem/>} 
+            {isLogged && <UploadItem />}
         </div>
     )
 }

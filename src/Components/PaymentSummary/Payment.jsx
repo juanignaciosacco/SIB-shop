@@ -9,16 +9,16 @@ const Payment = () => {
     if (!preferenceId) return null;
 
     return (
-      <Wallet 
+      <Wallet
         initialization={{ preferenceId: preferenceId }}
       />
-      )
+    )
   }
 
   return (
-      <div>
-        {renderCheckoutButton(preferenceId)}
-      </div>
+    <div>
+      {renderCheckoutButton(preferenceId)}
+    </div>
   );
 };
 

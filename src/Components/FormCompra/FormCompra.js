@@ -11,8 +11,7 @@ const FormCompra = ({ onClickSiguiente, envio }) => {
     const [retiro, setRetiro] = useState()
     const [infoUsuario, setInfoUsuario] = useState({})
 
-    useEffect(() => {
-        // sessionStorage.setItem('infoUsuario', JSON.stringify(infoUsuario))
+    useEffect(() => { // sessionStorage.setItem('infoUsuario', JSON.stringify(infoUsuario))
         if (sessionStorage.getItem('infoUsuario') === null) {
             sessionStorage.setItem('infoUsuario', JSON.stringify(infoUsuario))
         } else {
@@ -28,7 +27,7 @@ const FormCompra = ({ onClickSiguiente, envio }) => {
                 })
             }
         }
-    },[])
+    }, [])
 
     const setNombreForm = (ev) => {
         setNombre(ev.target.value)
@@ -57,14 +56,14 @@ const FormCompra = ({ onClickSiguiente, envio }) => {
     }
 
     useEffect(() => {
-            // setInfoUsuario({
-            //     nombre: nombre,
-            //     apellido: apellido,
-            //     email: email,
-            //     telefono: telefono,
-            //     tipoDeEnvio: retiro
-            // })
-        if (Object.keys(JSON.parse(sessionStorage.getItem('infoUsuario'))).length === 5 ) {
+        // setInfoUsuario({
+        //     nombre: nombre,
+        //     apellido: apellido,
+        //     email: email,
+        //     telefono: telefono,
+        //     tipoDeEnvio: retiro
+        // })
+        if (Object.keys(JSON.parse(sessionStorage.getItem('infoUsuario'))).length === 5) {
             const datos = JSON.parse(sessionStorage.getItem('infoUsuario'))
             setInfoUsuario({
                 nombre: datos.nombre,
@@ -82,7 +81,13 @@ const FormCompra = ({ onClickSiguiente, envio }) => {
                 tipoDeEnvio: retiro
             })
         }
-    },[nombre, apellido, email, telefono, retiro])
+    }, [
+        nombre,
+        apellido,
+        email,
+        telefono,
+        retiro
+    ])
 
     useEffect(() => {
         console.log(Object.keys(infoUsuario).length)
@@ -96,21 +101,34 @@ const FormCompra = ({ onClickSiguiente, envio }) => {
         <div className="formCompraUsu">
             <form>
                 <label htmlFor="Nombre">Nombre</label>
-                <input className='formInputs' type="text" id="Nombre" name="Nombre" required={true} onChange={setNombreForm}/>
+                <input className='formInputs' type="text" id="Nombre" name="Nombre"
+                    required={true}
+                    onChange={setNombreForm} />
                 <label htmlFor="Apellido">Apellido</label>
-                <input className='formInputs' type="text" id="Apellido" name="Apellido" required={true} onChange={setApellidoForm}/>
+                <input className='formInputs' type="text" id="Apellido" name="Apellido"
+                    required={true}
+                    onChange={setApellidoForm} />
                 <label htmlFor="Email">Email</label>
-                <input className='formInputs' type="email" name="Email" id="Email" required={true} onChange={setEmailForm}/>
+                <input className='formInputs' type="email" name="Email" id="Email"
+                    required={true}
+                    onChange={setEmailForm} />
                 <label htmlFor="Telefono">Telefono</label>
-                <input className='formInputs' type="text" name="Telefono" id="Telefono" required={true} onChange={setTelefonoForm}/>
+                <input className='formInputs' type="text" name="Telefono" id="Telefono"
+                    required={true}
+                    onChange={setTelefonoForm} />
                 <div className='radio'>
-                    <input type='radio' value="Tienda" name='retiro' onChange={retiroChangeHandler} /> Retiro en tienda
-                    <input type='radio' value="Domicilio" name='retiro' onChange={retiroChangeHandler} /> Retiro en domicilio
+                    <input type='radio' value="Tienda" name='retiro'
+                        onChange={retiroChangeHandler} />
+                    Retiro en tienda
+                    <input type='radio' value="Domicilio" name='retiro'
+                        onChange={retiroChangeHandler} />
+                    Retiro en domicilio
                 </div>
-                <div>
-                    {retiro === "Tienda" && <p>Te avisaremos por mail cuando este pronta tu compra para que lo retires por nuestro local!</p>}
-                </div>
-                <button className='btn' onClick={siguienteClickHandler}>Siguiente</button>
+                <div> {
+                    retiro === "Tienda" && <p>Te avisaremos por mail cuando este pronta tu compra para que lo retires por nuestro local!</p>
+                } </div>
+                <button className='btn'
+                    onClick={siguienteClickHandler}>Siguiente</button>
             </form>
         </div>
     )

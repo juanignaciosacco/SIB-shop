@@ -29,32 +29,32 @@ const Navbar = () => {
 
     const handleResize = () => {
         if (window.innerWidth <= 768) {
-          setIsCollapsed(true);
-          setShowNavbar(false);
+            setIsCollapsed(true);
+            setShowNavbar(false);
         } else if (window.innerWidth >= 769 && window.innerWidth <= 784) {
             setIsCollapsed(true);
             setShowNavbar(false);
         } else {
-          setIsCollapsed(false);
-          setShowNavbar(true);
+            setIsCollapsed(false);
+            setShowNavbar(true);
         }
-      };
-    
-      useEffect(() => {
+    };
+
+    useEffect(() => {
         handleResize();
         window.addEventListener('resize', handleResize);
         return () => {
-          window.removeEventListener('resize', handleResize);
+            window.removeEventListener('resize', handleResize);
         };
-      }, []);
+    }, []);
 
     return (
         <div>
             <nav className={`navbar ${isCollapsed ? 'collapsed' : ''}`}>
-                {isCollapsed && <div className='imgLogoSib'><img src={ImgLogo1} alt='Logo SIB'/></div>}
+                {isCollapsed && <div className='imgLogoSib'><img src={ImgLogo1} alt='Logo SIB' /></div>}
                 {isCollapsed && <button className='btn btn-bars' onClick={showNavbarItems}><FontAwesomeIcon icon={faBarsStaggered} /></button>}
                 <ul className={`${showNabar ? 'navbarItems' : 'ocultable'}`}>
-                    <li><img src={ImgLogo1} alt='Logo SIB'/></li>
+                    <li><img src={ImgLogo1} alt='Logo SIB' /></li>
                     <Link to={'/'}><li >Inicio</li></Link>
                     <Link to={'/tienda'}><li >Tienda</li></Link>
                     <Link to={'/contacto'}><li >Contacto</li></Link>
@@ -67,7 +67,7 @@ const Navbar = () => {
                                 </div>
                             </li>
                         </Link>
-                        <li  onClick={userWidgetClickHandler}>
+                        <li onClick={userWidgetClickHandler}>
                             <div className='widget-user'>
                                 <div className='widget'>
                                     <Link to={'/login'}><FontAwesomeIcon icon={faUser} /></Link>

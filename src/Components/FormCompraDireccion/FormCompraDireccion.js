@@ -50,22 +50,42 @@ const FormCompraDireccion = ({ onClickSiguiente, isHidden }) => {
             piso: piso,
             departamento: departamento
         })
-    },[calles, localidad, numeroPuerta, piso, departamento])
+    }, [
+        calles,
+        localidad,
+        numeroPuerta,
+        piso,
+        departamento
+    ])
 
     return (
-        <div className={isHidden ? 'hidden formCompraUsu': 'formCompraUsu'}>
+        <div className={
+            isHidden ? 'hidden formCompraUsu' : 'formCompraUsu'
+        }>
             <form>
                 <label htmlFor="calles">Calles</label>
-                <input className='formInputs' type="text" id="calles" name="calles" required={true} placeholder='Obligatorio' onChange={callesFormChangeHandler}/>
+                <input className='formInputs' type="text" id="calles" name="calles"
+                    required={true}
+                    placeholder='Obligatorio'
+                    onChange={callesFormChangeHandler} />
                 <label htmlFor="localidad">Localidad</label>
-                <input className='formInputs' type="text" id="localidad" name="localidad" required={true} placeholder='Obligatorio' onChange={localidadFormChangeHandler}/>
+                <input className='formInputs' type="text" id="localidad" name="localidad"
+                    required={true}
+                    placeholder='Obligatorio'
+                    onChange={localidadFormChangeHandler} />
                 <label htmlFor="numeroPuerta">Número</label>
-                <input className='formInputs' type="text" name="numeroPuerta" id="numeroPuerta" required={true} placeholder='Obligatorio' onChange={numeroPuertaChangeHandler}/>
+                <input className='formInputs' type="text" name="numeroPuerta" id="numeroPuerta"
+                    required={true}
+                    placeholder='Obligatorio'
+                    onChange={numeroPuertaChangeHandler} />
                 <label htmlFor="piso">Piso</label>
-                <input className='formInputs' type="text" name="piso" id="piso" onChange={pisoFormChangeHandler}/>
+                <input className='formInputs' type="text" name="piso" id="piso"
+                    onChange={pisoFormChangeHandler} />
                 <label htmlFor="departamento">Departamento</label>
-                <input className='formInputs' type="text" name="departamento" id="departamento" onChange={departamentoFormChangeHandler}/>
-                <button className='btn' onClick={siguienteClickHandler}>Siguiente</button>
+                <input className='formInputs' type="text" name="departamento" id="departamento"
+                    onChange={departamentoFormChangeHandler} />
+                <button className='btn'
+                    onClick={siguienteClickHandler}>Siguiente</button>
             </form>
         </div>
     )

@@ -18,14 +18,14 @@ const ObtenerOrdenes = () => {
     useEffect(() => {
         if (logged) {
             getDocs(ordenesCollection)
-            .then((snapshot) => {
-                const arrayProds = snapshot.docs.map((prod) => ({
-                    id: prod.id,
-                    ...prod.data()
-                }))
-                setOrdenes(arrayProds)
-            })
-            .catch((error) => console.log(error + "hola"))
+                .then((snapshot) => {
+                    const arrayProds = snapshot.docs.map((prod) => ({
+                        id: prod.id,
+                        ...prod.data()
+                    }))
+                    setOrdenes(arrayProds)
+                })
+                .catch((error) => console.log(error + "hola"))
         }
     }, [logged, ordenesCollection])
 
@@ -33,30 +33,31 @@ const ObtenerOrdenes = () => {
         swal({
             text: "Segura que desea modificar el estado de la orden?",
             buttons: ["No", "Si"]
-          }).then((value) => {
+        }).then((value) => {
             if (value) {
                 ordenes.forEach((orden) => {
                     if (orden.id === ev) {
                         const prod = doc(ordenesCollection, `${ev}`)
                         if (orden.ordenEntregada === false) {
-                        updateDoc(prod, {
-                            ordenEntregada: true,
-                            estadoDePago: "Confirmado"
-                        })
-                    } else {
-                        updateDoc(prod, {
-                            ordenEntregada: false
-                        })
-                    } 
+                            updateDoc(prod, {
+                                ordenEntregada: true,
+                                estadoDePago: "Confirmado"
+                            })
+                        } else {
+                            updateDoc(prod, {
+                                ordenEntregada: false
+                            })
+                        }
                     }
                 })
             }
-          })
+        })
     }
 
     const buscarOrden = (ev) => {
         setIdOrdenBuscada(ev.target.value)
     }
+
     const deleteOrden = (ordenId) => {
         deleteDoc(doc(ordenesCollection, `${ordenId}`))
     }
@@ -64,7 +65,7 @@ const ObtenerOrdenes = () => {
     useEffect(() => {
         if (idOrdenBuscada !== undefined) {
             let normalizar = idOrdenBuscada.toString()
-            normalizar =  normalizar.toLowerCase()
+            normalizar = normalizar.toLowerCase()
             setBusquedaNormalizada(normalizar)
         }
     }, [idOrdenBuscada]);
@@ -81,7 +82,7 @@ const ObtenerOrdenes = () => {
                 <div>
                     <div className='buscadorDeOrdenes'>
                         <h3>Buscar orden</h3>
-                        <input className='formInputs' type='text' placeholder='ID Orden o ID Pago o Nombre usuario o Telefono usuario' onChange={buscarOrden}/>
+                        <input className='formInputs' type='text' placeholder='ID Orden o ID Pago o Nombre usuario o Telefono usuario' onChange={buscarOrden} />
                     </div>
                     <div>
                         {ordenBuscada.length !== 0 ? (
@@ -96,10 +97,10 @@ const ObtenerOrdenes = () => {
                                     <OrdenCard isLogged={logged} orden={orden} marcarOrden={marcarOrden} deleteOrden={deleteOrden} key={orden.id} />
                                 ))}
                             </div>
-                        )}         
+                        )}
                     </div>
-                </div>                
-            ):(
+                </div>
+            ) : (
                 <p>Tiene que iniciar sesion para acceder a esta area!!</p>
             )}
         </div>

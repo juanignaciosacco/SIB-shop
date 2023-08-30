@@ -28,8 +28,8 @@ const ItemsProvider = ({ children }) => {
                         found = false
                     } else if (prod.ColorSelec === producto.ColorSelec && prod.TalleSelec !== producto.TalleSelec) {
                         found = false
-                    } else  if (prod === producto) {
-                        prod.quantity ++
+                    } else if (prod === producto) {
+                        prod.quantity++
                         found = true
                         setTotalItems(totalItems + 1)
                     }
@@ -53,7 +53,7 @@ const ItemsProvider = ({ children }) => {
         setTotalItems(totalItems + cantidad)
         actualizarStock(id, 'resta', false)
     }
-    
+
     const lessItemsOnCart = (id, cantidad, color, talle) => {
         productosAgregados.forEach((prod) => {
             if (prod.id === id && prod.TalleSelec === talle && prod.ColorSelec === color) {
@@ -106,8 +106,8 @@ const ItemsProvider = ({ children }) => {
 
     useEffect(() => {
         if (Object.keys(productosAgregados).length !== 0) {
-        localStorage.setItem('productosAgregados', JSON.stringify(productosAgregados))
-        localStorage.setItem('precioTotal', JSON.stringify(precioTotal))
+            localStorage.setItem('productosAgregados', JSON.stringify(productosAgregados))
+            localStorage.setItem('precioTotal', JSON.stringify(precioTotal))
         }
     }, [productosAgregados, precioTotal])
 
@@ -118,7 +118,7 @@ const ItemsProvider = ({ children }) => {
 
     return (
         <div>
-            <CartContext.Provider value={{addItemToCart, removeItemFromCart, clearAllItems, moreItemsOnCart, lessItemsOnCart, setPreferenceId, preferenceId, productosAgregados, precioTotal, totalItems}}>
+            <CartContext.Provider value={{ addItemToCart, removeItemFromCart, clearAllItems, moreItemsOnCart, lessItemsOnCart, setPreferenceId, preferenceId, productosAgregados, precioTotal, totalItems }}>
                 {children}
             </CartContext.Provider>
         </div>

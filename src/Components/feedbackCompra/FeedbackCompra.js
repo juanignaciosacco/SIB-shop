@@ -9,8 +9,7 @@ import { Link } from 'react-router-dom';
 import { CartContext } from '../../Contextos/CartContext';
 import { v4 } from 'uuid';
 
-const FeedbackCompra = () => {
-    // eslint-disable-next-line
+const FeedbackCompra = () => { // eslint-disable-next-line
     const prodsSinSTock = [];
     const { productosAgregados } = useContext(CartContext)
     const [searchParams] = useSearchParams()
@@ -33,19 +32,19 @@ const FeedbackCompra = () => {
     useEffect(() => {
         productos.forEach((prod) => {
             for (const i of prod.Colores) {
-                for(const j in i.sizes) {
-                   if (i.sizes[j] <= 1) {
-                    prodsSinSTock.push({
-                        nombreProdSinStock: prod.title,
-                        colorProdSinStock: i.color,
-                        talleProdSinStock: Object.keys(i.sizes),
-                        stockProdSinStock: i.sizes[j]
-                    })
-                   }
+                for (const j in i.sizes) {
+                    if (i.sizes[j] <= 1) {
+                        prodsSinSTock.push({
+                            nombreProdSinStock: prod.title,
+                            colorProdSinStock: i.color,
+                            talleProdSinStock: Object.keys(i.sizes),
+                            stockProdSinStock: i.sizes[j]
+                        })
+                    }
                 }
             }
         })
-    // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [productos])
 
     useEffect(() => {
@@ -112,12 +111,7 @@ const FeedbackCompra = () => {
         const infoTotalUsu = Object.assign(infoUsuario, dirUsuario)
         if (compraEf === "true" && productos.length > 0) {
             let idCompra = v4()
-            setMailOrderCashInfoConfig({
-                idCompra: orderId,
-                tipoDeEnvio: infoUsuario.tipoDeEnvio,
-                precioTotal: precioTotal,
-                userMail: userInfo.email
-            })
+            setMailOrderCashInfoConfig({ idCompra: orderId, tipoDeEnvio: infoUsuario.tipoDeEnvio, precioTotal: precioTotal, userMail: userInfo.email })
             setDoc(doc(ordenesCollection), {
                 usuario: infoTotalUsu,
                 idOrden: idCompra,
@@ -134,8 +128,7 @@ const FeedbackCompra = () => {
     }, [compraEf, productos])
 
     useEffect(() => {
-        if (orderStatus === 'approved' && Object.keys(mailOrderInfoConfig).length > 0) {
-            // fetch("https://backend.sib.com.uy/feedback", {
+        if (orderStatus === 'approved' && Object.keys(mailOrderInfoConfig).length > 0) { // fetch("https://backend.sib.com.uy/feedback", {
             fetch("http://localhost:8080/feedback", {
                 method: "POST",
                 headers: {
@@ -151,8 +144,7 @@ const FeedbackCompra = () => {
     }, [mailOrderInfoConfig, orderStatus])
 
     useEffect(() => {
-        if (orderStatus === 'approved' && Object.keys(mailOrderCashInfoConfig).length > 0) {
-            // fetch("https://backend.sib.com.uy/feedback", {
+        if (orderStatus === 'approved' && Object.keys(mailOrderCashInfoConfig).length > 0) { // fetch("https://backend.sib.com.uy/feedback", {
             fetch("http://localhost:8080/confirmacion_compra", {
                 method: "POST",
                 headers: {
@@ -170,28 +162,74 @@ const FeedbackCompra = () => {
 
     return (
         <div className="feedback">
-            <div>
-                {orderStatus === "approved" ? <i className='check'><FontAwesomeIcon icon={faCircleCheck} /></i> : compraEf === "true" ? <i className='pending'><FontAwesomeIcon icon={faSpinner} /></i> : <i className='denied'><FontAwesomeIcon icon={faCircleXmark} /></i>}
-            </div>
+            <div> {
+                orderStatus === "approved" ? <i className='check'><FontAwesomeIcon icon={faCircleCheck} /></i> : compraEf === "true" ? <i className='pending'><FontAwesomeIcon icon={faSpinner} /></i> : <i className='denied'><FontAwesomeIcon icon={faCircleXmark} /></i>
+            } </div>
             <div>
                 <h3>Informacion Personal:</h3>
-                <p><b>Nombre:</b> {userInfo.nombre}</p>
-                <p><b>Apellido:</b> {userInfo.apellido}</p>
-                <p><b>Email:</b> {userInfo.email}</p>
-                <p><b>Telefono:</b> {userInfo.telefono}</p>
-                <p><b>Direccion:</b> {userInfo.calles}</p>
-                <p><b>Localidad:</b> {userInfo.localidad}</p>
-                <p><b>Número:</b> {userInfo.numero}</p>
+                <p>
+                    <b>Nombre:</b>
+                    {
+                        userInfo.nombre
+                    }</p>
+                <p>
+                    <b>Apellido:</b>
+                    {
+                        userInfo.apellido
+                    }</p>
+                <p>
+                    <b>Email:</b>
+                    {
+                        userInfo.email
+                    }</p>
+                <p>
+                    <b>Telefono:</b>
+                    {
+                        userInfo.telefono
+                    }</p>
+                <p>
+                    <b>Direccion:</b>
+                    {
+                        userInfo.calles
+                    }</p>
+                <p>
+                    <b>Localidad:</b>
+                    {
+                        userInfo.localidad
+                    }</p>
+                <p>
+                    <b>Número:</b>
+                    {
+                        userInfo.numero
+                    }</p>
             </div>
             <div>
                 <h3>Informacion Compra:</h3>
-                {orderStatus === "approved" ? <p><b>Payment ID:</b> {paymentId}</p> : ""}
-                <p><b>Estado de compra:</b> {orderStatus === "approved" ? "Aprovada" : compraEf === "true" ? "Pendiente" : "Denegada"}</p>
-                <p><b>Precio Total:</b>{userInfo.precioTotal}</p>
+                {
+                    orderStatus === "approved" ? <p>
+                        <b>Payment ID:</b>
+                        {paymentId}</p> : ""
+                }
+                <p>
+                    <b>Estado de compra:</b>
+                    {
+                        orderStatus === "approved" ? "Aprovada" : compraEf === "true" ? "Pendiente" : "Denegada"
+                    }</p>
+                <p>
+                    <b>Precio Total:</b>
+                    {
+                        userInfo.precioTotal
+                    }</p>
             </div>
             <div className='botonesFeedback'>
-                {compraEf === "true" && <a href='https://wa.link/p6zef9' target='_blank'><button className='btn'>Arreglar el pago</button></a>}
-                <Link to={"/"}><button className='btn'>Volver</button></Link>
+                {
+                    compraEf === "true" && <a href='https://wa.link/p6zef9' target='_blank'>
+                        <button className='btn'>Arreglar el pago</button>
+                    </a>
+                }
+                <Link to={"/"}>
+                    <button className='btn'>Volver</button>
+                </Link>
             </div>
         </div>
     )

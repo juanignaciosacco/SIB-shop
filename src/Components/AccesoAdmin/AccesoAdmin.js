@@ -3,6 +3,7 @@ import { getAuth, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } 
 import { useContext, useState } from 'react'
 import { AdminContext } from '../../Contextos/AdminContext'
 import { Link } from 'react-router-dom'
+import swal from 'sweetalert'
 
 const AccesoAdmin = () => {
 
@@ -14,36 +15,32 @@ const AccesoAdmin = () => {
 
     const logInHandler = (ev) => {
         ev.preventDefault()
-        signInWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                setIsLogged(true)
-                adminIsLogged()
-            })
-            .catch((error) => {
-                console.log(error)
-            })
+        signInWithEmailAndPassword(auth, email, password).then(() => {
+            setIsLogged(true)
+            adminIsLogged()
+        }).catch((error) => {
+            console.log(error)
+        })
     }
 
     const logOutHandler = () => {
-        signOut(auth)
-            .then(() => {
-                alert('Cerraste sesion correctamente')
-                setIsLogged(false)
-                adminIsLogged()
-            }).catch((error) => {
-                alert(error)
-            })
+        signOut(auth).then(() => {
+            swal('Cerraste sesion correctamente')
+            setIsLogged(false)
+            adminIsLogged()
+        }).catch((error) => {
+            alert(error)
+        })
     }
 
     const updatePassHandler = () => {
         if (email !== undefined && email !== null) {
-            sendPasswordResetEmail(auth, email)
-                .then(() => {
-                    alert('Email enviado correctamente')
-                    setMail(undefined)
-                }).catch((error) => {
-                    alert(error)
-                })
+            sendPasswordResetEmail(auth, email).then(() => {
+                swal('Email enviado correctamente')
+                setMail(undefined)
+            }).catch((error) => {
+                alert(error)
+            })
         } else {
             setMail(prompt('Ingrese su email registrado'))
             email === '' && setMail(undefined)
@@ -57,28 +54,35 @@ const AccesoAdmin = () => {
     const passChangeHandler = (ev) => {
         setPassword(ev.target.value)
     }
-    
+
 
     return (
         <div className='login'>
             <h1>Login</h1>
             <div className='logInContainer'>
-                {isLogged ? (
-                    <div className="btns-accesoAdmin">
-                        <Link to={'/obtenerOrdenes'}><button className='btn'>Ordenes</button></Link>
-                        <button className='btn' onClick={logOutHandler}>Cerrar sesion</button>
-                    </div>
-                ):(
-                    <form className='formLogIn' onSubmit={logInHandler}>
-                        <label htmlFor="email">Email</label>
-                        <input id="email" name="email" onChange={mailChangeHandler}/>
-                        <label htmlFor="password">Contraseña</label>
-                        <input type='password' id="password" name="password" onChange={passChangeHandler}/>
-                        <button className='btn'>Log in</button>
-                        <p onClick={updatePassHandler}>Restablecer Contraseña</p>
-                    </form>
-                )}
-            </div>
+                {
+                    isLogged ? (
+                        <div className="btns-accesoAdmin">
+                            <Link to={'/obtenerOrdenes'}>
+                                <button className='btn'>Ordenes</button>
+                            </Link>
+                            <button className='btn'
+                                onClick={logOutHandler}>Cerrar sesion</button>
+                        </div>
+                    ) : (
+                        <form className='formLogIn'
+                            onSubmit={logInHandler}>
+                            <label htmlFor="email">Email</label>
+                            <input id="email" name="email"
+                                onChange={mailChangeHandler} />
+                            <label htmlFor="password">Contraseña</label>
+                            <input type='password' id="password" name="password"
+                                onChange={passChangeHandler} />
+                            <button className='btn'>Log in</button>
+                            <p onClick={updatePassHandler}>Restablecer Contraseña</p>
+                        </form>
+                    )
+                } </div>
         </div>
     )
 }

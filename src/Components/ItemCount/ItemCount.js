@@ -1,13 +1,13 @@
 import './ItemCount.css'
-import {useState, useContext, useEffect} from "react";
-import {CartContext} from "../../Contextos/CartContext";
+import { useState, useContext, useEffect } from "react";
+import { CartContext } from "../../Contextos/CartContext";
 import swal from 'sweetalert';
 
-const ItemCount = ({producto}) => {
+const ItemCount = ({ producto }) => {
 
     const [stockReal, setStockReal] = useState(0)
     const [contador, setContador] = useState()
-    const {productosAgregados, moreItemsOnCart, lessItemsOnCart, removeItemFromCart} = useContext(CartContext)
+    const { productosAgregados, moreItemsOnCart, lessItemsOnCart, removeItemFromCart } = useContext(CartContext)
 
     useEffect(() => {
         productosAgregados.forEach(prod => {
@@ -16,9 +16,8 @@ const ItemCount = ({producto}) => {
             }
         });
         for (const i of producto.Colores) {
-            if (`${
-                i.color
-            }` === producto.ColorSelec) {
+            if (`${i.color
+                }` === producto.ColorSelec) {
                 for (const key in i.sizes) {
                     if (`${key}` === producto.TalleSelec) {
                         setStockReal(i.sizes[key])

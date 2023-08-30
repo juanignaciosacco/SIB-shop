@@ -2,7 +2,7 @@ import './ItemCart.css'
 import ItemCount from '../ItemCount/ItemCount';
 
 const ItemCart = ({ producto }) => {
-    
+
     return (
         <div className="itemCart">
             <div className='itemCartImg'>
@@ -13,8 +13,8 @@ const ItemCart = ({ producto }) => {
                 <p>Precio: ${producto.price}</p>
                 <p>Talle: {producto.TalleSelec}</p>
                 <p>Color: </p>
-                <div className='colorDivItemCart' style={{backgroundColor: `${producto.ColorSelec}`}}></div>
-                <ItemCount producto={producto}/>
+                <div className='colorDivItemCart' style={{ backgroundColor: `${producto.ColorSelec}` }}></div>
+                <ItemCount producto={producto} />
             </div>
         </div>
     )

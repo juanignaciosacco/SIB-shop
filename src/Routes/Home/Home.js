@@ -9,12 +9,12 @@ const Home = () => {
     return (
         <div className='home'>
             <div>
-                <div className='imgContainerPortada'> 
+                <div className='imgContainerPortada'>
                     <video controls loop muted playsInline >
-                        <source src={video} type='video/mp4'/>
+                        <source src={video} type='video/mp4' />
                     </video>
                     <video controls loop muted playsInline>
-                        <source src={video2} type='video/mp4'/>
+                        <source src={video2} type='video/mp4' />
                     </video>
                 </div>
                 <h1>Conoce nuestros nuevos productos</h1>
@@ -23,7 +23,7 @@ const Home = () => {
                 </div>
             </div>
         </div>
-        
+
     )
 }
 

@@ -59,8 +59,8 @@ export async function convertHeic(imageHeic) {
     .catch((error) => {
       console.log(error)
     })
-    const ur = await uploadFile(img, imageHeic)
-    return ur
+  const ur = await uploadFile(img, imageHeic)
+  return ur
 };
 
 

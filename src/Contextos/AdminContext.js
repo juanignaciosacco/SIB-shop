@@ -10,7 +10,7 @@ const AdminIsLoggedProvider = ({ children }) => {
         logged ? setLogged(false) : setLogged(true)
     }
 
-    return(
+    return (
         <AdminContext.Provider value={{ adminIsLogged, logged }}>
             {children}
         </AdminContext.Provider>
