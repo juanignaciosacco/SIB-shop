@@ -73,7 +73,7 @@ const FeedbackCompra = () => { // eslint-disable-next-line
         const infoUsuario = JSON.parse(sessionStorage.getItem('infoUsuario'))
         const dirUsuario = JSON.parse(localStorage.getItem('direccionUsuario'))
         const precioTotal = JSON.parse(localStorage.getItem('precioTotal'))
-        const infoTotalUsu = Object.assign(infoUsuario, dirUsuario)
+        const infoTotalUsu = Object.assign(infoUsuario, dirUsuario, precioTotal)
         infoTotalUsu && setUserInfo(infoTotalUsu)
         if (orderStatus === "approved") {
             setDoc(doc(ordenesCollection), {
@@ -108,10 +108,10 @@ const FeedbackCompra = () => { // eslint-disable-next-line
         const infoUsuario = JSON.parse(sessionStorage.getItem('infoUsuario'))
         const dirUsuario = JSON.parse(localStorage.getItem('direccionUsuario'))
         const precioTotal = JSON.parse(localStorage.getItem('precioTotal'))
-        const infoTotalUsu = Object.assign(infoUsuario, dirUsuario)
+        const infoTotalUsu = Object.assign(infoUsuario, dirUsuario, precioTotal)
         if (compraEf === "true" && productos.length > 0) {
             let idCompra = v4()
-            setMailOrderCashInfoConfig({ idCompra: orderId, tipoDeEnvio: infoUsuario.tipoDeEnvio, precioTotal: precioTotal, userMail: userInfo.email })
+            setMailOrderCashInfoConfig({ idCompra: idCompra, tipoDeEnvio: infoUsuario.tipoDeEnvio, precioTotal: precioTotal, userMail: userInfo.email })
             setDoc(doc(ordenesCollection), {
                 usuario: infoTotalUsu,
                 idOrden: idCompra,
@@ -144,21 +144,22 @@ const FeedbackCompra = () => { // eslint-disable-next-line
     }, [mailOrderInfoConfig, orderStatus])
 
     useEffect(() => {
-        if (orderStatus === 'approved' && Object.keys(mailOrderCashInfoConfig).length > 0) { // fetch("https://backend.sib.com.uy/feedback", {
-            fetch("http://localhost:8080/confirmacion_compra", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(mailOrderCashInfoConfig)
-            }).then((response) => {
-                return response.json();
-            }).catch((error) => {
-                console.error(error);
-            })
+        if (Object.keys(mailOrderCashInfoConfig).length > 0) {
+            if (orderStatus === 'approved' || compraEf === "true") {
+                fetch("http://localhost:8080/confirmacion_compra", { // fetch("https://backend.sib.com.uy/feedback", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(mailOrderCashInfoConfig)
+                }).then((response) => {
+                    return response.json();
+                }).catch((error) => {
+                    console.error(error);
+                })
+            } 
         }
     }, [mailOrderCashInfoConfig, orderStatus])
-
 
     return (
         <div className="feedback">

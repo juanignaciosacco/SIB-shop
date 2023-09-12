@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const OrdenCard = ({ orden, deleteOrden, marcarOrden, isLogged }) => {
 
@@ -23,7 +23,7 @@ const OrdenCard = ({ orden, deleteOrden, marcarOrden, isLogged }) => {
                 <div>
                     <h3>Usuario</h3>
                     <div>
-                        <p><b>Nombre</b> Completo: {orden.usuario.nombre} {orden.usuario.apellido}</p>
+                        <p><b>Nombre Completo:</b> {orden.usuario.nombre} {orden.usuario.apellido}</p>
                         <p><b>Emial:</b> {orden.usuario.email}</p>
                         <p><b>Telefono:</b> {orden.usuario.telefono}</p>
                         <h3>Direccion: </h3>
@@ -41,10 +41,10 @@ const OrdenCard = ({ orden, deleteOrden, marcarOrden, isLogged }) => {
                             <p><b>Talle:</b> {prod.TalleSelec}</p>
                             <p><b>Cantidad:</b> {prod.quantity}</p>
                             <p><b>Color:</b> {prod.ColorSelec}</p>
-                            <p><b>Precio Total:</b> {prod.precioTotal}</p>
                             <hr />
                         </div>
                     ))}
+                    <p><b>Precio Total:</b> ${orden.precioTotal}</p>
                 </div>
                 {isLogged && (
                     <div className='btnsOrdenes'>

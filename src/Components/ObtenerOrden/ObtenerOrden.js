@@ -25,11 +25,14 @@ const ObtenerOrden = () => {
     }, [idOrdenComprador])
 
 
+    useEffect(() => {
+        console.log(ordenComprador)
+    }, [ordenComprador])
 
     return (
         <div className='ordenContainer'>
             <div className='historialOrdenesContainer'>
-                {ordenComprador !== undefined ? (
+                {ordenComprador !== undefined && ordenComprador !== null && Object.keys(ordenComprador).length > 0 ? (
                     <OrdenCard orden={ordenComprador} key={ordenComprador.id} />
                 ) : (
                     <p>Esta orden no ingreso aun!</p>

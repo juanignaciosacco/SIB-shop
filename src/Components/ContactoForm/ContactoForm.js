@@ -1,9 +1,8 @@
 import './ContactoForm.css'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import swal from "sweetalert";
 
 const ContactoForm = () => {
-
 
     const [formData, setFormData] = useState({
         nombre: '',
@@ -13,6 +12,13 @@ const ContactoForm = () => {
         mensaje: ''
     })
 
+    const [mailState, setMailState] = useState({
+        enviado: false,
+        enviando: false
+    })
+
+    const { enviado, enviando } = mailState
+
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setFormData((prevData) => ({
@@ -21,17 +27,23 @@ const ContactoForm = () => {
         }))
     }
 
-    const enviarMail = () => {
-        if (Object.keys(formData).length > 0) { // fetch("https://backend.sib.com.uy/feedback", {
+    const enviarMail = (ev) => {
+        ev.preventDefault();
+        if (Object.keys(formData).length > 0) { 
+            // fetch("https://backend.sib.com.uy/feedback", {
+            setMailState({ enviado: false, enviando: true })
             fetch("http://localhost:8080/contacto", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(formData)
+                
             }).then((response) => {
-                swal('Email enviado exitosamente!!')
-                return response.json();
+                setMailState({ enviando: false, enviado: true })
+                // swal('Email enviado exitosamente!!')
+                console.log(response.json())
+                return response.json()
             }).catch((error) => {
                 swal('Hubo un error al enviar tu email, por favor intenta mas tarde!')
                 console.error(error);
@@ -39,9 +51,34 @@ const ContactoForm = () => {
         }
     }
 
+    const resetForm = (ev) => {
+        ev.preventDefault();
+        setFormData({
+            nombre: '',
+            apellido: '',
+            email: '',
+            asunto: '',
+            mensaje: ''
+        })
+    }
+
+    useEffect(() => {
+        if (enviado === true || enviando === true) {
+            swal( enviado ? {text: 'Email enviado exitosamente!!', icon: 'success'} : {text:'Enviando email, aguarde por favor!', icon: 'warning'})
+            .then(setFormData({
+                nombre: '',
+                apellido: '',
+                email: '',
+                asunto: '',
+                mensaje: ''
+            }))
+        }
+    }, [enviado, enviando])
+
+
     return (
         <div id="contactoForm">
-            <form className="form">
+            <form className="form" onSubmit={enviarMail}>
                 <label htmlFor="nombre">Nombre</label>
                 <input name="nombre" id="nombre" className='formInputs'
                     value={
@@ -73,9 +110,8 @@ const ContactoForm = () => {
                     }
                     onChange={handleInputChange} />
                 <div className='btns'>
-                    <button className='btn'
-                        onClick={enviarMail}>Enviar</button>
-                    <button className='btn'>Resetear</button>
+                    <button type='submit' className='btn'>Enviar</button>
+                    <button className='btn' onClick={resetForm}>Resetear</button>
                 </div>
             </form>
         </div>
