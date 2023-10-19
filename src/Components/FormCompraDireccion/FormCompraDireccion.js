@@ -33,7 +33,6 @@ const FormCompraDireccion = ({ onClickSiguiente, isHidden }) => {
 
     const siguienteClickHandler = (ev) => {
         ev.preventDefault();
-        console.log(calles, localidad, numeroPuerta)
         localStorage.setItem('direccionUsuario', JSON.stringify(direccionUsuario))
         if (calles !== undefined && localidad !== undefined && numeroPuerta !== undefined) {
             onClickSiguiente()

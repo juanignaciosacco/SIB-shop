@@ -17,7 +17,6 @@ const FormCompra = ({ onClickSiguiente, envio }) => {
         } else {
             if (Object.keys(JSON.parse(sessionStorage.getItem('infoUsuario'))).length === 5) {
                 const datos = sessionStorage.getItem('infoUsuario')
-                console.log(datos)
                 setInfoUsuario({
                     nombre: datos.nombre,
                     apellido: datos.apellido,
@@ -56,13 +55,6 @@ const FormCompra = ({ onClickSiguiente, envio }) => {
     }
 
     useEffect(() => {
-        // setInfoUsuario({
-        //     nombre: nombre,
-        //     apellido: apellido,
-        //     email: email,
-        //     telefono: telefono,
-        //     tipoDeEnvio: retiro
-        // })
         if (Object.keys(JSON.parse(sessionStorage.getItem('infoUsuario'))).length === 5) {
             const datos = JSON.parse(sessionStorage.getItem('infoUsuario'))
             setInfoUsuario({
@@ -90,8 +82,6 @@ const FormCompra = ({ onClickSiguiente, envio }) => {
     ])
 
     useEffect(() => {
-        console.log(Object.keys(infoUsuario).length)
-        console.log(infoUsuario)
         if (Object.keys(infoUsuario).length === 5) {
             sessionStorage.setItem('infoUsuario', JSON.stringify(infoUsuario))
         }

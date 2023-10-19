@@ -25,7 +25,7 @@ const ObtenerOrdenes = () => {
                     }))
                     setOrdenes(arrayProds)
                 })
-                .catch((error) => console.log(error + "hola"))
+                .catch((error) => {throw error})
         }
     }, [logged, ordenesCollection])
 

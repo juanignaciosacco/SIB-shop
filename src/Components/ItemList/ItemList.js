@@ -57,7 +57,7 @@ const ItemList = ({ isLogged, nuevosIngresos }) => {
         }));
         setProductos(arrayProds);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {throw error});
   }, [prodCollection]);
 
   useEffect(() => {

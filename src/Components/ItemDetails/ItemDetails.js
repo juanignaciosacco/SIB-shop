@@ -43,7 +43,6 @@ const ItemDetails = ({ idProd }) => {
         setImages(list)
         if (producto.Talles === undefined) {
             if (producto.Largo !== null || producto.AnchoBusto !== null || producto.Ruedo !== null) {
-                console.log("Hola")
                 setEsTalleUnico(true)
             }
         } else {

@@ -10,7 +10,7 @@ import FormCompra from "../FormCompra/FormCompra";
 import FormCompraDireccion from "../FormCompraDireccion/FormCompraDireccion";
 
 // initMercadoPago('APP_USR-21fa9365-b7a0-44e2-b57e-b518d8ef2322');
-initMercadoPago("TEST-643bb10a-a98a-4070-ba43-8874c23f7f3b");
+initMercadoPago("APP_USR-21fa9365-b7a0-44e2-b57e-b518d8ef2322");
 
 const Cart = () => {
   const {
@@ -21,7 +21,7 @@ const Cart = () => {
     setPreferenceId,
     preferenceId,
   } = useContext(CartContext);
-  const [orderSummary, setOrderSummary] = useState({});
+  const [items, setOrderSummary] = useState({});
   const [pagoET, setPagoET] = useState(false);
   const [pagoMP, setPagoMP] = useState(false);
   const [formFilled, setFormFilled] = useState(false);
@@ -40,8 +40,13 @@ const Cart = () => {
 
   useEffect(() => {
     setOrderSummary({
-      quantity: parseInt(totalItems),
-      price: parseInt(precioTotal),
+      items: [
+        {
+          name: "Compra SIB Shop",
+          quantity: parseInt(totalItems),
+          price: parseInt(precioTotal),
+        },
+      ],
     });
   }, [totalItems, precioTotal]);
 
@@ -50,23 +55,22 @@ const Cart = () => {
   };
 
   const handleClickMP = () => {
-    // fetch("https://backend.sib.com.uy/create_preference", {
-    fetch("http://localhost:8080/create_preference", {
+    fetch("https://backend.sib.com.uy/create_preference", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(orderSummary),
+      body: JSON.stringify(items),
     })
       .then((response) => {
-        return response.json();
+       return response.text();
       })
-      .then((preference) => {
-        setPreferenceId(preference.id);
+      .then((res) => {
+        setPreferenceId(res);
         setPagoMP(true);
       })
       .catch((error) => {
-        console.error(error);
+        throw error;
       });
   };
 
@@ -112,7 +116,6 @@ const Cart = () => {
               ))}
             </div>
             <div>
-              
               {!formFilled ? (
                 <div className="formInCart">
                   <FormCompra
@@ -122,7 +125,6 @@ const Cart = () => {
                 </div>
               ) : (
                 <div>
-                  
                   {retiro === "Domicilio" ? (
                     <div className="formInCart">
                       <FormCompraDireccion

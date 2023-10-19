@@ -3,7 +3,7 @@ import { getAuth, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } 
 import { useContext, useState } from 'react'
 import { AdminContext } from '../../Contextos/AdminContext'
 import { Link } from 'react-router-dom'
-import swal from 'sweetalert'
+import Swal from 'sweetalert2'
 
 const AccesoAdmin = () => {
 
@@ -15,31 +15,41 @@ const AccesoAdmin = () => {
 
     const logInHandler = (ev) => {
         ev.preventDefault()
-        signInWithEmailAndPassword(auth, email, password).then(() => {
+        signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
             setIsLogged(true)
             adminIsLogged()
+            Swal.fire("Login exitoso", "Has iniciado sesion correctamente", "success")
         }).catch((error) => {
-            console.log(error)
+            switch (error.code) {
+                case 'auth/user-not-found':
+                    Swal.fire('Error de validacion', "El usuario ingresado no existe!", 'error');
+                    break;
+                case 'auth/wrong-password':
+                    Swal.fire('Error de validacion', "La contraseña es incorrecta!", 'error');
+                default:
+                    break;
+            }
         })
     }
 
     const logOutHandler = () => {
         signOut(auth).then(() => {
-            swal('Cerraste sesion correctamente')
+            Swal.fire('Logout', 'Cerraste sesion correctamente', "warning")
             setIsLogged(false)
             adminIsLogged()
         }).catch((error) => {
-            alert(error)
+            throw error;
         })
     }
 
     const updatePassHandler = () => {
         if (email !== undefined && email !== null) {
             sendPasswordResetEmail(auth, email).then(() => {
-                swal('Email enviado correctamente')
+                Swal.fire('Email enviado', 'Email enviado correctamente', 'success')
                 setMail(undefined)
             }).catch((error) => {
-                alert(error)
+               throw error;
             })
         } else {
             setMail(prompt('Ingrese su email registrado'))

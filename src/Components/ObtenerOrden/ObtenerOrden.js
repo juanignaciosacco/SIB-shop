@@ -16,18 +16,12 @@ const ObtenerOrden = () => {
         const q = query(ordenesCollection, where("idOrden", "==", `${idOrdenComprador}`));
         getDocs(q)
             .then((querySnapshot) => {
-                console.log()
                 querySnapshot.forEach((doc) => {
                     setOrdenComprador(doc.data())
                 });
             })
-            .catch((error) => console.log(error))
+            .catch((error) => {throw error})
     }, [idOrdenComprador])
-
-
-    useEffect(() => {
-        console.log(ordenComprador)
-    }, [ordenComprador])
 
     return (
         <div className='ordenContainer'>

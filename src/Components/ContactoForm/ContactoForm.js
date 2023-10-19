@@ -1,6 +1,6 @@
 import './ContactoForm.css'
 import { useEffect, useState } from "react";
-import swal from "sweetalert";
+import Swal from 'sweetalert2';
 
 const ContactoForm = () => {
 
@@ -30,9 +30,8 @@ const ContactoForm = () => {
     const enviarMail = (ev) => {
         ev.preventDefault();
         if (Object.keys(formData).length > 0) { 
-            // fetch("https://backend.sib.com.uy/feedback", {
             setMailState({ enviado: false, enviando: true })
-            fetch("http://localhost:8080/contacto", {
+            fetch("https:backend.sib.com.uy/contacto", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -40,13 +39,10 @@ const ContactoForm = () => {
                 body: JSON.stringify(formData)
                 
             }).then((response) => {
-                setMailState({ enviando: false, enviado: true })
-                // swal('Email enviado exitosamente!!')
-                console.log(response.json())
+                setMailState({ enviando: false, enviado: true }) 
                 return response.json()
             }).catch((error) => {
-                swal('Hubo un error al enviar tu email, por favor intenta mas tarde!')
-                console.error(error);
+                Swal.fire("Error", 'Hubo un error al enviar tu email, por favor intenta mas tarde!', "error")
             })
         }
     }
@@ -64,7 +60,7 @@ const ContactoForm = () => {
 
     useEffect(() => {
         if (enviado === true || enviando === true) {
-            swal( enviado ? {text: 'Email enviado exitosamente!!', icon: 'success'} : {text:'Enviando email, aguarde por favor!', icon: 'warning'})
+            enviado ? Swal.fire("Email enviado!", "Se ha enviado tu email correctamente!", "success") : Swal.fire('Enviando email', 'Enviando email, aguarde por favor!', "warning")
             .then(setFormData({
                 nombre: '',
                 apellido: '',

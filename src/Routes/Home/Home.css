@@ -2,22 +2,6 @@
     text-align: center;
 }
 
-.imgContainerPortada {
-    margin-top: 110px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    row-gap: 20px;
-    justify-content: center;
-    align-items: center;
-    column-gap: 20px;
-}
-
-.imgContainerPortada video {
-    /* width: 25%; */
-    width: 410px;
-}
-
 .l {
     display: flex;
     flex-direction: column;
@@ -35,10 +19,3 @@
     justify-content: center;
 }
 
-@media only screen and (max-width: 480px) {
-
-    .imgContainerPortada video {
-        width: 210px;
-    }
-
-}
