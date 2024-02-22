@@ -1,6 +1,5 @@
 import "./FeedbackCompra.css";
-import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,14 +12,13 @@ import { CartContext } from "../../Contextos/CartContext";
 import { v4 } from "uuid";
 
 const FeedbackCompra = () => {
-  // eslint-disable-next-line
-  let options = {};
-  let prodsSinSTock = [];
+  
+  const options = useRef({});
+  const prodsSinSTock = useRef([]);
   const { productosAgregados } = useContext(CartContext);
   const [searchParams] = useSearchParams();
   const [paymentId, setPaymentId] = useState();
   const [orderStatus, setOrderStatus] = useState();
-  const [orderId, setOrderId] = useState();
   const [userInfo, setUserInfo] = useState({});
   const [mailOrderInfoConfig, setMailOrderInfoConfig] = useState({});
   const [mailOrderCashInfoConfig, setMailOrderCashInfoConfig] = useState({});
@@ -28,9 +26,6 @@ const FeedbackCompra = () => {
   const { compraEf } = useParams();
   const [data, setData] = useState();
   const [errors, setErrors] = useState();
-
-  const db = getFirestore();
-  const ordenesCollection = collection(db, "ordenes");
 
   const handleFetch = (url, options) => {
     if (url !== undefined) {
@@ -41,7 +36,7 @@ const FeedbackCompra = () => {
         .then((res) => setData(res))
         .catch((error) => {
           setErrors(error);
-          console.error(error);
+          throw error;
         });
 
       return { data, errors };
@@ -55,9 +50,9 @@ const FeedbackCompra = () => {
   useEffect(() => {
     const prodStock = []
     productos.forEach((prod) => {
-      for (const i of prod.Colores) {
-        for (const j in i.sizes) {
-          if (i.sizes[j] <= 1) {
+      for (const i of prod.colores) {
+        for (const j in i.talles) {
+          if (i.talles[j] <= 1) {
             prodStock.push({
               nombreProdSinStock: prod.title,
               colorProdSinStock: i.color,
@@ -68,27 +63,27 @@ const FeedbackCompra = () => {
         }
       }
     });
-    prodsSinSTock = [...prodStock]
+    prodsSinSTock.current = [...prodStock];
     // eslint-disable-next-line
   }, [productos]);
 
   useEffect(() => {
     if (prodsSinSTock.length > 0) {
-      options = {
+      options.current = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(prodsSinSTock),
       };
-      handleFetch("https:backend.sib.com.uy/sin_stock", options);
+      // handleFetch("https:backend.sib.com.uy/sin_stock", options);
     }
+    // eslint-disable-next-line
   }, [prodsSinSTock]);
 
   useEffect(() => {
     setPaymentId(searchParams.get("payment_id"));
     setOrderStatus(searchParams.get("status"));
-    setOrderId(searchParams.get("preference_id"));
   }, [searchParams]);
 
   useEffect(() => {
@@ -99,18 +94,24 @@ const FeedbackCompra = () => {
     infoTotalUsu && setUserInfo(infoTotalUsu);
     if (orderStatus === "approved") {
       let idCompra = v4();
-      setDoc(doc(ordenesCollection), {
-        usuario: userInfo,
-        idPago: paymentId,
-        idOrden: idCompra,
-        ordenEntregada: false,
-        productos: productos,
-        precioTotal: precioTotal,
-        pago: "Mercadopago",
-        estadoDePago: "Confirmado",
-      }).catch((error) => {
-        throw error;
-      });
+      options.current = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userEmail: userInfo.email,
+          userName: userInfo.nombre,
+          idPago: paymentId,
+          idOrden: idCompra,
+          ordenEntregada: false,
+          productos: productos,
+          precioTotal: precioTotal,
+          pago: "Mercadopago",
+          estadoDePago: "Confirmado",
+        }),
+      }
+      handleFetch("http://localhost:8080/ordenes", options)
       setMailOrderInfoConfig({
         userMailName: userInfo.nombre,
         userMailLastname: userInfo.apellido,
@@ -153,17 +154,26 @@ const FeedbackCompra = () => {
         userAdressNumber: userInfo.numero,
         userPaymentId: paymentId
       });
-      setDoc(doc(ordenesCollection), {
-        usuario: infoTotalUsu,
-        idOrden: idCompra,
-        ordenEntregada: false,
-        productos: productos,
-        precioTotal: precioTotal,
-        pago: "Efectivo, Transferencia",
-        estadoDePago: "Pendiente",
-      }).catch((error) => {
-        throw error;
-      });
+      options.current = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userEmail: infoTotalUsu.email,
+          userName: infoTotalUsu.nombre,
+          userLastName: infoTotalUsu.apellido,
+          userPhoneNumber: infoTotalUsu.telefono,
+          idPago: paymentId,
+          idOrden: idCompra,
+          ordenEntregada: false,
+          productos: productos,
+          precioTotal: precioTotal,
+          pago: "Efectivo, Transeferencia",
+          estadoDePago: "Pendiente",
+        }),
+      }
+      handleFetch("http://localhost:8080/ordenes", options.current)
     }
     // eslint-disable-next-line
   }, [compraEf, productos]);
@@ -174,7 +184,7 @@ const FeedbackCompra = () => {
       Object.keys(mailOrderCashInfoConfig).length > 0
     ) {
       if (orderStatus === "approved" || compraEf === "true") {
-        options = {
+        options.current = {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -185,10 +195,11 @@ const FeedbackCompra = () => {
               : mailOrderInfoConfig
           ),
         };
-        handleFetch("https:backend.sib.com.uy/feedback", options);
-        handleFetch("https:backend.sib.com.uy/confirmacion_compra", options);
+        // handleFetch("https:backend.sib.com.uy/feedback", options);
+        // handleFetch("https:backend.sib.com.uy/confirmacion_compra", options);
       }
     }
+    // eslint-disable-next-line
   }, [mailOrderInfoConfig, orderStatus, mailOrderCashInfoConfig]);
 
   return (
@@ -265,7 +276,7 @@ const FeedbackCompra = () => {
       </div>
       <div className="botonesFeedback">
         {compraEf === "true" && (
-          <a href="https://wa.link/p6zef9" target="_blank">
+          <a href="https://wa.link/p6zef9" target="_blank" rel="noreferrer">
             <button className="btn">Arreglar el pago</button>
           </a>
         )}

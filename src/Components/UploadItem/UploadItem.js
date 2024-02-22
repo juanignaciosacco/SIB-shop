@@ -1,10 +1,8 @@
 import "./UploadItem.css";
-import { getFirestore, doc, collection, setDoc } from "firebase/firestore";
 import { useState } from "react";
 import { uploadFile, convertHeic } from "../../index";
 import ColorInput from "../ColorInput/ColorInput";
 import swal from "sweetalert";
-import Swal from "sweetalert2";
 
 const UploadItem = () => {
   const [productoEdit, setProductoEdit] = useState({
@@ -15,7 +13,7 @@ const UploadItem = () => {
     largo: "",
     ancho: "",
     ruedo: "",
-    NIProd: "",
+    nuevoIngresoProd: "",
   });
   const {
     nombreProd,
@@ -25,14 +23,11 @@ const UploadItem = () => {
     largo,
     ancho,
     ruedo,
-    NIProd,
+    nuevoIngresoProd,
   } = productoEdit;
   const [file, setFile] = useState();
   const [colorItems, setColorItems] = useState([]);
   const [cargandoItem, setCargandoItem] = useState(false);
-
-  const db = getFirestore();
-  const items2 = collection(db, "productos");
 
   const handleColorSelect = (colorItem) => {
     setColorItems((prevColorItems) => [...prevColorItems, colorItem]);
@@ -72,23 +67,24 @@ const UploadItem = () => {
         alert("Fallo interno, avisale a juanchi ", error);
         setCargandoItem(false);
       }
+      const imagesList = results.map(item => {
+        return {imgUrl: item}
+      })
       if (colorItems.length !== 0) {
-        setDoc(doc(items2), {
-          title: nombreProd,
-          price: precioProd,
-          category_id: categoriaProd,
-          Materiales: materialesProd,
-          Largo: largo,
-          AnchoBusto: ancho,
-          Ruedo: ruedo,
-          NuevoIngreso: NIProd,
-          Colores: colorItems,
-          picture_url: results,
-        }).then(() => {
+        fetch("http://localhost:8081/products", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({...productoEdit, imgUrl: imagesList, colores: colorItems})
+        })
+        .then((res) => {
           setCargandoItem(false);
-        });
-      } else {
-        Swal.fire("Fallo al cargar producto", "Debes cargar un color!", "error");
+        })
+        .catch((error) => {
+          setCargandoItem(false);
+          throw error;
+        })
       }
       setProductoEdit({
         nombreProd: "",
@@ -98,7 +94,7 @@ const UploadItem = () => {
         largo: "",
         ancho: "",
         ruedo: "",
-        NIProd: "",
+        nuevoIngresoProd: "",
       });
     } else {
       e.preventDefault();
@@ -180,9 +176,9 @@ const UploadItem = () => {
                 </button>
                 <div>
                   Talles:
-                  {Object.entries(colorItem.sizes).map(([size, stock]) => (
-                    <div key={size}>
-                      {size}, Stock: {stock}
+                  {colorItem.talles.map((colorI) => (
+                    <div key={colorI.talle}>
+                      {colorI.talle}, Stock: {colorI.stock}
                     </div>
                   ))}
                 </div>
@@ -228,18 +224,18 @@ const UploadItem = () => {
           <input
             type="radio"
             value="si"
-            name="NIProd"
-            id="nuevoIngreso"
+            name="nuevoIngresoProd"
+            id="nuevoIngresoProd"
             onChange={inputChangeHandler}
-          />{" "}
+          />
           Si
           <input
             type="radio"
             value="no"
-            name="NIProd"
-            id="NIProd"
+            name="nuevoIngresoProd"
+            id="nuevoIngresoProd"
             onChange={inputChangeHandler}
-          />{" "}
+          />
           No
         </div>
         <label htmlFor="file">Imagen</label>

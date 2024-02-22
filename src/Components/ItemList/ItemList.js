@@ -1,13 +1,9 @@
 import "./ItemList.css";
-import { getDocs, collection, getFirestore } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import ItemCard from "../ItemCard/ItemCard";
 import UploadItem from "../../Components/UploadItem/UploadItem";
 
 const ItemList = ({ isLogged, nuevosIngresos }) => {
-    
-  const db = getFirestore();
-  const prodCollection = collection(db, "productos");
 
   const [productos, setProductos] = useState([]);
   const [prodNuevos, setProdNuevos] = useState([]);
@@ -20,9 +16,22 @@ const ItemList = ({ isLogged, nuevosIngresos }) => {
   const [bikinisChck, setBikinisChck] = useState(false);
 
   useEffect(() => {
+    fetch("http://localhost:8081/products")
+      .then((res) => {
+        return res.json();
+      })
+      .then((res2) => {
+        setProductos(res2)
+      })
+      .catch((error) => {
+        throw error;
+      });
+  }, [productos]);
+
+  useEffect(() => {
     if (categoriasSeleccionadas.length > 0) {
       const productosFiltrados = productos.filter((producto) =>
-        categoriasSeleccionadas.includes(producto.category_id)
+        categoriasSeleccionadas.includes(producto.categoriaProd)
       );
       setProductosFiltrados(productosFiltrados);
     } else {
@@ -49,27 +58,17 @@ const ItemList = ({ isLogged, nuevosIngresos }) => {
   };
 
   useEffect(() => {
-    getDocs(prodCollection)
-      .then((snapshot) => {
-        const arrayProds = snapshot.docs.map((prod) => ({
-          id: prod.id,
-          ...prod.data(),
-        }));
-        setProductos(arrayProds);
-      })
-      .catch((error) => {throw error});
-  }, [prodCollection]);
-
-  useEffect(() => {
-    const arrayNuevos = productos.filter((prod) => prod.NuevoIngreso === "si");
-    setProdNuevos(arrayNuevos);
+    if (productos.length > 0) {
+      const arrayNuevos = productos.filter((prod) => prod.nuevoIngresoProd === "si");
+      setProdNuevos(arrayNuevos);
+    }
   }, [productos]);
-
+ 
   return (
     <div>
       {nuevosIngresos ? (
         <div className="nuevosIngresosItemList">
-          {prodNuevos.map((prod) => (
+          {prodNuevos.length > 0 && prodNuevos.map((prod) => (
             <ItemCard producto={prod} isLogged={isLogged} key={prod.id} />
           ))}
         </div>
@@ -134,7 +133,7 @@ const ItemList = ({ isLogged, nuevosIngresos }) => {
             </div>
           </div>
           <div className="itemList">
-            {productosFiltrados.map((prod) => (
+            {productosFiltrados.length > 0 && productosFiltrados.map((prod) => (
               <ItemCard producto={prod} isLogged={isLogged} key={prod.id} />
             ))}
           </div>

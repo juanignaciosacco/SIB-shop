@@ -26,6 +26,7 @@ const FormCompra = ({ onClickSiguiente, envio }) => {
                 })
             }
         }
+    // eslint-disable-next-line
     }, [])
 
     const setNombreForm = (ev) => {

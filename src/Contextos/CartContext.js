@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { collection, getFirestore, updateDoc, doc } from 'firebase/firestore';
 
 const CartContext = React.createContext()
 
 const ItemsProvider = ({ children }) => {
 
-    const db = getFirestore()
-    const prodsCollection = collection(db, 'productos')
     const [productosAgregados, setProductos] = useState([])
     const [precioTotal, setPrecioTotal] = useState(0)
     const [totalItems, setTotalItems] = useState(0)
@@ -15,11 +12,17 @@ const ItemsProvider = ({ children }) => {
     const [prod, setProd] = useState({})
 
     const addItemToCart = (producto) => {
-        setProd(producto)
+        setProd({
+            nombreProd: producto.nombreProd,
+            precioProd: producto.precioProd,
+            cantidad: producto.quantity,
+            talleProd: producto.TalleSelec,
+            colorProd: producto.ColorSelec
+        })
         setAddItem(!addItem)
         if (productosAgregados.length === 0) {
             setProductos([...productosAgregados, producto])
-            setTotalItems(totalItems + producto.quantity)
+            setTotalItems(totalItems + producto.cantidad)
         } else {
             let found = false
             productosAgregados.forEach((prod) => {
@@ -37,17 +40,17 @@ const ItemsProvider = ({ children }) => {
             })
             if (found === false) {
                 setProductos([...productosAgregados, producto])
-                setTotalItems(totalItems + producto.quantity)
+                setTotalItems(totalItems + producto.cantidad)
             }
         }
-        setPrecioTotal(precioTotal + (producto.price * producto.quantity))
+        setPrecioTotal(precioTotal + (producto.precioProd * producto.cantidad))
     }
 
     const moreItemsOnCart = (id, cantidad, color, talle) => {
         productosAgregados.forEach((prod) => {
-            if (prod.id === id && prod.TalleSelec === talle && prod.ColorSelec === color) {
-                prod.quantity += parseInt(cantidad)
-                setPrecioTotal(precioTotal + parseInt(prod.price))
+            if (prod.id === id && prod.talleProd === talle && prod.colorProd === color) {
+                prod.cantidad += parseInt(cantidad)
+                setPrecioTotal(precioTotal + parseInt(prod.precioProd))
             }
         })
         setTotalItems(totalItems + cantidad)
@@ -56,10 +59,10 @@ const ItemsProvider = ({ children }) => {
 
     const lessItemsOnCart = (id, cantidad, color, talle) => {
         productosAgregados.forEach((prod) => {
-            if (prod.id === id && prod.TalleSelec === talle && prod.ColorSelec === color) {
-                prod.quantity -= parseInt(cantidad)
+            if (prod.id === id && prod.talleProd === talle && prod.colorProd === color) {
+                prod.cantidad -= parseInt(cantidad)
                 setTotalItems(totalItems - cantidad)
-                setPrecioTotal(precioTotal - parseInt(prod.price))
+                setPrecioTotal(precioTotal - parseInt(prod.precioProd))
             }
         })
         actualizarStock(id, 'suma', false)
@@ -67,8 +70,8 @@ const ItemsProvider = ({ children }) => {
 
     const removeItemFromCart = (product) => {
         const nuevaListaProds = productosAgregados.filter(prod => prod !== product)
-        setPrecioTotal(precioTotal - parseInt(product.price))
-        setTotalItems(totalItems - product.quantity)
+        setPrecioTotal(precioTotal - parseInt(product.precioProd))
+        setTotalItems(totalItems - product.cantidad)
         setProductos(nuevaListaProds)
         actualizarStock(product.id, 'suma')
     }
@@ -82,12 +85,11 @@ const ItemsProvider = ({ children }) => {
     const actualizarStock = (id, operacion, desdeAddItem) => {
         productosAgregados.forEach((prod) => {
             if (id === prod.id) {
-                let colorrr = prod.Colores
+                let colorrr = prod.colores
                 for (const i of colorrr) {
                     if (i.color === prod.ColorSelec) {
-                        for (const j in i.sizes) {
-                            if (j === prod.TalleSelec) {
-                                var docRef = doc(prodsCollection, prod.id)
+                        for (const j in i.talles) {
+                            if (j.talle === prod.TalleSelec) {
                                 if (desdeAddItem) {
                                     i.sizes[j] = i.sizes[j] - 1
                                 } else {
@@ -97,9 +99,6 @@ const ItemsProvider = ({ children }) => {
                         }
                     }
                 }
-                updateDoc(docRef, {
-                    Colores: colorrr
-                })
             }
         })
     }

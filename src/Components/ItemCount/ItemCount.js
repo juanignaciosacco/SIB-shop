@@ -12,15 +12,14 @@ const ItemCount = ({ producto }) => {
     useEffect(() => {
         productosAgregados.forEach(prod => {
             if (prod === producto) {
-                setContador(prod.quantity)
+                setContador(prod.cantidad)
             }
         });
-        for (const i of producto.Colores) {
-            if (`${i.color
-                }` === producto.ColorSelec) {
-                for (const key in i.sizes) {
-                    if (`${key}` === producto.TalleSelec) {
-                        setStockReal(i.sizes[key])
+        for (const i of producto.colores) {
+            if (`${i.color}` === producto.ColorSelec) {
+                for (const j of i.talles) {
+                    if (`${j.talle}` === producto.TalleSelec) {
+                        setStockReal(j.stock)
                     }
                 }
             }

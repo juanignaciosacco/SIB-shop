@@ -49,10 +49,10 @@ const ResumenDeCompra = ({ pagoMP, pagoET, onClickCancel, onClickET, onClickMP, 
                                     <h2>Resumen de compra</h2>
                                     {productosAgregados.map((prod, index) => (
                                         <div className='item' key={index}>
-                                            {prod.title} <span>Cantidad: {prod.quantity}</span>
-                                            <p>Color: <span>{prod.ColorSelec}</span></p>
-                                            <p>Talle: <span>{prod.TalleSelec}</span></p>
-                                            <p>Precio: <span>${prod.price}</span></p>
+                                            {prod.title} <span>Cantidad: {prod.cantidad}</span>
+                                            <p>Color: <span>{prod.colorProd}</span></p>
+                                            <p>Talle: <span>{prod.talleProd}</span></p>
+                                            <p>Precio: <span>${prod.precioProd}</span></p>
                                             <hr />
                                         </div>
                                     ))}
@@ -72,9 +72,9 @@ const ResumenDeCompra = ({ pagoMP, pagoET, onClickCancel, onClickET, onClickMP, 
                                     {productosAgregados.map((prod, index) => (
                                         <div className='item' key={index}>
                                             {prod.title} <span>Cantidad: {prod.quantity}</span>
-                                            <p>Color: <span>{prod.ColorSelec}</span></p>
-                                            <p>Talle: <span>{prod.TalleSelec}</span></p>
-                                            <p>Precio: <span>${prod.price}</span></p>
+                                            <p>Color: <span>{prod.colorProd}</span></p>
+                                            <p>Talle: <span>{prod.talleProd}</span></p>
+                                            <p>Precio: <span>${prod.precioProd}</span></p>
                                             <hr />
                                         </div>
                                     ))}

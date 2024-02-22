@@ -7,29 +7,22 @@ const ItemCard = ({ producto, isLogged }) => {
   return (
     <div className="item-card-container"
       id={
-        producto.id
+        producto.idProduct
       }>
       <img className="item-image"
         src={
-          producto.picture_url
+          producto.imgUrl[0].imgUrl
         }
         alt={
-          producto.title
+          producto.nombreProd
         } />
       <h3 className="item-title">
         {
-          producto.title
+          producto.nombreProd
         }</h3>
       <p className="item-price">${
-        producto.price
+        producto.precioProd
       }</p>
-      {
-        producto.Stock === '0' && (
-          <div className='prodSinStock'>
-            <p>Agotado!</p>
-          </div>
-        )
-      }
       {
         isLogged ? (
           <EditItem producto={producto} />

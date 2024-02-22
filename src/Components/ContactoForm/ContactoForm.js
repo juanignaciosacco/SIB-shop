@@ -31,7 +31,8 @@ const ContactoForm = () => {
         ev.preventDefault();
         if (Object.keys(formData).length > 0) { 
             setMailState({ enviado: false, enviando: true })
-            fetch("https:backend.sib.com.uy/contacto", {
+            // https:backend.sib.com.uy/contacto
+            fetch("http://localhost:8081/contacto", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

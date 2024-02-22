@@ -21,6 +21,7 @@ const ObtenerOrden = () => {
                 });
             })
             .catch((error) => {throw error})
+    // eslint-disable-next-line
     }, [idOrdenComprador])
 
     return (

@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { deleteDoc, doc, getFirestore, updateDoc, collection } from 'firebase/firestore'
 import { uploadFile, deletFile } from "../../index"
 import ColorInput from "../ColorInput/ColorInput"
 
@@ -10,20 +9,17 @@ const EditItem = ({ producto }) => {
         precioProdEdit: '',
         categoriaProdEdit: '',
         materialesProdEdit: '',
-        stockProd: '',
         largoEdit: '',
         anchoEdit: '',
         ruedoEdit: '',
         NIProd: ''
     })
-    const { nombreProdEdit, precioProdEdit, categoriaProdEdit, stockProd, materialesProdEdit, largoEdit, anchoEdit, ruedoEdit, NIProd } = prodEdit
+    const { nombreProdEdit, precioProdEdit, categoriaProdEdit, materialesProdEdit, largoEdit, anchoEdit, ruedoEdit, NIProd } = prodEdit
 
     const [isEditing, setEditing] = useState()
     const [file, setFile] = useState([])
-    const [files, setFiles] = useState(producto.picture_url)
-    const db = getFirestore()
-    const items2 = collection(db, 'productos')
-    const [colors, setColors] = useState(producto.Colores);
+    const [files, setFiles] = useState(producto.imgUrl)
+    const [colors, setColors] = useState(producto.colores);
 
     const inputChangeHandler = ({target: {name, value}}) => {
         setProdEdit({
@@ -45,12 +41,12 @@ const EditItem = ({ producto }) => {
         });
     };
 
-    const handleDelete = () => {
-        var results = producto.picture_url
-        for (const i of results) {
-            deletFile(i)
-        }
-        deleteDoc(doc(db, 'productos', producto.id))
+    const handleDelete2 = () => {
+        fetch(`http://localhost:8081/products/${producto.id}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json"
+        }})
     }
 
     const handleEdit = () => {
@@ -59,8 +55,8 @@ const EditItem = ({ producto }) => {
     }
 
     const imgDeleteClickHandle = async (ev) => {
-        const srcToDelete = ev.target.currentSrc
-        var results = producto.picture_url
+        const srcToDelete = ev.target.__reactProps$42d5eeup71.src.imgUrl
+        var results = producto.imgUrl
         try {
             await deletFile(srcToDelete)
         } catch (error) {
@@ -74,24 +70,29 @@ const EditItem = ({ producto }) => {
                 results.splice(indexToSplice, 1)
             }
         }
-        const prod = doc(items2, `${producto.id}`)
-        updateDoc(prod, {
-            Nombre: nombreProdEdit,
-            Precio: precioProdEdit,
-            Categoria: categoriaProdEdit,
-            Colores: colors,
-            Materiales: materialesProdEdit,
-            Largo: largoEdit,
-            AnchoBusto: anchoEdit,
-            Ruedo: ruedoEdit,
-            picture_url: results,
-            NuevoIngreso: NIProd
+        fetch(`http://localhost:8080/products/${producto.id}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nombreProd: nombreProdEdit,
+                precioProd: precioProdEdit,
+                categoriaProd: categoriaProdEdit,
+                colores: colors,
+                materialesProd: materialesProdEdit,
+                largo: largoEdit,
+                ancho: anchoEdit,
+                ruedo: ruedoEdit,
+                imgUrl: results,
+                nuevoIngresoProd: NIProd
+            }),
         })
     }
 
     const updateProduct = async (ev) => {
         ev.preventDefault()
-        var results = producto.picture_url
+        var results = producto.imgUrl
         try {
             for (const i of file) {
                 results.push(await uploadFile(i))
@@ -99,18 +100,23 @@ const EditItem = ({ producto }) => {
         } catch (error) {
             alert('Fallo interno, avisale a juanchi ', error)
         }
-        const prod = doc(items2, `${producto.id}`)
-        updateDoc(prod, {
-            Nombre: nombreProdEdit,
-            Precio: precioProdEdit,
-            Categoria: categoriaProdEdit,
-            Colores: colors,
-            Materiales: materialesProdEdit,
-            Largo: largoEdit,
-            AnchoBusto: anchoEdit,
-            Ruedo: ruedoEdit,
-            picture_url: results,
-            NuevoIngreso: NIProd
+        fetch(`http://localhost:8080/products/${producto.id}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nombreProd: nombreProdEdit,
+                precioProd: precioProdEdit,
+                categoriaProd: categoriaProdEdit,
+                colores: colors,
+                materialesProd: materialesProdEdit,
+                largo: largoEdit,
+                ancho: anchoEdit,
+                ruedo: ruedoEdit,
+                imgUrl: results,
+                nuevoIngresoProd: NIProd
+            }),
         })
         setEditing(false)
     }
@@ -119,15 +125,13 @@ const EditItem = ({ producto }) => {
         <div>
             <div className="admin-options">
                 {isEditing ? (<button className="admin-button edit" onClick={handleEdit}>No editar mas</button>) : (<button className="admin-button edit" onClick={handleEdit}>Editar</button>)}
-                <button className="admin-button delete" onClick={handleDelete}>Eliminar</button>
+                <button className="admin-button delete" onClick={handleDelete2}>Eliminar</button>
                 {isEditing && (
                     <form onSubmit={updateProduct} className='formEdit'>
                         <label htmlFor='nombreProdEdit'>Nombre</label>
                         <input name='nombreProdEdit' id='nombreProdEdit' onChange={inputChangeHandler} />
                         <label htmlFor='precioProdEdit'>Precio</label>
                         <input name='precioProdEdit' id='precioProdEdit' onChange={inputChangeHandler} />
-                        <label htmlFor="Stock">Stock</label>
-                        <input name="stockProd" id="stockProd" onChange={inputChangeHandler} value={stockProd} />
                         <label htmlFor='CategoriaProdEdit'>Categoria</label>
                         <select name='categoriaProdEdit' id='categoriaProdEdit' onChange={inputChangeHandler}>
                             <option value='SweatersYBuzos' id='SweatersYBuzos'>Sweaters y buzos</option>
@@ -148,9 +152,9 @@ const EditItem = ({ producto }) => {
                                         <button onClick={(event) => handleColorDelete(index, event)}>Eliminar</button>
                                         <div>
                                             Talles:
-                                            {Object.entries(colorItem.sizes).map(([size, stock]) => (
-                                                <div key={size}>
-                                                    {size}, Stock: {stock}
+                                            {colorItem.talles.map((talle) => (
+                                                <div key={talle.talle}>
+                                                    {talle.talle}, Stock: {talle.stock}
                                                 </div>
                                             ))}
                                         </div>

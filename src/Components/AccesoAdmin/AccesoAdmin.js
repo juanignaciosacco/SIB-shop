@@ -27,6 +27,7 @@ const AccesoAdmin = () => {
                     break;
                 case 'auth/wrong-password':
                     Swal.fire('Error de validacion', "La contraseña es incorrecta!", 'error');
+                    break;
                 default:
                     break;
             }
